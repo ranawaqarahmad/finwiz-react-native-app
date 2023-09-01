@@ -1,20 +1,38 @@
-import { View, Text, TouchableOpacity, Image, StatusBar, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+let otpCode='';
 
 const OTPVerification = ({navigation}) => {
   const [otp, setOTP] = useState(['', '', '', '']);
+
   const inputRefs = useRef([]);
+  const [wordCount, setWordCount] = useState(0);
+
+  const navigate = () => {
+    navigation.navigate('FaceId');
+}
+const goBack=()=>{
+    navigation.goBack()
+}
 
   const handleOTPChange = (index: number, value: string) => {
     const newOTP = [...otp];
     newOTP[index] = value;
     setOTP(newOTP);
+    otpCode=otpCode.concat(value);
 
     // Move to the next input
     if (index < 3 && value !== '') {
       inputRefs.current[index + 1].focus();
     }
-    console.log('======OTP========', otp);
+    console.log('======OTP========', otp.length);
+    console.log('======OTP========', otpCode.length);
+    if(otpCode.length===4){
+      navigate()
+    }
+
+ 
   };
 
   const handleBackspace = (index: number) => {
@@ -24,12 +42,12 @@ const OTPVerification = ({navigation}) => {
   };
 
   return (
-    <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', }}>
+    <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', }}>
 
       <StatusBar backgroundColor='white'></StatusBar>
       <View>
         <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-          <Image style={{ width: 24, height: 24, }} source={require('../../assets/Images/backarrow.png')} />
+          <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/backarrow.png')} />
 
         </TouchableOpacity>
 
@@ -88,7 +106,7 @@ const OTPVerification = ({navigation}) => {
 
 
 
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
 

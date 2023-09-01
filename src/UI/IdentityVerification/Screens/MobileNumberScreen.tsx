@@ -11,7 +11,7 @@ const MobileNumberScreen = ({navigation}) => {
             <StatusBar backgroundColor='white'></StatusBar>
             <View>
             <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-          <Image style={{ width: 24, height: 24, }} source={require('../../assets/Images/backarrow.png')} />
+          <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/backarrow.png')} />
 
         </TouchableOpacity>
 
@@ -21,10 +21,10 @@ const MobileNumberScreen = ({navigation}) => {
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#E5E7EB', marginTop: 35, backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, paddingHorizontal: 10 }}>
-                    <Image style={{ width: 30, height: 20, }} source={require('../../assets/Images/usa.png')} />
+                    <Image style={{ width: 30, height: 20, }} source={require('../../../assets/Images/usa.png')} />
                     <Text style={{ fontSize: 16, fontWeight: '500', color: '#6B7280', marginHorizontal: 5 }}>+1</Text>
                     <TextInput value={number} onChangeText={(text)=>{setnumber(text)}} maxLength={9} keyboardType='numeric' placeholder='' style={{ fontSize: 16, fontWeight: 'normal', color: '#6B7280', marginTop: 2, flex:1 }}></TextInput>
-                    <TouchableOpacity onPress={()=>{setnumber('')}}><Image style={{ width: 25, height: 25, }} source={require('../../assets/Images/cross.png')} />
+                    <TouchableOpacity onPress={()=>{setnumber('')}}><Image style={{ width: 25, height: 25, }} source={require('../../../assets/Images/cross.png')} />
                     </TouchableOpacity>
 
                 </View>
@@ -40,7 +40,7 @@ const MobileNumberScreen = ({navigation}) => {
                 <TouchableOpacity
                  onPress={()=>{navigation.navigate('OTPVerification')}}
                  style={{ width: 60, height: 60, backgroundColor: 'black', alignSelf: 'flex-end', borderRadius: 400, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25, }}>
-                    <Image style={{ width: 24, height: 24 }} source={require('../../assets/Images/whitearrow.png')} />
+                    <Image style={{ width: 24, height: 24 }} source={require('../../../assets/Images/whitearrow.png')} />
 
                 </TouchableOpacity>
 

@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 
 import AuthNav from './src/navigation/AuthNav';
+import BasicInfoStack from './src/navigation/BasicInfoStack';
 // import BasicInfoStack from './src/navigation/BasicInfoStack';
 
 
