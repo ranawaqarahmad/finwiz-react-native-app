@@ -10,6 +10,7 @@ import React from 'react';
 
 import AuthNav from './src/navigation/AuthNav';
 import BasicInfoStack from './src/navigation/BasicInfoStack';
+import FinancialPlanStack from './src/navigation/FinancialPlanStack';
 // import BasicInfoStack from './src/navigation/BasicInfoStack';
 
 
@@ -21,7 +22,7 @@ function App() {
  
   return (
     <NavigationContainer>
-      <AuthNav/>
+      <FinancialPlanStack/>
     </NavigationContainer>
   );
 }

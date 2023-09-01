@@ -23,7 +23,7 @@ const Address = ({ navigation }) => {
             <View>
                 <TouchableOpacity
                     onPress={goBack}>
-                 <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
 
                 </TouchableOpacity>
 
