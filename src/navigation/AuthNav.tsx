@@ -10,13 +10,14 @@ import Address from '../UI/BasicInfoScreens/Screens/Address';
 import EmployementStatus from '../UI/BasicInfoScreens/Screens/EmployementStatus';
 import YearsExp from '../UI/BasicInfoScreens/Screens/YearsExp';
 import Retire from '../UI/BasicInfoScreens/Screens/Retire';
+import SmartFinancialPlan from '../UI/SmartFinancialPlan/SmartFinancialPlan';
 
 const Stack = createStackNavigator();
 
 const AuthNav = () => {
 
     return (
-        <Stack.Navigator initialRouteName="Name" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="SmartFinancialPlan" screenOptions={{ headerShown: false }}>
             
             <Stack.Screen name="MobileNumberScreen" component={MobileNumberScreen} />
             <Stack.Screen name="OTPVerification" component={OTPVerification} />
@@ -27,6 +28,8 @@ const AuthNav = () => {
             <Stack.Screen name="EmployementStatus" component={EmployementStatus} />
             <Stack.Screen name="YearsExp" component={YearsExp} />
             <Stack.Screen name="Retire" component={Retire} />
+            <Stack.Screen name="SmartFinancialPlan" component={SmartFinancialPlan} />
+
 
 
 

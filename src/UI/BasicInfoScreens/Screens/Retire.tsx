@@ -36,6 +36,9 @@ const Retire = ({ navigation }) => {
     const navigate = () => {
         // navigation.navigate('Dob');
     }
+    const goBack = () => {
+        navigation.goBack()
+    }
 
 
 
@@ -53,9 +56,10 @@ const Retire = ({ navigation }) => {
 
     return (
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
-            <StatusBar backgroundColor={'#F9FAFB'}></StatusBar>
+            <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={goBack}>
                     <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
 
                 </TouchableOpacity>

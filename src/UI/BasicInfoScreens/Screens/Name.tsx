@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, Image, TextInput, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
@@ -12,13 +12,18 @@ const Name = ({ navigation }) => {
     const navigate = () => {
         navigation.navigate('Dob');
     }
+    const goBack = () => {
+        navigation.goBack()
+    }
 
     return (
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+            <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
 
             <View>
-                <TouchableOpacity>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
+                <TouchableOpacity
+                    onPress={goBack}> 
+                <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
 
                 </TouchableOpacity>
 
