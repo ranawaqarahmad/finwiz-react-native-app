@@ -12,7 +12,11 @@ import YearsExp from '../UI/BasicInfoScreens/Screens/YearsExp';
 import Retire from '../UI/BasicInfoScreens/Screens/Retire';
 import SmartFinancialPlan from '../UI/SmartFinancialPlan/SmartFinancialPlan';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import MonthlyAverageIncome from '../UI/FinancialPlan/MonthlyAverageIncome';
+import MonthlyAverageIncome from '../UI/FinancialPlan/Screens/MonthlyAverageIncome';
+import FormsOfIncome from '../UI/FinancialPlan/Screens/FormsOfIncome';
+import Dependants from '../UI/FinancialPlan/Screens/Dependants';
+import Property from '../UI/FinancialPlan/Screens/Property';
+import Mortage from '../UI/FinancialPlan/Screens/Mortage';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +28,15 @@ const FinancialPlanStack = () => {
             <Stack.Navigator initialRouteName="MonthlyAverageIncome" screenOptions={{ headerShown: false }}>
 
                 <Stack.Screen name="MonthlyAverageIncome" component={MonthlyAverageIncome} />
+                <Stack.Screen name="FormsOfIncome" component={FormsOfIncome} />
+                <Stack.Screen name="Dependants" component={Dependants} />
+                <Stack.Screen name="Property" component={Property} />
+                <Stack.Screen name="Mortage" component={Mortage} />
+
+
+                
+
+
 
 
 
