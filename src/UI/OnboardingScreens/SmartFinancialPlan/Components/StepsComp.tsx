@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const StepsComp = () => {
+const StepsComp = ({item}) => {
   return (
     <View>
-      <Text>{step}</Text>
+      <Text>{item.step}</Text>
     </View>
   )
 }

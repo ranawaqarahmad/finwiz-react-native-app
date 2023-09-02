@@ -38,7 +38,7 @@ const WelcomeFinwiz = () => {
                 </View>
             </View>
             <View style={{flex:0.7,borderWidth:1,padding:16}}>
-            {steps.map((item,index)=><StepsComp/>)}
+            {steps.map((item,index)=><StepsComp item={item}/>)}
             </View>
 
             
