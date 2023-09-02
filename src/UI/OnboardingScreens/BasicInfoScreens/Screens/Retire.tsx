@@ -1,78 +1,77 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 
-const EmployementStatus = ({ navigation }) => {
+const Retire = ({ navigation }) => {
 
- 
-    const [employementTypes, setEmployementTypes] = useState([
+
+    const [retire, setRetire] = useState([
         {
-            title: 'Employed',
+            title: 'less then 6 months',
             selected: false
         },
         {
-            title: 'Self Employed',
+            title: '6 to 12 months',
             selected: true
         },
         {
-            title: 'Unemployed',
+            title: '1 to 2 years',
             selected: false
         },
         {
-            title: 'Student',
+            title: '3 to 5 years',
             selected: false
         },
         {
-            title: 'Retired',
+            title: 'more than 5 years',
             selected: false
         },
-      
+
 
     ])
 
 
     const navigate = () => {
-        navigation.navigate('YearsExp');
+        // navigation.navigate('Dob');
     }
-
-    const goBack=()=>{
+    const goBack = () => {
         navigation.goBack()
     }
 
 
 
-    const selectType = (indexToEdit) => {
+
+    const selectType = (indexToEdit: number) => {
         // Create a copy of the original employementTypes array and set all selected values to false
-        const updatedEmployementTypes = employementTypes.map((type, index) => ({
-          ...type,
-          selected: index === indexToEdit ? true : false, // Set the selected value at the specified index to true, others to false
+        const updatedEmployementTypes = retire.map((type, index) => ({
+            ...type,
+            selected: index === indexToEdit ? true : false, // Set the selected value at the specified index to true, others to false
         }));
-      
+
         // Update the state with the modified copy
-        setEmployementTypes(updatedEmployementTypes);
-      };
+        setRetire(updatedEmployementTypes);
+    };
 
     return (
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
             <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
-            <TouchableOpacity 
-                onPress={goBack}>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
+                <TouchableOpacity
+                    onPress={goBack}>
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
 
                 </TouchableOpacity>
 
                 <View style={{ marginTop: 29 }}>
                     <Text style={{ fontSize: 16, fontWeight: 'normal', color: 'black', }}>Basic Information</Text>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>What's Your Employment Status</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>When would to like to Retire</Text>
 
 
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                {employementTypes.map((item,index)=><SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected}/>)}
+                    {retire.map((item, index) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
                 </View>
 
 
@@ -104,6 +103,6 @@ const EmployementStatus = ({ navigation }) => {
     )
 }
 
-export default EmployementStatus
+export default Retire
 
 

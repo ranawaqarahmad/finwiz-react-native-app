@@ -12,23 +12,25 @@ import YearsExp from '../UI/OnboardingScreens/BasicInfoScreens/Screens/YearsExp'
 import Retire from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Retire';
 import SmartFinancialPlan from '../UI/OnboardingScreens/SmartFinancialPlan/Screens/SmartFinancialPlan';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import MonthlyAverageIncome from '../UI/OnboardingScreens/FinancialPlan/Screens/MonthlyAverageIncome';
+import FormsOfIncome from '../UI/OnboardingScreens/FinancialPlan/Screens/FormsOfIncome';
+import Dependants from '../UI/OnboardingScreens/FinancialPlan/Screens/Dependants';
+import Property from '../UI/OnboardingScreens/FinancialPlan/Screens/Property';
+import Mortage from '../UI/OnboardingScreens/FinancialPlan/Screens/Mortage';
+import WelcomeFinwiz from '../UI/OnboardingScreens/SmartFinancialPlan/Screens/WelcomeFinwiz';
 
 const Stack = createStackNavigator();
 
-const BasicInfoStack = () => {
+const WelcomeNav = () => {
 
     return (
         <View style={{ flex: 1 }}>
             <SafeAreaView />
             <Stack.Navigator initialRouteName="SmartFinancialPlan" screenOptions={{ headerShown: false }}>
 
-                <Stack.Screen name="Name" component={Name} />
-                <Stack.Screen name="Dob" component={Dob} />
-                <Stack.Screen name="Address" component={Address} />
-                <Stack.Screen name="EmployementStatus" component={EmployementStatus} />
-                <Stack.Screen name="YearsExp" component={YearsExp} />
-                <Stack.Screen name="Retire" component={Retire} />
                 <Stack.Screen name="SmartFinancialPlan" component={SmartFinancialPlan} />
+                <Stack.Screen name="WelcomeFinwiz" component={WelcomeFinwiz} />
+
 
 
 
@@ -41,4 +43,4 @@ const BasicInfoStack = () => {
     )
 }
 
-export default BasicInfoStack
+export default WelcomeNav

@@ -56,7 +56,7 @@ const FormsOfIncome = ({ navigation }) => {
             <View>
                 <TouchableOpacity
                     onPress={goBack}>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/backarrow.png')} />
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
                 </TouchableOpacity>
 

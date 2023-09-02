@@ -8,7 +8,7 @@ const SelectionComponent2 = ({ onpress, selected, index, title, id,count,setcoun
         <View key={index}>
             <TouchableOpacity onPress={() => onpress(index)} activeOpacity={0.9} style={{ backgroundColor: 'white', padding: 16, flexDirection: 'row', borderRadius: 4, alignItems: 'center', elevation: 5, marginBottom: 13 }}>
                 <Text style={{ flex: 1, fontSize: 16, fontWeight: '500', color: 'black' }}>{title}</Text>
-                {selected && (<Image style={{ width: 16, height: 16 }} source={require('../../../assets/Images/greencheck.png')} />
+                {selected && (<Image style={{ width: 16, height: 16 }} source={require('../../../../assets/Images/greencheck.png')} />
                 )}
             </TouchableOpacity>
             {selected && id === 1 && (
@@ -17,12 +17,12 @@ const SelectionComponent2 = ({ onpress, selected, index, title, id,count,setcoun
                     <View style={{ backgroundColor: 'white', padding: 16, flexDirection: 'row', justifyContent: 'center', borderRadius: 4, alignItems: 'center', elevation: 5, marginVertical: 13 }}>
                         <TouchableOpacity onPress={()=>setcount(counti-1)}>
 
-                            <Image style={{ width: 24, height: 24 }} source={require('../../../assets/Images/minus.png')} />
+                            <Image style={{ width: 24, height: 24 }} source={require('../../../../assets/Images/minus.png')} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 16, fontWeight: '500', color: 'black',marginHorizontal:15 }}>{counti}</Text>
                         <TouchableOpacity onPress={()=>setcount(counti+1)}>
 
-                            <Image style={{ width: 24, height: 24 }} source={require('../../../assets/Images/minus.png')} />
+                            <Image style={{ width: 24, height: 24 }} source={require('../../../../assets/Images/minus.png')} />
                         </TouchableOpacity>
 
                     </View>
@@ -39,7 +39,7 @@ const SelectionComponent2 = ({ onpress, selected, index, title, id,count,setcoun
                         <Text style={{ fontSize: 16, fontWeight: '400', color: '#6B7280',marginHorizontal:15 }}>Relation</Text>
                         <TouchableOpacity onPress={()=>setcount(counti+1)}>
 
-                            <Image style={{ width: 24, height: 24 }} source={require('../../../assets/Images/downarrow.png')} />
+                            <Image style={{ width: 24, height: 24 }} source={require('../../../../assets/Images/downarrow.png')} />
                         </TouchableOpacity>
 
                     </View>

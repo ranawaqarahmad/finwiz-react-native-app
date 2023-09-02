@@ -33,7 +33,7 @@ const Welcome = ({ navigation }) => {
             <StatusBar backgroundColor='white'></StatusBar>
             <View>
                 <TouchableOpacity>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/backarrow.png')} />
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
                 </TouchableOpacity>
 

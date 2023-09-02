@@ -1,40 +1,24 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import TextInputCom from '../Components/TextInputCom'
-import RoundButtonComp from '../Components/RoundButtonComp'
+import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 
-const Retire = ({ navigation }) => {
+const Property = ({ navigation }) => {
 
 
-    const [retire, setRetire] = useState([
+    const [dependants, setdependants] = useState([
         {
-            title: 'less then 6 months',
-            selected: false
+            title: 'Yes',
         },
         {
-            title: '6 to 12 months',
-            selected: true
+            title: 'No',
         },
-        {
-            title: '1 to 2 years',
-            selected: false
-        },
-        {
-            title: '3 to 5 years',
-            selected: false
-        },
-        {
-            title: 'more than 5 years',
-            selected: false
-        },
-
-
+      
     ])
 
 
     const navigate = () => {
-        // navigation.navigate('Dob');
+        navigation.navigate('Mortage');
     }
     const goBack = () => {
         navigation.goBack()
@@ -45,13 +29,13 @@ const Retire = ({ navigation }) => {
 
     const selectType = (indexToEdit: number) => {
         // Create a copy of the original employementTypes array and set all selected values to false
-        const updatedEmployementTypes = retire.map((type, index) => ({
+        const updatedEmployementTypes = dependants.map((type, index) => ({
             ...type,
             selected: index === indexToEdit ? true : false, // Set the selected value at the specified index to true, others to false
         }));
 
         // Update the state with the modified copy
-        setRetire(updatedEmployementTypes);
+        setdependants(updatedEmployementTypes);
     };
 
     return (
@@ -60,19 +44,19 @@ const Retire = ({ navigation }) => {
             <View>
                 <TouchableOpacity
                     onPress={goBack}>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
                 </TouchableOpacity>
 
                 <View style={{ marginTop: 29 }}>
-                    <Text style={{ fontSize: 16, fontWeight: 'normal', color: 'black', }}>Basic Information</Text>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>When would to like to Retire</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'normal', color: 'black', }}>Financial Information</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>Do you own a property</Text>
 
 
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {retire.map((item, index) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
+                    {dependants.map((item, index,) => <SelectionComponent onpress={navigate}  index={index} title={item.title} imgsrc={null} />)}
                 </View>
 
 
@@ -104,6 +88,7 @@ const Retire = ({ navigation }) => {
     )
 }
 
-export default Retire
 
 
+
+export default Property

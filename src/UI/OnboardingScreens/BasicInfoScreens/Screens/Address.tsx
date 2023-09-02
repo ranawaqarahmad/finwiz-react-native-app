@@ -23,7 +23,7 @@ const Address = ({ navigation }) => {
             <View>
                 <TouchableOpacity
                     onPress={goBack}>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
 
                 </TouchableOpacity>
 
@@ -36,7 +36,7 @@ const Address = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 20 }}>
-                    <TextInputCom startImageSrc={require('../../../assets/Images/search.png')} placeholder={'Search'} text={firstName} setText={setFirstName} />
+                    <TextInputCom startImageSrc={require('../../../../assets/Images/search.png')} placeholder={'Search'} text={firstName} setText={setFirstName} />
                 </View>
 
 

@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, StatusBar, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import PlanComp from './PlanComp'
+import PlanComp from '../Components/PlanComp'
 
 const SmartFinancialPlan = ({ navigation }) => {
     const [number, setnumber] = useState('')
@@ -39,13 +39,13 @@ const SmartFinancialPlan = ({ navigation }) => {
             <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
 
             <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                <Image style={{ width: 24, height: 24, }} source={require('../../assets/Images/crossblack.png')} />
+                <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
             </TouchableOpacity>
 
             <View>
 
                 <View style={{ borderRadius: 9, backgroundColor: '#F9FAFB', padding: 10, width: 90, height: 90, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
-                    <Image style={{ width: 50, height: 50 }} source={require('../../assets/Images/logo.png')} />
+                    <Image style={{ width: 50, height: 50 }} source={require('../../../../assets/Images/logo.png')} />
                 </View>
 
                 <View style={{ marginTop: 24, alignItems: 'center' }}>
@@ -64,7 +64,7 @@ const SmartFinancialPlan = ({ navigation }) => {
                 <Text style={{ fontSize: 14, fontWeight: '500', color: '#00000050' }}>By proceeding you consent to all the information is correct</Text>
                 <View style={{ flexDirection: 'row', marginTop: 14, alignItems: 'center' }}>
                     <TouchableOpacity activeOpacity={0.9} onPress={()=>{setCheck(!check)}} style={{ backgroundColor:check?'#7C56FE':'#DBDBDB', width: 20, height: 20, borderRadius: 4, marginEnd: 12, alignItems: 'center', justifyContent: 'center' }}>
-                        {check && (<Image style={{ width: 14, height: 14 }} source={require('../../assets/Images/check.png')} />)}
+                        {check && (<Image style={{ width: 14, height: 14 }} source={require('../../../../assets/Images/check.png')} />)}
                     </TouchableOpacity>
                     <Text style={{ fontSize: 14, fontWeight: '500', color: '#000000' }}>I consent to above</Text>
 
@@ -78,7 +78,7 @@ const SmartFinancialPlan = ({ navigation }) => {
 
 
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('Name') }}
+                    onPress={() => { navigation.navigate('WelcomeFinwiz') }}
                     
                     style={{flex:1, backgroundColor:check?'black':'#00000020', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', padding: 16,borderRadius:4  }}>
                     <Text style={{ fontSize: 16, fontWeight: '600', color: 'white', }}>Continue</Text>

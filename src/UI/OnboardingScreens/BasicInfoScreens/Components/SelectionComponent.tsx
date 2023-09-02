@@ -7,7 +7,7 @@ const SelectionComponent = ({onpress, index,title, selected, }) => {
         <View key={index}>
              <TouchableOpacity onPress={()=>onpress(index)} activeOpacity={0.9}  style={{ backgroundColor: 'white', padding: 16, flexDirection: 'row', borderRadius: 4, alignItems: 'center', elevation: 5, marginBottom: 13 }}>
             <Text style={{ flex: 1, fontSize: 16, fontWeight: '500', color: 'black' }}>{title}</Text>
-            {selected && (<Image style={{ width: 16, height: 16 }} source={require('../../../assets/Images/greencheck.png')} />
+            {selected && (<Image style={{ width: 16, height: 16 }} source={require('../../../../assets/Images/greencheck.png')} />
             )}
         </TouchableOpacity>
         </View>

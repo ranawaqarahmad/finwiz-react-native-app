@@ -1,19 +1,19 @@
 import { View, Text, StatusBar } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../UI/IdentityVerification/Screens/MobileNumberScreen';
-import OTPVerification from '../UI/IdentityVerification/Screens/OTPVerification';
-import Welcome from '../UI/IdentityVerification/Screens/Welcome';
-import Name from '../UI/BasicInfoScreens/Screens/Name';
-import Dob from '../UI/BasicInfoScreens/Screens/Dob';
-import Address from '../UI/BasicInfoScreens/Screens/Address';
-import EmployementStatus from '../UI/BasicInfoScreens/Screens/EmployementStatus';
-import YearsExp from '../UI/BasicInfoScreens/Screens/YearsExp';
-import Retire from '../UI/BasicInfoScreens/Screens/Retire';
-import SmartFinancialPlan from '../UI/SmartFinancialPlan/SmartFinancialPlan';
+import MobileNumberScreen from '../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
+import OTPVerification from '../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
+import Welcome from '../UI/OnboardingScreens/IdentityVerification/Screens/Welcome';
+import Name from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
+import Dob from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
+import Address from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
+import EmployementStatus from '../UI/OnboardingScreens/BasicInfoScreens/Screens/EmployementStatus';
+import YearsExp from '../UI/OnboardingScreens/BasicInfoScreens/Screens/YearsExp';
+import Retire from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Retire';
+import SmartFinancialPlan from '../UI/OnboardingScreens/SmartFinancialPlan/SmartFinancialPlan';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import FaceId from '../UI/IdentityVerification/Screens/FaceId';
-import EnableNotifications from '../UI/IdentityVerification/Screens/EnableNotifications';
+import FaceId from '../UI/OnboardingScreens/IdentityVerification/Screens/FaceId';
+import EnableNotifications from '../UI/OnboardingScreens/IdentityVerification/Screens/EnableNotifications';
 
 const Stack = createStackNavigator();
 

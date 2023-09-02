@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 let otpCode = '';
 
-const EnableNotifications = ({ navigation }) => {
+const FaceId = ({ navigation }) => {
     const [otp, setOTP] = useState(['', '', '', '']);
 
     const inputRefs = useRef([]);
@@ -47,16 +47,16 @@ const EnableNotifications = ({ navigation }) => {
             <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
             <View>
                 <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/backarrow.png')} />
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
                 </TouchableOpacity>
 
                 <View style={{ marginTop: 80 }}>
                 <View>
-                    <Image style={{width:54,height:54,resizeMode:'contain'}} source={require('../../../assets/Images/bell.png')}/>
+                    <Image style={{width:54,height:54,resizeMode:'contain'}} source={require('../../../../assets/Images/faceid.png')}/>
                 </View>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black',marginTop:32 }}>Enable Notifications</Text>
-                    <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>Be updated with your current financial health, be notified and get updates on payments, purchases and targets</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black',marginTop:32 }}>Enable Face Id</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>Face ID is convenient and secure way of signing in</Text>
                 </View>
 
 
@@ -75,7 +75,7 @@ const EnableNotifications = ({ navigation }) => {
 
 
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('') }}
+                    onPress={() => { navigation.navigate('EnableNotifications') }}
                     style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
                     <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Enable</Text>
 
@@ -89,4 +89,4 @@ const EnableNotifications = ({ navigation }) => {
     )
 }
 
-export default EnableNotifications
+export default FaceId

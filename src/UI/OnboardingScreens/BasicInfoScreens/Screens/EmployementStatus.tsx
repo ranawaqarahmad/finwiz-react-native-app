@@ -4,76 +4,75 @@ import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 
-const YearsExp = ({ navigation }) => {
+const EmployementStatus = ({ navigation }) => {
 
-
-    const [yearsOfExp, setyearsOfExp] = useState([
+ 
+    const [employementTypes, setEmployementTypes] = useState([
         {
-            title: 'less then 6 months',
+            title: 'Employed',
             selected: false
         },
         {
-            title: '6 to 12 months',
+            title: 'Self Employed',
             selected: true
         },
         {
-            title: '1 to 2 years',
+            title: 'Unemployed',
             selected: false
         },
         {
-            title: '3 to 5 years',
+            title: 'Student',
             selected: false
         },
         {
-            title: 'more than 5 years',
+            title: 'Retired',
             selected: false
         },
-
+      
 
     ])
 
 
     const navigate = () => {
-        navigation.navigate('Retire');
+        navigation.navigate('YearsExp');
     }
 
-    const goBack = () => {
+    const goBack=()=>{
         navigation.goBack()
     }
 
 
 
-
-    const selectType = (indexToEdit: number) => {
+    const selectType = (indexToEdit) => {
         // Create a copy of the original employementTypes array and set all selected values to false
-        const updatedEmployementTypes = yearsOfExp.map((type, index) => ({
-            ...type,
-            selected: index === indexToEdit ? true : false, // Set the selected value at the specified index to true, others to false
+        const updatedEmployementTypes = employementTypes.map((type, index) => ({
+          ...type,
+          selected: index === indexToEdit ? true : false, // Set the selected value at the specified index to true, others to false
         }));
-
+      
         // Update the state with the modified copy
-        setyearsOfExp(updatedEmployementTypes);
-    };
+        setEmployementTypes(updatedEmployementTypes);
+      };
 
     return (
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
             <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
-                <TouchableOpacity
-                    onPress={goBack}>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/crossblack.png')} />
+            <TouchableOpacity 
+                onPress={goBack}>
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
 
                 </TouchableOpacity>
 
                 <View style={{ marginTop: 29 }}>
                     <Text style={{ fontSize: 16, fontWeight: 'normal', color: 'black', }}>Basic Information</Text>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>For how many years you have been working</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>What's Your Employment Status</Text>
 
 
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {yearsOfExp.map((item, index) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
+                {employementTypes.map((item,index)=><SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected}/>)}
                 </View>
 
 
@@ -105,6 +104,6 @@ const YearsExp = ({ navigation }) => {
     )
 }
 
-export default YearsExp
+export default EmployementStatus
 
 

@@ -1,25 +1,42 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
+import TextInputCom from '../Components/TextInputCom'
+import RoundButtonComp from '../Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 
-const Property = ({ navigation }) => {
+const YearsExp = ({ navigation }) => {
 
 
-    const [dependants, setdependants] = useState([
+    const [yearsOfExp, setyearsOfExp] = useState([
         {
-            title: 'Yes',
+            title: 'less then 6 months',
+            selected: false
         },
         {
-            title: 'No',
+            title: '6 to 12 months',
+            selected: true
         },
-      
+        {
+            title: '1 to 2 years',
+            selected: false
+        },
+        {
+            title: '3 to 5 years',
+            selected: false
+        },
+        {
+            title: 'more than 5 years',
+            selected: false
+        },
+
+
     ])
 
 
     const navigate = () => {
-        navigation.navigate('Mortage');
+        navigation.navigate('Retire');
     }
+
     const goBack = () => {
         navigation.goBack()
     }
@@ -29,13 +46,13 @@ const Property = ({ navigation }) => {
 
     const selectType = (indexToEdit: number) => {
         // Create a copy of the original employementTypes array and set all selected values to false
-        const updatedEmployementTypes = dependants.map((type, index) => ({
+        const updatedEmployementTypes = yearsOfExp.map((type, index) => ({
             ...type,
             selected: index === indexToEdit ? true : false, // Set the selected value at the specified index to true, others to false
         }));
 
         // Update the state with the modified copy
-        setdependants(updatedEmployementTypes);
+        setyearsOfExp(updatedEmployementTypes);
     };
 
     return (
@@ -44,19 +61,19 @@ const Property = ({ navigation }) => {
             <View>
                 <TouchableOpacity
                     onPress={goBack}>
-                    <Image style={{ width: 24, height: 24, }} source={require('../../../assets/Images/backarrow.png')} />
+                    <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
 
                 </TouchableOpacity>
 
                 <View style={{ marginTop: 29 }}>
-                    <Text style={{ fontSize: 16, fontWeight: 'normal', color: 'black', }}>Financial Information</Text>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>Do you own a property</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'normal', color: 'black', }}>Basic Information</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>For how many years you have been working</Text>
 
 
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {dependants.map((item, index,) => <SelectionComponent onpress={navigate}  index={index} title={item.title} imgsrc={null} />)}
+                    {yearsOfExp.map((item, index) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
                 </View>
 
 
@@ -88,7 +105,6 @@ const Property = ({ navigation }) => {
     )
 }
 
+export default YearsExp
 
 
-
-export default Property
