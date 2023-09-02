@@ -1,16 +1,16 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
-import OTPVerification from '../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
-import Welcome from '../UI/OnboardingScreens/IdentityVerification/Screens/Welcome';
-import Name from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
-import Dob from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
-import Address from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
-import EmployementStatus from '../UI/OnboardingScreens/BasicInfoScreens/Screens/EmployementStatus';
-import YearsExp from '../UI/OnboardingScreens/BasicInfoScreens/Screens/YearsExp';
-import Retire from '../UI/OnboardingScreens/BasicInfoScreens/Screens/Retire';
-import SmartFinancialPlan from '../UI/OnboardingScreens/SmartFinancialPlan/Screens/SmartFinancialPlan';
+import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
+import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
+import Welcome from '../../UI/OnboardingScreens/IdentityVerification/Screens/Welcome';
+import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
+import Dob from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
+import Address from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
+import EmployementStatus from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/EmployementStatus';
+import YearsExp from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/YearsExp';
+import Retire from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Retire';
+import SmartFinancialPlan from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/SmartFinancialPlan';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Stack = createStackNavigator();

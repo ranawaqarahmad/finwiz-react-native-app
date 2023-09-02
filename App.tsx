@@ -6,12 +6,12 @@
  */
 
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 
-import AuthNav from './src/navigation/AuthNav';
-import BasicInfoStack from './src/navigation/BasicInfoStack';
-import FinancialPlanStack from './src/navigation/FinancialPlanStack';
-import WelcomeNav from './src/navigation/WelcomeNav';
+import AuthNav from './src/navigation/OnboardingStacks/AuthNav';
+import BasicInfoStack from './src/navigation/OnboardingStacks/BasicInfoStack';
+import OnBoardNav from './src/navigation/OnboardingStacks/OnboardNav';
+
 // import BasicInfoStack from './src/navigation/BasicInfoStack';
 
 
@@ -20,10 +20,12 @@ import WelcomeNav from './src/navigation/WelcomeNav';
 
 
 function App() {
+
+  const [stack,setstack]=useState('')
  
   return (
     <NavigationContainer>
-      <WelcomeNav/>
+      <OnBoardNav/>
     </NavigationContainer>
   );
 }

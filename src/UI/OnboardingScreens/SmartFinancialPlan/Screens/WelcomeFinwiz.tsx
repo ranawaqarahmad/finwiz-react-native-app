@@ -2,26 +2,29 @@ import { View, Text, StatusBar, Image } from 'react-native'
 import React, { useState } from 'react'
 import StepsComp from '../Components/StepsComp'
 
-const WelcomeFinwiz = () => {
+const WelcomeFinwiz = ({ navigation }) => {
     const [steps, setsteps] = useState([
         {
-            step:'Step 1',
-            title:'Sync Your Accounts',
-            description:'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected:false,
-            color:'#9747FF',
-            imgsrc:require('../../../../assets/Images/account.png')
+            step: 'Step 1',
+            title: 'Sync Your Accounts',
+            description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
+            selected: false,
+            color: '#9747FF',
+            imgsrc: require('../../../../assets/Images/account.png')
         },
         {
-            step:'Step 2',
-            title:'Setup Your Budget Plan ',
-            description:'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected:false,
-            color:'#21014E',
-            imgsrc:require('../../../../assets/Images/logo.png')
+            step: 'Step 2',
+            title: 'Setup Your Budget Plan ',
+            description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
+            selected: false,
+            color: '#21014E',
+            imgsrc: require('../../../../assets/Images/logo.png')
         },
     ])
 
+    const navigate = () => {
+        navigation.navigate('SmartFinancialPlanScreen')
+    }
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <StatusBar backgroundColor={'#21014E'} barStyle={'light-content'}></StatusBar>
@@ -37,11 +40,11 @@ const WelcomeFinwiz = () => {
                     <Image style={{ width: 130, height: 130, opacity: 0.2 }} source={require('../../../../assets/Images/logo.png')} />
                 </View>
             </View>
-            <View style={{flex:0.7,borderWidth:1,padding:16}}>
-            {steps.map((item,index)=><StepsComp item={item}/>)}
+            <View style={{ flex: 0.7, paddingHorizontal: 16 }}>
+                {steps.map((item, index) => <StepsComp onpress={navigate} item={item} />)}
             </View>
 
-            
+
 
 
 
