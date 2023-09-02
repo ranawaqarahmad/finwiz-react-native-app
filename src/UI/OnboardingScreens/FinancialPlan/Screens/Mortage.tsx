@@ -20,7 +20,6 @@ const Mortage = ({ navigation }) => {
 
 
     const navigate = () => {
-        navigation.navigate('FormsOfIncome');
     }
     const goBack = () => {
         navigation.goBack()

@@ -1,10 +1,13 @@
 import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { setstack } from '../../../../redux/AppReducer';
 let otpCode = '';
 
 const EnableNotifications = ({ navigation }) => {
     const [otp, setOTP] = useState(['', '', '', '']);
+    const dispatch = useDispatch();
 
     const inputRefs = useRef([]);
     const [wordCount, setWordCount] = useState(0);
@@ -75,7 +78,7 @@ const EnableNotifications = ({ navigation }) => {
 
 
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('') }}
+                    onPress={() => { dispatch(setstack('BasicInfo')) }}
                     style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
                     <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Enable</Text>
 

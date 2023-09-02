@@ -1,11 +1,15 @@
 import { View, Text, StatusBar, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { setstack } from '../../../../redux/AppReducer';
 
 const FirstScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <StatusBar backgroundColor={'#7C56FE'} barStyle={'light-content'} />
-      
+
       <View style={{ flex: 0.5, backgroundColor: '#7C56FE' }}></View>
 
       <View style={{ flex: 0.5, padding: 16, justifyContent: 'space-between' }}>
@@ -24,7 +28,7 @@ const FirstScreen = ({navigation}) => {
 
 
             <TouchableOpacity
-              onPress={() => { }}
+              onPress={() => {dispatch(setstack('Auth')) }}
               style={{ flex: 1, backgroundColor: '#9747FF', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', padding: 16, borderRadius: 4 }}>
               <Text style={{ fontSize: 16, fontWeight: '600', color: 'white', }}>Continue</Text>
 

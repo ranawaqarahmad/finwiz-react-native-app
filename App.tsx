@@ -14,18 +14,32 @@ import OnBoardNav from './src/navigation/OnboardingStacks/OnboardNav';
 
 // import BasicInfoStack from './src/navigation/BasicInfoStack';
 
-
+import { useDispatch, useSelector } from 'react-redux';
+import FinancialPlanStack from './src/navigation/OnboardingStacks/FinancialPlanStack';
 
 
 
 
 function App() {
 
-  const [stack,setstack]=useState('')
+  const selector = useSelector(state => state.AppReducer);
+  const stack=selector.stackinfo;
+  console.log(stack);
+  
+
+
+  
+
  
   return (
     <NavigationContainer>
-      <OnBoardNav/>
+      {stack==='onboard'&&(<OnBoardNav />)}
+      {stack==='Auth'&&(<AuthNav />)}
+      {stack==='BasicInfo'&&(<BasicInfoStack />)}
+      {stack==='FinancialPlan'&&(<FinancialPlanStack />)}
+
+      
+
     </NavigationContainer>
   );
 }

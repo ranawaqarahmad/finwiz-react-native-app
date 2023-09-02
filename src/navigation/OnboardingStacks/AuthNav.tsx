@@ -30,9 +30,6 @@ const AuthNav = () => {
                 <Stack.Screen name="FaceId" component={FaceId} />
                 <Stack.Screen name="EnableNotifications" component={EnableNotifications} />
                 <Stack.Screen name="SignIn" component={SignIn} />
-
-
-
             </Stack.Navigator>
         </View>
     )

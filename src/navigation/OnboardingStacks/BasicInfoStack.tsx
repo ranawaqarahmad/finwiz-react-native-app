@@ -20,7 +20,7 @@ const BasicInfoStack = () => {
     return (
         <View style={{ flex: 1 }}>
             <SafeAreaView />
-            <Stack.Navigator initialRouteName="SmartFinancialPlan" screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName="Name" screenOptions={{ headerShown: false }}>
 
                 <Stack.Screen name="Name" component={Name} />
                 <Stack.Screen name="Dob" component={Dob} />
