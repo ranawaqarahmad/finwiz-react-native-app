@@ -1,9 +1,8 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
 import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
-import Welcome from '../../UI/OnboardingScreens/IdentityVerification/Screens/Welcome';
 import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
 import Dob from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
 import Address from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
@@ -21,20 +20,34 @@ import WelcomeFinwiz from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens
 import SmartFinancialPlanScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/SmartFinancialPlanScreen';
 import SplashScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/FirstScreen';
 import FirstScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/FirstScreen';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import SignIn from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/SignIn';
+import Welcome from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/Welcome';
 
 const Stack = createStackNavigator();
 
 const WelcomeNav = () => {
 
+    const selector = useSelector(state => state.AppReducer);
+    const financialPlanScreen=selector.financialPlanScreen
+
+    const welcomeNavStatus = selector.welcomeNavStatus;
+
+    const navigation = useNavigation()
+
     return (
         <View style={{ flex: 1 }}>
             <SafeAreaView />
-            <Stack.Navigator initialRouteName="FirstScreen" screenOptions={{ headerShown: false }}>
+            <Stack.Navigator
+                initialRouteName={welcomeNavStatus === 0 ? ("FirstScreen") : (welcomeNavStatus === 1 ? ("SmartFinancialPlan") : (welcomeNavStatus === 2 ? ("WelcomeFinwiz") : ('')))} screenOptions={{ headerShown: false }}>
 
                 <Stack.Screen name="SmartFinancialPlan" component={SmartFinancialPlan} />
                 <Stack.Screen name="WelcomeFinwiz" component={WelcomeFinwiz} />
                 <Stack.Screen name="SmartFinancialPlanScreen" component={SmartFinancialPlanScreen} />
                 <Stack.Screen name="FirstScreen" component={FirstScreen} />
+                <Stack.Screen name="Welcome" component={Welcome} />
+                <Stack.Screen name="SignIn" component={SignIn} />
 
 
 

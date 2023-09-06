@@ -28,7 +28,10 @@ const FirstScreen = ({navigation}) => {
 
 
             <TouchableOpacity
-              onPress={() => {dispatch(setstack('Auth')) }}
+              onPress={() => {
+               
+                
+                navigation.navigate('SignIn') }}
               style={{ flex: 1, backgroundColor: '#9747FF', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', padding: 16, borderRadius: 4 }}>
               <Text style={{ fontSize: 16, fontWeight: '600', color: 'white', }}>Continue</Text>
 

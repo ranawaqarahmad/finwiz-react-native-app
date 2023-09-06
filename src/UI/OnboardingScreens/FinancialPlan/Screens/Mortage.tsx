@@ -3,10 +3,13 @@ import React, { useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import TextInputCom from '../../BasicInfoScreens/Components/TextInputCom'
+import { useDispatch } from 'react-redux'
+import { setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
 
 const Mortage = ({ navigation }) => {
 
 
+    const dispatch=useDispatch()
     const [amount,setAmount]=useState('')
     const [dependants, setdependants] = useState([
         {
@@ -20,6 +23,15 @@ const Mortage = ({ navigation }) => {
 
 
     const navigate = () => {
+        dispatch(setFinancialPlanScreen(2))
+        dispatch(setstack('WelcomeNav'))
+        dispatch(setWelcomeNavStatus(1))
+
+
+
+
+
+
     }
     const goBack = () => {
         navigation.goBack()

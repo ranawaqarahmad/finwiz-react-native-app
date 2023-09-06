@@ -1,13 +1,15 @@
 import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { setFaceIdVerified } from '../../../../redux/AppReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 let otpCode = '';
 
 const FaceId = ({ navigation }) => {
     const [otp, setOTP] = useState(['', '', '', '']);
 
-    const inputRefs = useRef([]);
-    const [wordCount, setWordCount] = useState(0);
+ 
 
     const navigate = () => {
         navigation.navigate('Address');
@@ -16,37 +18,24 @@ const FaceId = ({ navigation }) => {
         navigation.goBack()
     }
 
-    const handleOTPChange = (index: number, value: string) => {
-        const newOTP = [...otp];
-        newOTP[index] = value;
-        setOTP(newOTP);
-        otpCode = otpCode.concat(value);
-
-        // Move to the next input
-        if (index < 3 && value !== '') {
-            inputRefs.current[index + 1].focus();
-        }
-        console.log('======OTP========', otp.length);
-        console.log('======OTP========', otpCode.length);
-        if (otpCode.length == 4) {
-            navigate()
-        }
-
-
-    };
-
-    const handleBackspace = (index: number) => {
-        if (index > 0 && otp[index] === '') {
-            inputRefs.current[index - 1].focus();
+    const dispatch=useDispatch()
+    const saveFaceIdVerified = async (isSaved: string) => {
+        try {
+            await AsyncStorage.setItem('faceIdVerified', isSaved);
+            console.log('Face ID Verified Saved locally');
+        } catch (error) {
+            console.error('Error storing data: ', error);
         }
     };
+
+  
 
     return (
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
 
             <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
             <View>
-                <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                <TouchableOpacity onPress={goBack}>
                     <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
                 </TouchableOpacity>
@@ -75,14 +64,17 @@ const FaceId = ({ navigation }) => {
 
 
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('EnableNotifications') }}
+                    onPress={() => {
+                        saveFaceIdVerified('true')
+                        dispatch(setFaceIdVerified(true))
+                        navigation.navigate('EnableNotifications') }}
                     style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
                     <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Enable</Text>
 
                 </TouchableOpacity>
 
                 <View style={{ marginTop: 24,alignItems:'center' }}>
-                    <Text style={{ color: '#1C64F2' }}>Maybe later</Text>
+                    <Text onPress={()=>{ navigation.navigate('EnableNotifications')}} style={{ color: '#1C64F2' }}>Maybe later</Text>
                 </View>
             </View>
         </TouchableWithoutFeedback>

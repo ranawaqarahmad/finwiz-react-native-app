@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
 import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
@@ -21,34 +21,120 @@ import BasicInfoStack from './BasicInfoStack';
 import FinancialPlanStack from './FinancialPlanStack';
 import AuthNav from './AuthNav';
 import WelcomeNav from './WelcomeNav';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setAuthToken, setFaceIdVerified, setPhoneVerified, setTokenSaved, setnotificationEnabled, setstack } from '../../redux/AppReducer';
 
 const Stack = createStackNavigator();
 
-const OnBoardNav = () => {
+const OnBoardNav = ({ stack, WelcomeScreen }) => {
+
+
+
+    const selector = useSelector(state => state.AppReducer);
+    const currentStack = selector.stackinfo;
+    const tokenSaved = selector.tokenSaved;
+
+    const dispatch = useDispatch()
+    const getToken = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token'); // Replace 'key' with the actual key you used to store the data
+            if (token !== null) {
+                console.log('TOKEN IS THIS: ', token);
+                dispatch(setAuthToken(token))
+                dispatch(setTokenSaved(true))
+                dispatch(setstack('AuthNav'))
+            } else {
+                console.log('No data found in AsyncStorage.');
+            }
+        } catch (error) {
+            console.error('Error retrieving data: ', error);
+        }
+    };
+    var phoneVerified
+    const getPhoneVerified = async () => {
+        try {
+            phoneVerified = await AsyncStorage.getItem('phoneVerified'); // Replace 'key' with the actual key you used to store the data
+            if (phoneVerified != null) {
+                console.log('Phone Verified in ONBOARD NAV IS THIS ', phoneVerified);
+                dispatch(setPhoneVerified(true))
+            } else {
+                console.log('No data found in AsyncStorage.');
+            }
+        } catch (error) {
+            console.error('Error retrieving data: ', error);
+        }
+    };
+
+    const getFaceIdVerified = async () => {
+        try {
+            const faceIdVerified = await AsyncStorage.getItem('faceIdVerified'); // Replace 'key' with the actual key you used to store the data
+            if (faceIdVerified != null) {
+                console.log('FACE ID Verified in ONBOARD NAV IS THIS ', faceIdVerified);
+                dispatch(setFaceIdVerified(true))
+            } else {
+                console.log('No data found in AsyncStorage.');
+            }
+        } catch (error) {
+            console.error('Error retrieving data: ', error);
+        }
+    };
+
+    const getNotificationEnabled = async () => {
+        try {
+            const notificationEnabled = await AsyncStorage.getItem('notificationEnabledVerified'); // Replace 'key' with the actual key you used to store the data
+            if (notificationEnabled != null) {
+
+
+                console.log('notificationEnabled in ONBOARD NAV IS THIS ', notificationEnabled);
+                dispatch(setnotificationEnabled(true))
+            } else {
+                console.log('No data found in AsyncStorage.');
+            }
+        } catch (error) {
+            console.error('Error retrieving data: ', error);
+        }
+    };
+
+
+    const navigation = useNavigation()
+    useEffect(() => {
+       
+
+        console.log('STACK Changed', currentStack);
+        navigation.reset({
+            index: 0,
+            routes: [{ name: currentStack }],
+        });
+    }, [currentStack, tokenSaved]);
+
+    useEffect(() => {
+       
+
+        getToken()
+    }, [tokenSaved]);
+    
+    getPhoneVerified()
+    getFaceIdVerified()
+    getNotificationEnabled()
+
 
     return (
         <View style={{ flex: 1 }}>
             <SafeAreaView />
-            <Stack.Navigator initialRouteName="WelcomeNav" screenOptions={{ headerShown: false }}>
 
+            <Stack.Navigator
+                initialRouteName={currentStack}
+                screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="BasicInfoStack" component={BasicInfoStack} />
                 <Stack.Screen name="FinancialPlanStack" component={FinancialPlanStack} />
                 <Stack.Screen name="AuthNav" component={AuthNav} />
                 <Stack.Screen name="WelcomeNav" component={WelcomeNav} />
 
-
-                
-
-
-
-
-
-
-
-
-
-
             </Stack.Navigator>
+
+
         </View>
     )
 }

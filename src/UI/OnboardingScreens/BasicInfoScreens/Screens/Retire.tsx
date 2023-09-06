@@ -3,12 +3,12 @@ import React, { useState } from 'react'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import { useDispatch } from 'react-redux'
-import { setstack } from '../../../../redux/AppReducer'
+import { setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
 
 const Retire = ({ navigation }) => {
 
 
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const [retire, setRetire] = useState([
         {
             title: 'less then 6 months',
@@ -36,7 +36,9 @@ const Retire = ({ navigation }) => {
 
 
     const navigate = () => {
-       dispatch(setstack('FinancialPlan'))
+        dispatch(setFinancialPlanScreen(1))
+        dispatch(setstack('WelcomeNav'))
+        dispatch(setWelcomeNavStatus(1))
     }
     const goBack = () => {
         navigation.goBack()

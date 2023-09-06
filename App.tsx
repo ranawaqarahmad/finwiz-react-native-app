@@ -16,6 +16,8 @@ import OnBoardNav from './src/navigation/OnboardingStacks/OnboardNav';
 
 import { useDispatch, useSelector } from 'react-redux';
 import FinancialPlanStack from './src/navigation/OnboardingStacks/FinancialPlanStack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setAuthToken, setTokenSaved } from './src/redux/AppReducer';
 
 
 
@@ -23,23 +25,21 @@ import FinancialPlanStack from './src/navigation/OnboardingStacks/FinancialPlanS
 function App() {
 
   const selector = useSelector(state => state.AppReducer);
-  const stack=selector.stackinfo;
-  console.log(stack);
-  
+  const stack = selector.stackinfo;
+  const welcomeScreen = selector.WelcomeScreen;
+  const dispatch=useDispatch()
+
+  console.log('STACK APP IS', stack);
 
 
-  
 
  
+
+
+
   return (
     <NavigationContainer>
-      {stack==='onboard'&&(<OnBoardNav />)}
-      {stack==='Auth'&&(<AuthNav />)}
-      {stack==='BasicInfo'&&(<BasicInfoStack />)}
-      {stack==='FinancialPlan'&&(<FinancialPlanStack />)}
-
-      
-
+      {selector.stackinfo && (<OnBoardNav stack={selector.stackinfo} WelcomeScreen={welcomeScreen} />)}
     </NavigationContainer>
   );
 }

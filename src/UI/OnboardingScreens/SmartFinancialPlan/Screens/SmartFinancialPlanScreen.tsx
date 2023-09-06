@@ -1,6 +1,8 @@
 import { View, Text, StatusBar, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import StepsComp from '../Components/StepsComp'
+import { useDispatch } from 'react-redux'
+import { setstack } from '../../../../redux/AppReducer'
 
 const SmartFinancialPlanScreen = ({ navigation }) => {
     const [steps, setsteps] = useState([
@@ -22,6 +24,7 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
         },
     ])
 
+    const dispatch=useDispatch()
     const navigate = () => {
         navigation.navigate('SmartFinancialPlanScreen')
     }
@@ -48,7 +51,9 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
 
 
                     <TouchableOpacity
-                        onPress={() => {  }}
+                        onPress={() => { 
+                            dispatch(setstack('WelcomeNav'))
+                         }}
 
                         style={{ flex: 1, backgroundColor: '#9747FF', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', padding: 16, borderRadius: 4 }}>
                         <Text style={{ fontSize: 16, fontWeight: '600', color: 'white', }}>Continue</Text>

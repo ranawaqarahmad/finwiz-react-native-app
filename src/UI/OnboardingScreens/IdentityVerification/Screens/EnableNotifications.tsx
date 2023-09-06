@@ -2,7 +2,8 @@ import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } f
 import React, { useRef, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-import { setstack } from '../../../../redux/AppReducer';
+import { setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 let otpCode = '';
 
 const EnableNotifications = ({ navigation }) => {
@@ -44,6 +45,17 @@ const EnableNotifications = ({ navigation }) => {
         }
     };
 
+
+
+    const saveNotificationEnabledVerified = async (isSaved: string) => {
+        try {
+            await AsyncStorage.setItem('notificationEnabledVerified', isSaved);
+            console.log('Notification Enabled Verified Saved locally');
+        } catch (error) {
+            console.error('Error storing data: ', error);
+        }
+    };
+
     return (
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
 
@@ -55,15 +67,15 @@ const EnableNotifications = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <View style={{ marginTop: 80 }}>
-                <View>
-                    <Image style={{width:54,height:54,resizeMode:'contain'}} source={require('../../../../assets/Images/bell.png')}/>
-                </View>
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black',marginTop:32 }}>Enable Notifications</Text>
+                    <View>
+                        <Image style={{ width: 54, height: 54, resizeMode: 'contain' }} source={require('../../../../assets/Images/bell.png')} />
+                    </View>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 32 }}>Enable Notifications</Text>
                     <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>Be updated with your current financial health, be notified and get updates on payments, purchases and targets</Text>
                 </View>
 
 
-                
+
 
 
             </View>
@@ -78,14 +90,22 @@ const EnableNotifications = ({ navigation }) => {
 
 
                 <TouchableOpacity
-                    onPress={() => { dispatch(setstack('BasicInfo')) }}
+                    onPress={() => {
+                       
+                        dispatch(setWelcomeNavStatus(2))
+                        dispatch(setstack('WelcomeNav'))
+                        saveNotificationEnabledVerified('true')
+                    }}
                     style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
                     <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Enable</Text>
 
                 </TouchableOpacity>
 
-                <View style={{ marginTop: 24,alignItems:'center' }}>
-                    <Text style={{ color: '#1C64F2' }}>Maybe later</Text>
+                <View style={{ marginTop: 24, alignItems: 'center' }}>
+                    <Text onPress={() => {
+                        dispatch(setWelcomeNavStatus(2))
+                        dispatch(setstack('WelcomeNav'))
+                    }} style={{ color: '#1C64F2' }}>Maybe later</Text>
                 </View>
             </View>
         </TouchableWithoutFeedback>

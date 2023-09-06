@@ -1,10 +1,14 @@
 import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { setPhoneVerified } from '../../../../redux/AppReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 let otpCode='';
 
 const OTPVerification = ({navigation}) => {
   const [otp, setOTP] = useState(['', '', '', '']);
+  const dispatch=useDispatch()
 
   const inputRefs = useRef([]);
   const [wordCount, setWordCount] = useState(0);
@@ -29,11 +33,24 @@ const goBack=()=>{
     console.log('======OTP========', otp.length);
     console.log('======OTP========', otpCode.length);
     if(otpCode.length===4){
+      savePhoneVerified('true')
+      dispatch(setPhoneVerified(true))
       navigate()
     }
 
  
   };
+
+
+
+  const savePhoneVerified = async (isSaved: string) => {
+    try {
+        await AsyncStorage.setItem('phoneVerified', isSaved);
+        console.log('Phone Verified Saved locally');
+    } catch (error) {
+        console.error('Error storing data: ', error);
+    }
+};
 
   const handleBackspace = (index: number) => {
     if (index > 0 && otp[index] === '') {
