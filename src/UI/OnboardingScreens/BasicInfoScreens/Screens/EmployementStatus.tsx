@@ -6,7 +6,6 @@ import SelectionComponent from '../Components/SelectionComponent'
 const EmployementStatus = ({ navigation }) => {
 
  
-    const [tatoo,settatoo]=useState(false)
     const [employementTypes, setEmployementTypes] = useState([
         {
             title: 'Employed',
