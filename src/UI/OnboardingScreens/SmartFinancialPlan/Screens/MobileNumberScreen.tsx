@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 
@@ -82,6 +82,11 @@ const MobileNumberScreen = ({navigation}) => {
 
     };
     return (
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        {loader ?
+          <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }} size={'large'} color={'#7C56FE'}></ActivityIndicator>
+          </View> :
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
 
             <StatusBar backgroundColor='white'></StatusBar>
@@ -125,7 +130,7 @@ const MobileNumberScreen = ({navigation}) => {
 
 
 
-        </View>
+        </View>}</View>
     )
 }
 

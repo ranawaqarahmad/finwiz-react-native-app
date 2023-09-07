@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StatusBar } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
@@ -56,9 +56,8 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
                     dispatch(setstack('WelcomeNav'))
                     dispatch(setWelcomeNavStatus(1))
                 } else {
-                    dispatch(setFinancialPlanScreen(0))
-                    dispatch(setstack('WelcomeNav'))
-                    dispatch(setWelcomeNavStatus(1))
+                    
+                    dispatch(setstack('BasicInfoStack'))
                 }
             } else {
                 console.log('No data found in AsyncStorage.');
@@ -149,7 +148,8 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
 
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1,backgroundColor:'white'}}>
+            <StatusBar backgroundColor={'white'} barStyle={'dark-content'}/>
             <SafeAreaView />
 
             <Stack.Navigator

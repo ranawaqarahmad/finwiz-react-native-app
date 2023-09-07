@@ -14,10 +14,10 @@ const SignIn = ({ navigation }) => {
     const tokenSaved = selector.tokenSaved;
 
 
-    if(tokenSaved){
+    if (tokenSaved) {
         console.log(tokenSaved);
         console.log('NAVIGATE DIRECTLY');
-        
+
     }
     const handleSignIn = async () => {
 
@@ -36,15 +36,17 @@ const SignIn = ({ navigation }) => {
             .then((data) => {
                 console.log(data.status);
                 if (data.status === true) {
-                    
-                    console.log('TOKEN SAVED',data.token);
+                    dispatch(setAuthToken(data.token))
+
+                    console.log('TOKEN SAVED', data.token);
                     storeToken(data.token)
                     storeId(data.data.id)
-                   
+                    dispatch(setTokenSaved(true))
+                    dispatch(setUserId(data.data.id))
 
-                    navigation.navigate('MobileNumberScreen',{token:data.token,id:data.data.id})
+                  
 
-                    
+
 
 
                 } else {
@@ -63,7 +65,7 @@ const SignIn = ({ navigation }) => {
     };
 
     const storeToken = async (token: string) => {
-        
+
         try {
             await AsyncStorage.setItem('token', token);
             console.log('Token stored successfully.');
@@ -79,7 +81,7 @@ const SignIn = ({ navigation }) => {
         } catch (error) {
             console.error('Error storing data: ', error);
         }
-      
+
     };
 
     const dispatch = useDispatch()

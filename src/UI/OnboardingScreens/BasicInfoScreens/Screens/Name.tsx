@@ -60,7 +60,7 @@ const Name = ({ navigation }) => {
 
 
         <View style={{ flex: 1, backgroundColor: 'white' }}>
-            {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
                 <ActivityIndicator size={'large'} color={'black'}></ActivityIndicator>
             </View>:
 

@@ -114,7 +114,7 @@ const Retire = ({ navigation }) => {
     return (
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ height: '100%', width: '100%', backgroundColor: 'white' }}>
 
-            {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
                 <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
             </View> :
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
