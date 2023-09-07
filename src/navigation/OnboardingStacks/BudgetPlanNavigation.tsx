@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
+import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
 import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
 import Welcome from '../../UI/OnboardingScreens/IdentityVerification/Screens/Welcome';
 import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';

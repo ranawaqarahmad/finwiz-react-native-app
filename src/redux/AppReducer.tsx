@@ -45,12 +45,15 @@ const initialState = {
     financialPlanScreen: 0,
     authToken: null,
     tokenSaved: false,
-    basicInfoComplete: false,
+    basicInfoCompleted: false,
     financialPlanComplete: false,
     identityVerificationComplete: false,
     phoneVerified: false,
     faceIdVerified:false,
     notificationEnabled:false,
+    authStackCompleted:false,
+    questions:'',
+    userId:0,
 
 };
 selfPatient: null
@@ -128,8 +131,12 @@ export const AppSlice = createSlice({
         setstack: (state, action) => {
             state.stackinfo = action.payload
         },
+        
         setnotificationEnabled: (state, action) => {
             state.notificationEnabled = action.payload
+        },
+        setAuthStackCompleted: (state, action) => {
+            state.authStackCompleted = action.payload
         },
         setTokenSaved: (state, action) => {
             state.tokenSaved = action.payload
@@ -151,6 +158,15 @@ export const AppSlice = createSlice({
         },
         setFinancialPlanScreen: (state, action) => {
             state.financialPlanScreen = action.payload
+        },
+        setBasicinfoCompleted: (state, action) => {            
+            state.basicInfoCompleted = action.payload
+        },
+        setQuestions: (state, action) => {            
+            state.questions = action.payload
+        },
+        setUserId: (state, action) => {            
+            state.userId = action.payload
         },
     },
 });
@@ -186,7 +202,11 @@ export const {
     setTokenSaved,
     setPhoneVerified,
     setFaceIdVerified,
-    setnotificationEnabled
+    setnotificationEnabled,
+    setAuthStackCompleted,
+    setBasicinfoCompleted,
+    setQuestions,
+    setUserId
 
 } = AppSlice.actions;
 

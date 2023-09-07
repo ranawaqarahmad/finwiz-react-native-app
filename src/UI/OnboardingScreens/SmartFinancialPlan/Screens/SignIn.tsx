@@ -1,7 +1,7 @@
 import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthToken, setState, setTokenSaved, setstack } from '../../../../redux/AppReducer';
+import { setAuthToken, setState, setTokenSaved, setUserId, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '../../../../redux/store';
 
@@ -36,10 +36,13 @@ const SignIn = ({ navigation }) => {
             .then((data) => {
                 console.log(data.status);
                 if (data.status === true) {
-                    dispatch(setAuthToken(data.token))
+                    
                     console.log('TOKEN SAVED',data.token);
                     storeToken(data.token)
-                    dispatch(setTokenSaved(true))
+                    storeId(data.data.id)
+                   
+
+                    navigation.navigate('MobileNumberScreen',{token:data.token,id:data.data.id})
 
                     
 
@@ -60,6 +63,7 @@ const SignIn = ({ navigation }) => {
     };
 
     const storeToken = async (token: string) => {
+        
         try {
             await AsyncStorage.setItem('token', token);
             console.log('Token stored successfully.');
@@ -68,6 +72,15 @@ const SignIn = ({ navigation }) => {
         }
     };
 
+    const storeId = async (id) => {
+        try {
+            await AsyncStorage.setItem('userId', id.toString());
+            console.log('User ID stored successfully.');
+        } catch (error) {
+            console.error('Error storing data: ', error);
+        }
+      
+    };
 
     const dispatch = useDispatch()
     return (

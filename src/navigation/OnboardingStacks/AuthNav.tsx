@@ -1,7 +1,7 @@
-import { View, Text, StatusBar } from 'react-native'
+import { View, Text, StatusBar, ActivityIndicator } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
+import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
 import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
 import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
 import Dob from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
@@ -32,6 +32,12 @@ const AuthNav = () => {
 
 
 
+    const loaderScreen=()=>{
+
+       return <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+         <ActivityIndicator size={'large'}></ActivityIndicator>
+       </View>
+    }
 
 
 
@@ -39,12 +45,13 @@ const AuthNav = () => {
         <View style={{ flex: 1 }}>
             <StatusBar backgroundColor={'white'} barStyle={'dark-content'}></StatusBar>
             <SafeAreaView />
-            <Stack.Navigator initialRouteName={phoneVerified ? (faceIdVerified ? (notificationEnabled ? ("") : "EnableNotifications") : ("FaceId")) : "MobileNumberScreen"} screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName={faceIdVerified ? (notificationEnabled ? ("") : "EnableNotifications") : ("FaceId")} screenOptions={{ headerShown: false }}>
 
-                {!phoneVerified && (<Stack.Screen name="MobileNumberScreen" component={MobileNumberScreen} />)}
-                {!phoneVerified && (<Stack.Screen name="OTPVerification" component={OTPVerification} />)}
+              
                 {!faceIdVerified && (<Stack.Screen name="FaceId" component={FaceId} />)}
                 {!notificationEnabled && (<Stack.Screen name="EnableNotifications" component={EnableNotifications} />)}
+                <Stack.Screen name="loaderScreen" component={loaderScreen} />
+
 
             </Stack.Navigator>
         </View>

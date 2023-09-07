@@ -2,55 +2,99 @@ import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } f
 import React, { useRef, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-import { setPhoneVerified } from '../../../../redux/AppReducer';
+import { setAuthToken, setPhoneVerified, setTokenSaved, setUserId } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-let otpCode='';
+import { useRoute } from '@react-navigation/native';
+let otpCode = '';
 
-const OTPVerification = ({navigation}) => {
-  const [otp, setOTP] = useState(['', '', '', '']);
-  const dispatch=useDispatch()
+const OTPVerification = ({ navigation }) => {
+  const [otp, setOTP] = useState(['', '', '', '', '']);
+  const dispatch = useDispatch()
 
+  const route = useRoute()
   const inputRefs = useRef([]);
   const [wordCount, setWordCount] = useState(0);
 
+  const [loader, setLoader] = useState(false)
   const navigate = () => {
     navigation.navigate('FaceId');
-}
-const goBack=()=>{
+  }
+  const { token, id } = route.params;
+
+  const goBack = () => {
     navigation.goBack()
-}
+  }
 
   const handleOTPChange = (index: number, value: string) => {
     const newOTP = [...otp];
     newOTP[index] = value;
     setOTP(newOTP);
-    otpCode=otpCode.concat(value);
+    otpCode = otpCode.concat(value);
 
     // Move to the next input
-    if (index < 3 && value !== '') {
+    if (index < 4 && value !== '') {
       inputRefs.current[index + 1].focus();
     }
     console.log('======OTP========', otp.length);
     console.log('======OTP========', otpCode.length);
-    if(otpCode.length===4){
-      savePhoneVerified('true')
-      dispatch(setPhoneVerified(true))
-      navigate()
+    if (otpCode.length === 5) {
+
+
+
+      verifyOTP()
+
     }
 
- 
+
+  };
+
+  const verifyOTP = async () => {
+
+    setLoader(true)
+    fetch('https://api-finwiz.softsquare.io/api/user/verify-otp', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        otp: otpCode,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.status);
+        if (data.status) {
+          savePhoneVerified('true')
+          dispatch(setPhoneVerified(true))
+          dispatch(setAuthToken(token))
+          dispatch(setTokenSaved(true))
+          dispatch(setUserId(id))
+        } else {
+          console.log('MESSAGE', data.message);
+          setLoader(false)
+        }
+
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoader(false)
+      });
+
+
+
   };
 
 
 
   const savePhoneVerified = async (isSaved: string) => {
     try {
-        await AsyncStorage.setItem('phoneVerified', isSaved);
-        console.log('Phone Verified Saved locally');
+      await AsyncStorage.setItem('phoneVerified', isSaved);
+      console.log('Phone Verified Saved locally');
     } catch (error) {
-        console.error('Error storing data: ', error);
+      console.error('Error storing data: ', error);
     }
-};
+  };
 
   const handleBackspace = (index: number) => {
     if (index > 0 && otp[index] === '') {
@@ -59,11 +103,11 @@ const goBack=()=>{
   };
 
   return (
-    <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', }}>
+    <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', }}>
 
       <StatusBar backgroundColor='white'></StatusBar>
       <View>
-        <TouchableOpacity onPress={()=>{navigation.goBack()}}>
+        <TouchableOpacity onPress={() => { navigation.goBack() }}>
           <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
         </TouchableOpacity>

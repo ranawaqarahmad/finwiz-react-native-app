@@ -1,9 +1,10 @@
-import { View, Text, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native'
+import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
-import { useDispatch } from 'react-redux'
-import { setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { setBasicinfoCompleted, setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Retire = ({ navigation }) => {
 
@@ -33,21 +34,73 @@ const Retire = ({ navigation }) => {
 
 
     ])
+    const [years, setYears] = useState('6 to 12 months')
+    const [loader, setLoader] = useState(false)
+    const selector = useSelector(state => state.AppReducer);
+    const authToken = selector.authToken;
 
 
     const navigate = () => {
-        dispatch(setFinancialPlanScreen(1))
-        dispatch(setstack('WelcomeNav'))
-        dispatch(setWelcomeNavStatus(1))
+        handleApiCall()
+
     }
     const goBack = () => {
         navigation.goBack()
     }
+    const handleApiCall = async () => {
+
+        setLoader(true)
+        fetch('https://api-finwiz.softsquare.io/api/user/update-user', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                retire: years,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.status);
+                if (data.status) {
+                    console.log('Retirement Updated');
+                    console.log(data.data);
+                    dispatch(setBasicinfoCompleted(true))
+                    storeBasicInfoCompleted('true')
+                    dispatch(setFinancialPlanScreen(1))
+                    dispatch(setstack('WelcomeNav'))
+                    dispatch(setWelcomeNavStatus(1))
+                   
+                } else {
+                    console.log('MESSAGE', data.message);
+                    setLoader(false)
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoader(false)
+            });
 
 
 
+    };
+
+
+    const storeBasicInfoCompleted = async (token: string) => {
+        try {
+            await AsyncStorage.setItem('basicInfoComplete', token);
+            console.log('Basic Info status Stored successfully.');
+        } catch (error) {
+            console.error('Error storing data: ', error);
+        }
+    };
 
     const selectType = (indexToEdit: number) => {
+        const specificValue = retire[indexToEdit]['title'];
+        setYears(specificValue)
+        console.log(specificValue);
         // Create a copy of the original employementTypes array and set all selected values to false
         const updatedEmployementTypes = retire.map((type, index) => ({
             ...type,
@@ -59,6 +112,11 @@ const Retire = ({ navigation }) => {
     };
 
     return (
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ height: '100%', width: '100%', backgroundColor: 'white' }}>
+
+            {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
+            </View> :
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
             <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
@@ -104,7 +162,7 @@ const Retire = ({ navigation }) => {
 
 
 
-        </View>
+        </View>}</TouchableWithoutFeedback>
     )
 }
 

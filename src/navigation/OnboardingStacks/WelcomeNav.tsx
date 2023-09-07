@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
-import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
+import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
+import OTPVerification from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/OTPVerification';
 import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
 import Dob from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
 import Address from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
@@ -48,6 +48,12 @@ const WelcomeNav = () => {
                 <Stack.Screen name="FirstScreen" component={FirstScreen} />
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="SignIn" component={SignIn} />
+                {/* {!phoneVerified && ( */}
+                <Stack.Screen name="MobileNumberScreen" component={MobileNumberScreen} />
+               
+                {/* {!phoneVerified && ( */}
+                <Stack.Screen name="OTPVerification" component={OTPVerification} />
+                {/* )} */}
 
 
 

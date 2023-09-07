@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
+import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
 import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
 import Welcome from '../../UI/OnboardingScreens/IdentityVerification/Screens/Welcome';
 import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
@@ -24,17 +24,21 @@ import WelcomeNav from './WelcomeNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setAuthToken, setFaceIdVerified, setPhoneVerified, setTokenSaved, setnotificationEnabled, setstack } from '../../redux/AppReducer';
+import { setAuthStackCompleted, setAuthToken, setFaceIdVerified, setFinancialPlanScreen, setPhoneVerified, setTokenSaved, setWelcomeNavStatus, setnotificationEnabled, setstack } from '../../redux/AppReducer';
 
 const Stack = createStackNavigator();
 
 const OnBoardNav = ({ stack, WelcomeScreen }) => {
 
 
-
+    var phone: boolean, face: boolean, notification = false;
     const selector = useSelector(state => state.AppReducer);
     const currentStack = selector.stackinfo;
+    const basicInfoCompleted = selector.basicInfoCompleted;
+
     const tokenSaved = selector.tokenSaved;
+    const authStackCompleted = selector.authStackCompleted;
+
 
     const dispatch = useDispatch()
     const getToken = async () => {
@@ -44,7 +48,18 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
                 console.log('TOKEN IS THIS: ', token);
                 dispatch(setAuthToken(token))
                 dispatch(setTokenSaved(true))
-                dispatch(setstack('AuthNav'))
+                console.log('BAISC INFO STACK COMPLETED',basicInfoCompleted);
+                
+                if (basicInfoCompleted) { 
+                    
+                    dispatch(setFinancialPlanScreen(1))
+                    dispatch(setstack('WelcomeNav'))
+                    dispatch(setWelcomeNavStatus(1))
+                } else {
+                    dispatch(setFinancialPlanScreen(0))
+                    dispatch(setstack('WelcomeNav'))
+                    dispatch(setWelcomeNavStatus(1))
+                }
             } else {
                 console.log('No data found in AsyncStorage.');
             }
@@ -59,6 +74,7 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
             if (phoneVerified != null) {
                 console.log('Phone Verified in ONBOARD NAV IS THIS ', phoneVerified);
                 dispatch(setPhoneVerified(true))
+                phone = true
             } else {
                 console.log('No data found in AsyncStorage.');
             }
@@ -73,6 +89,7 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
             if (faceIdVerified != null) {
                 console.log('FACE ID Verified in ONBOARD NAV IS THIS ', faceIdVerified);
                 dispatch(setFaceIdVerified(true))
+                face = true
             } else {
                 console.log('No data found in AsyncStorage.');
             }
@@ -89,6 +106,7 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
 
                 console.log('notificationEnabled in ONBOARD NAV IS THIS ', notificationEnabled);
                 dispatch(setnotificationEnabled(true))
+                notification = true
             } else {
                 console.log('No data found in AsyncStorage.');
             }
@@ -100,24 +118,34 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
 
     const navigation = useNavigation()
     useEffect(() => {
-       
 
+        if (phone && face && notification) {
+
+            console.log('AUTH STACK COMPLETED');
+
+            dispatch(setAuthStackCompleted(true))
+        } else {
+            console.log('These are the value ', phone, face, notification);
+
+        }
         console.log('STACK Changed', currentStack);
         navigation.reset({
             index: 0,
             routes: [{ name: currentStack }],
         });
-    }, [currentStack, tokenSaved]);
+    }, [currentStack, tokenSaved, authStackCompleted, basicInfoCompleted]);
 
     useEffect(() => {
-       
+
 
         getToken()
     }, [tokenSaved]);
-    
-    getPhoneVerified()
-    getFaceIdVerified()
-    getNotificationEnabled()
+
+    // getPhoneVerified()
+    // getFaceIdVerified()
+    // getNotificationEnabled()
+
+
 
 
     return (
@@ -129,7 +157,8 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
                 screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="BasicInfoStack" component={BasicInfoStack} />
                 <Stack.Screen name="FinancialPlanStack" component={FinancialPlanStack} />
-                <Stack.Screen name="AuthNav" component={AuthNav} />
+
+                {!authStackCompleted && <Stack.Screen name="AuthNav" component={AuthNav} />}
                 <Stack.Screen name="WelcomeNav" component={WelcomeNav} />
 
             </Stack.Navigator>

@@ -3,53 +3,77 @@ import React, { useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import TextInputCom from '../../BasicInfoScreens/Components/TextInputCom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
 
 const Mortage = ({ navigation }) => {
 
 
-    const dispatch=useDispatch()
-    const [amount,setAmount]=useState('')
-    const [dependants, setdependants] = useState([
-        {
-            title: 'Yes',
-        },
-        {
-            title: 'No',
-        },
-      
-    ])
+    const dispatch = useDispatch()
+    const selector = useSelector(state => state.AppReducer);
+    const questions = selector.questions;
+    const userId = selector.userId;
+    const [loader, setLoader] = useState(false)
+    const [answer, setanswer] = useState('No')
 
+    const authToken = selector.authToken;
+    const [amount, setAmount] = useState('')
+ 
 
     const navigate = () => {
-        dispatch(setFinancialPlanScreen(2))
-        dispatch(setstack('WelcomeNav'))
-        dispatch(setWelcomeNavStatus(1))
-
-
-
-
-
-
+        handleApiCall()
     }
     const goBack = () => {
         navigation.goBack()
     }
 
 
+    const handleApiCall = async () => {
+
+        console.log('Answer Is this', amount);
+        console.log('User Id', userId);
 
 
-    const selectType = (indexToEdit: number) => {
-        // Create a copy of the original employementTypes array and set all selected values to false
-        const updatedEmployementTypes = dependants.map((type, index) => ({
-            ...type,
-            selected: index === indexToEdit ? true : false, // Set the selected value at the specified index to true, others to false
-        }));
+        setLoader(true)
+        fetch('https://api-finwiz.softsquare.io/api/user/add-user-question', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "user_id": userId,
+                "question_id": 6,
+                "answer": amount
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.status);
+                if (data.status) {
+                    console.log('Question Answered');
+                    dispatch(setFinancialPlanScreen(2))
+                    dispatch(setstack('WelcomeNav'))
+                    dispatch(setWelcomeNavStatus(1))
 
-        // Update the state with the modified copy
-        setdependants(updatedEmployementTypes);
+
+                } else {
+                    console.log('MESSAGE', data.message);
+                    setLoader(false)
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoader(false)
+            });
+
+
+
     };
+
+
+
 
     return (
         <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
@@ -69,7 +93,7 @@ const Mortage = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                <TextInputCom  startImageSrc={require('../../../../assets/Images/dollar.png')} placeholder={'enter amount'} text={amount} setText={setAmount} />
+                    <TextInputCom startImageSrc={require('../../../../assets/Images/dollar.png')} placeholder={'enter amount'} text={amount} setText={setAmount} />
                 </View>
 
 
