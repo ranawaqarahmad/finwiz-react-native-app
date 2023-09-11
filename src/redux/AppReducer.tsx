@@ -46,6 +46,8 @@ const initialState = {
     authToken: null,
     tokenSaved: false,
     basicInfoCompleted: false,
+    financialInfoCompleted: false,
+
     financialPlanComplete: false,
     identityVerificationComplete: false,
     phoneVerified: false,
@@ -162,6 +164,9 @@ export const AppSlice = createSlice({
         setBasicinfoCompleted: (state, action) => {            
             state.basicInfoCompleted = action.payload
         },
+        setFinancialInfoCompleted: (state, action) => {            
+            state.financialInfoCompleted = action.payload
+        },
         setQuestions: (state, action) => {            
             state.questions = action.payload
         },
@@ -206,7 +211,8 @@ export const {
     setAuthStackCompleted,
     setBasicinfoCompleted,
     setQuestions,
-    setUserId
+    setUserId,
+    setFinancialInfoCompleted
 
 } = AppSlice.actions;
 

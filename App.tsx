@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FinancialPlanStack from './src/navigation/OnboardingStacks/FinancialPlanStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setAuthStackCompleted, setAuthToken, setTokenSaved, setWelcomeNavStatus, setstack } from './src/redux/AppReducer';
-import { clearAllData, getBasicInfoCompleteStatus, getFaceIdVerified, getNotificationEnabled, getPhoneVerified, getUserId } from './src/utils/helper';
+import { clearAllData, getBasicInfoCompleteStatus, getFaceIdVerified, getNotificationEnabled, getPhoneVerified, getUserId, getfinancialPlanCompletedStatus } from './src/utils/helper';
 
 
 
@@ -46,6 +46,7 @@ function App() {
   const getVerifications = async () => {
     getBasicInfoCompleteStatus()
     getUserId()
+    getfinancialPlanCompletedStatus()
     // clearAllData()
 
     // if(await getPhoneVerified()&&await getNotificationEnabled()&&await getFaceIdVerified()){

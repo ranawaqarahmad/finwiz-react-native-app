@@ -2,8 +2,9 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import RoundButton from './RoundButton'
+import { MyPlaidComponent } from '../../../../utils/PlaidFunction'
 
-const StepsComp = ({ item, onpress }) => {
+const StepsComp = ({ item, onpress,linkToken }) => {
     return (
         <View style={{ marginVertical: 16 }}>
             <Text style={{ fontSize: 14, color: 'black' }}>{item.step}</Text>
@@ -23,7 +24,7 @@ const StepsComp = ({ item, onpress }) => {
                         <Text style={{ marginEnd: 16, flex: 1, textAlignVertical: 'center', }}>
                             {item.description}
                         </Text>
-                        <RoundButton onpress={onpress} />
+                          {MyPlaidComponent(linkToken,onpress)}
 
 
 

@@ -35,6 +35,8 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
     const selector = useSelector(state => state.AppReducer);
     const currentStack = selector.stackinfo;
     const basicInfoCompleted = selector.basicInfoCompleted;
+    const financialInfoCompleted = selector.financialInfoCompleted;
+
 
     const tokenSaved = selector.tokenSaved;
     const authStackCompleted = selector.authStackCompleted;
@@ -51,10 +53,17 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
                 console.log('BAISC INFO STACK COMPLETED',basicInfoCompleted);
                 
                 if (basicInfoCompleted) { 
+                    if(financialInfoCompleted){
+                        dispatch(setFinancialPlanScreen(2))
+                        dispatch(setstack('WelcomeNav'))
+                        dispatch(setWelcomeNavStatus(1))
+                    }else{
+                        dispatch(setFinancialPlanScreen(1))
+                        dispatch(setstack('WelcomeNav'))
+                        dispatch(setWelcomeNavStatus(1))
+                    }
                     
-                    dispatch(setFinancialPlanScreen(1))
-                    dispatch(setstack('WelcomeNav'))
-                    dispatch(setWelcomeNavStatus(1))
+                  
                 } else {
                     
                     dispatch(setstack('BasicInfoStack'))

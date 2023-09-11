@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { setBasicinfoCompleted, setPhoneVerified, setUserId, setnotificationEnabled } from '../redux/AppReducer';
+import { setBasicinfoCompleted, setFinancialInfoCompleted, setPhoneVerified, setUserId, setnotificationEnabled } from '../redux/AppReducer';
 
 const dispatch = useDispatch()
 export const getServerURL = async () => {
@@ -80,6 +80,25 @@ export const getBasicInfoCompleteStatus = async () => {
 
       console.log('Basic Info Completed Status is this ', notificationEnabled);
       dispatch(setBasicinfoCompleted(true))
+      return true
+    } else {
+      console.log('No data found in AsyncStorage.');
+      return false
+
+    }
+  } catch (error) {
+    console.error('Error retrieving data: ', error);
+  }
+};
+
+export const getfinancialPlanCompletedStatus = async () => {
+  try {
+    const notificationEnabled = await AsyncStorage.getItem('financialPlanCompleted'); // Replace 'key' with the actual key you used to store the data
+    if (notificationEnabled != null) {
+
+
+      console.log('Financial Info Completed Status is this ', notificationEnabled);
+      dispatch(setFinancialInfoCompleted(true))
       return true
     } else {
       console.log('No data found in AsyncStorage.');

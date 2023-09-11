@@ -4,7 +4,8 @@ import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import TextInputCom from '../../BasicInfoScreens/Components/TextInputCom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
+import { setBasicinfoCompleted, setFinancialInfoCompleted, setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Mortage = ({ navigation }) => {
 
@@ -52,6 +53,11 @@ const Mortage = ({ navigation }) => {
                 console.log(data.status);
                 if (data.status) {
                     console.log('Question Answered');
+                  
+
+
+                    dispatch(setFinancialInfoCompleted(true))
+                    storeFinancialPlan('true')
                     dispatch(setFinancialPlanScreen(2))
                     dispatch(setstack('WelcomeNav'))
                     dispatch(setWelcomeNavStatus(1))
@@ -72,7 +78,14 @@ const Mortage = ({ navigation }) => {
 
     };
 
-
+    const storeFinancialPlan = async (token: string) => {
+        try {
+            await AsyncStorage.setItem('financialPlanCompleted', token);
+            console.log('Financial Info status Stored successfully.');
+        } catch (error) {
+            console.error('Error storing data: ', error);
+        }
+    };
 
 
     return (
