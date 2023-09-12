@@ -6,6 +6,7 @@ import { setQuestions, setWelcomeNavStatus, setstack } from '../../../../redux/A
 import { useRoute } from '@react-navigation/native'
 import FinancialPlanStack from '../../../../navigation/OnboardingStacks/FinancialPlanStack'
 import SmartFinancialPlanScreen from './SmartFinancialPlanScreen'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SmartFinancialPlan = ({ navigation }) => {
 
@@ -88,11 +89,12 @@ const SmartFinancialPlan = ({ navigation }) => {
 
 
         <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <SafeAreaView style={{flex:1}}>
             {loader ?
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
                 </View> :
-                <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between', }}>
+                <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between', }}>
 
                     <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
 
@@ -132,7 +134,7 @@ const SmartFinancialPlan = ({ navigation }) => {
 
 
 
-                    <View style={{ marginBottom: 16, flexDirection: 'row' }}>
+                    <View style={{  flexDirection: 'row' }}>
 
 
                         <TouchableOpacity
@@ -163,6 +165,7 @@ const SmartFinancialPlan = ({ navigation }) => {
 
 
                 </View >}
+                </SafeAreaView>
         </View>
 
     )

@@ -96,7 +96,7 @@ const SignIn = ({ navigation }) => {
                 </View>) : (
                 <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
 
-                    <StatusBar backgroundColor='white'></StatusBar>
+                    <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
                     <View>
                         <TouchableOpacity onPress={() => { navigation.goBack() }}>
                             <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />

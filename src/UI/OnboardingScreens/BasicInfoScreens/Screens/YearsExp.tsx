@@ -101,9 +101,9 @@ const YearsExp = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ height: '100%', width: '100%', backgroundColor: 'white' }}>
 
             {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
-                <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
+                <ActivityIndicator size={'large'} color={'white'}></ActivityIndicator>
             </View> :
-                <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
+                <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
                     <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
                     <View>
                         <TouchableOpacity
