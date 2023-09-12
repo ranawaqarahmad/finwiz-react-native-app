@@ -38,7 +38,6 @@ const WelcomeNav = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <SafeAreaView />
             <Stack.Navigator
                 initialRouteName={welcomeNavStatus === 0 ? ("FirstScreen") : (welcomeNavStatus === 1 ? ("SmartFinancialPlan") : (welcomeNavStatus === 2 ? ("WelcomeFinwiz") : ('')))} screenOptions={{ headerShown: false }}>
 

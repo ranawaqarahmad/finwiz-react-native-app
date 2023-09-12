@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import { setAuthToken, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import { useDispatch } from 'react-redux';
@@ -80,7 +80,8 @@ const Welcome = ({ navigation }) => {
 
     };
     return (
-        <View style={{flex:1}}>
+        <View style={{flex:1,backgroundColor:'white'}}>
+            <SafeAreaView style={{flex:1}}>
 
             {loader?(
 
@@ -184,7 +185,7 @@ const Welcome = ({ navigation }) => {
  
              </View>
             )}
-           
+           </SafeAreaView>
         </View>
 
 

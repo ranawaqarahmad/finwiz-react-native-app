@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuthToken, setState, setTokenSaved, setUserId, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '../../../../redux/store';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignIn = ({ navigation }) => {
 
@@ -87,6 +88,7 @@ const SignIn = ({ navigation }) => {
     const dispatch = useDispatch()
     return (
         <View style={{ backgroundColor: 'white', flex: 1 }}>
+            <SafeAreaView style={{flex:1}}>
 
             {loader ? (
                 <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
@@ -180,7 +182,7 @@ const SignIn = ({ navigation }) => {
             )}
 
 
-
+</SafeAreaView>
         </View>
 
     )

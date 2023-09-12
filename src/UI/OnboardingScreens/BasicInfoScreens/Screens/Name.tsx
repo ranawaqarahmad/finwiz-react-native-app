@@ -64,7 +64,7 @@ const Name = ({ navigation }) => {
                 <ActivityIndicator size={'large'} color={'black'}></ActivityIndicator>
             </View>:
 
-            <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+            <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
                 <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
 
                 <View>

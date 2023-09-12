@@ -159,7 +159,6 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
     return (
         <View style={{ flex: 1,backgroundColor:'white'}}>
             <StatusBar backgroundColor={'white'} barStyle={'dark-content'}/>
-            <SafeAreaView />
 
             <Stack.Navigator
                 initialRouteName={currentStack}

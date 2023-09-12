@@ -1,13 +1,10 @@
 import {
-    View, Text, StatusBar, TouchableOpacity, Image, TextInput, ActivityIndicator, KeyboardAvoidingView, Keyboard, Modal
+    View, Text, StatusBar, TouchableOpacity, Image,TouchableWithoutFeedback, TextInput, ActivityIndicator, KeyboardAvoidingView, Keyboard, Modal
 } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react'
-import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import { useSelector } from 'react-redux'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import { Calendar } from 'react-native-calendars';
 
 const Dob = ({ navigation }) => {
 
@@ -25,10 +22,8 @@ const Dob = ({ navigation }) => {
     }
 
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
-    const [selectedDate, setSelectedDate] = useState('');
     const [datePickerDate, setDatePickerDate] = useState(new Date());
-    const [isModalVisible, setModalVisible] = useState(false);
-
+ 
    
     const showDatePicker = () => {
         setDatePickerVisible(true);
@@ -95,7 +90,7 @@ const Dob = ({ navigation }) => {
             {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
                 <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
             </View> :
-                <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+                <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
                     <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
 
                     <View>
@@ -111,7 +106,9 @@ const Dob = ({ navigation }) => {
 
                         </View>
 
-                        <TouchableOpacity onPress={() => {showDatePicker() }} style={{ marginTop: 20 }}>
+                        <TouchableOpacity onPress={() => {
+                        showDatePicker()
+                         }} style={{ marginTop: 20 }}>
                             <View style={{ borderWidth: 1, borderColor: '#E5E7EB', backgroundColor: '#F9FAFB', borderRadius: 8, marginVertical: 9, flexDirection: 'row', alignItems: 'center' }}>
                                     <Image style={{ width: 20, height: 20, marginStart: 10 }} source={require('../../../../assets/Images/calendar.png')} />
 

@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native'
+import { View, Text, StatusBar, TouchableOpacity, SafeAreaView } from 'react-native'
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { setstack } from '../../../../redux/AppReducer';
