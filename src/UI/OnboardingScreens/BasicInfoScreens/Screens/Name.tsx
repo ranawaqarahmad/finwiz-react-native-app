@@ -59,7 +59,7 @@ const Name = ({ navigation }) => {
     return (
 
 
-        <View style={{ backgroundColor: 'white',flex:1 ,justifyContent: 'center',
+        <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}} style={{ backgroundColor: 'white',flex:1 ,justifyContent: 'center',
         alignItems: 'center', }}>
 
             {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
@@ -69,7 +69,7 @@ const Name = ({ navigation }) => {
 <View style={{ width: '100%',flex:1,paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }} onPress={()=>{Keyboard.dismiss()}} >
            
 
-                <View style={{borderWidth:1}}>
+                <View style={{}}>
                     <TouchableOpacity style={{ width: 32, height: 32,alignItems:'center',justifyContent:'center' }}>
                         <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
 
@@ -94,7 +94,7 @@ const Name = ({ navigation }) => {
 
 
 
-                <View style={{ marginBottom: 16,borderWidth:1 }}>
+                <View style={{ marginBottom: 16}}>
 
 
 
@@ -112,7 +112,7 @@ const Name = ({ navigation }) => {
 
            </View>
             }
-        </View>
+        </TouchableWithoutFeedback>
 
     )
 }

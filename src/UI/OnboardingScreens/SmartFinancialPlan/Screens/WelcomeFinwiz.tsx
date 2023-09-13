@@ -137,7 +137,7 @@ const WelcomeFinwiz = ({ navigation }) => {
                 </View>
             </View>
             <View style={{ flex: 0.7, paddingHorizontal: 16 }}>
-                {steps.map((item, index) => <StepsComp linkToken={linkToken} onpress={navigate} item={item} />)}
+                {steps.map((item, index) => <StepsComp key={index} linkToken={linkToken} onpress={navigate} item={item} />)}
             </View>
             {/* {MyPlaidComponent(linkToken)} */}
 

@@ -1,6 +1,5 @@
-import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
+import { View,TouchableWithoutFeedback,SafeAreaView, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { setFaceIdVerified } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,8 +30,11 @@ const FaceId = ({ navigation }) => {
   
 
     return (
-        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+        
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white',  }}>
+<SafeAreaView style={{flex:1,backgroundColor:'white',}}>
 
+<View style={{flex:1,backgroundColor:'white',justifyContent: 'space-between',padding:16}}>
             <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
             <View>
                 <TouchableOpacity onPress={goBack}>
@@ -59,7 +61,7 @@ const FaceId = ({ navigation }) => {
 
 
 
-            <View style={{ marginBottom: 16 }}>
+            <View style={{  }}>
 
 
 
@@ -76,7 +78,9 @@ const FaceId = ({ navigation }) => {
                 <View style={{ marginTop: 24,alignItems:'center' }}>
                     <Text onPress={()=>{ navigation.navigate('EnableNotifications')}} style={{ color: '#1C64F2' }}>Maybe later</Text>
                 </View>
-            </View>
+            </View></View>
+            </SafeAreaView>
+
         </TouchableWithoutFeedback>
     )
 }

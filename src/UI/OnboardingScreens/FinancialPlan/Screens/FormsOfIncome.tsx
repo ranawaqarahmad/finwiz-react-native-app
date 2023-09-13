@@ -111,7 +111,6 @@ const FormsOfIncome = ({ navigation }) => {
     return (
 
         <View style={{ flex: 1, backgroundColor: 'white' }}>
-                        <SafeAreaView style={{flex:1}}>
 
         {loader ?
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -135,7 +134,7 @@ const FormsOfIncome = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {income.map((item, index,) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected}  />)}
+                    {income.map((item, index,) => <SelectionComponent key={index} onpress={selectType} index={index} title={item.title} selected={item.selected}  />)}
                 </View>
 
 
@@ -164,7 +163,7 @@ const FormsOfIncome = ({ navigation }) => {
 
 
         </View>}
-        </SafeAreaView></View>
+        </View>
     )
 }
 

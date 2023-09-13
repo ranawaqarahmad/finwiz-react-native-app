@@ -116,7 +116,7 @@ const SmartFinancialPlan = ({ navigation }) => {
 
                     <View>
                         {
-                            plan.map((item, index) => <PlanComp data={item} index={index} />)
+                            plan.map((item, index) => <PlanComp key={index} data={item} index={index} />)
                         }
                     </View>
 

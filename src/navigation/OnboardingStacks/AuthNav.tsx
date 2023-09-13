@@ -1,21 +1,12 @@
 import { View, Text, StatusBar, ActivityIndicator } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
-import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
-import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
-import Dob from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
-import Address from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
-import EmployementStatus from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/EmployementStatus';
-import YearsExp from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/YearsExp';
-import Retire from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Retire';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 import FaceId from '../../UI/OnboardingScreens/IdentityVerification/Screens/FaceId';
 import EnableNotifications from '../../UI/OnboardingScreens/IdentityVerification/Screens/EnableNotifications';
-import SignIn from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/SignIn';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { setPhoneVerified } from '../../redux/AppReducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Stack = createStackNavigator();
 
@@ -32,7 +23,7 @@ const AuthNav = () => {
 
 
 
-    const loaderScreen=()=>{
+    const LoaderScreen=()=>{
 
        return <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
          <ActivityIndicator size={'large'}></ActivityIndicator>
@@ -42,15 +33,14 @@ const AuthNav = () => {
 
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1,backgroundColor:'white' }}>
             <StatusBar backgroundColor={'white'} barStyle={'dark-content'}></StatusBar>
-            <SafeAreaView />
             <Stack.Navigator initialRouteName={faceIdVerified ? (notificationEnabled ? ("") : "EnableNotifications") : ("FaceId")} screenOptions={{ headerShown: false }}>
 
               
                 {!faceIdVerified && (<Stack.Screen name="FaceId" component={FaceId} />)}
                 {!notificationEnabled && (<Stack.Screen name="EnableNotifications" component={EnableNotifications} />)}
-                <Stack.Screen name="loaderScreen" component={loaderScreen} />
+                <Stack.Screen name="loaderScreen" component={LoaderScreen} />
 
 
             </Stack.Navigator>

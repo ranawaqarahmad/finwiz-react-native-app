@@ -1,6 +1,5 @@
-import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
+import { TouchableWithoutFeedback,SafeAreaView,View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -57,7 +56,9 @@ const EnableNotifications = ({ navigation }) => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white',  }}>
+        <SafeAreaView style={{flex:1,backgroundColor:'white',}}>
+        <View style={{flex:1,backgroundColor:'white',justifyContent: 'space-between',padding:16}}>
 
             <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
             <View>
@@ -85,7 +86,7 @@ const EnableNotifications = ({ navigation }) => {
 
 
 
-            <View style={{ marginBottom: 16 }}>
+            <View style={{ }}>
 
 
 
@@ -108,7 +109,8 @@ const EnableNotifications = ({ navigation }) => {
                     }} style={{ color: '#1C64F2' }}>Maybe later</Text>
                 </View>
             </View>
-        </TouchableWithoutFeedback>
+        </View>
+        </SafeAreaView></TouchableWithoutFeedback>
     )
 }
 

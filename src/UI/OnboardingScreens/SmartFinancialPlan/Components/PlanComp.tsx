@@ -3,7 +3,7 @@ import React from 'react'
 
 const PlanComp = ({data,index}) => {
   return (
-    <View key={index} style={{marginBottom:16}}>
+    <View  style={{marginBottom:16}}>
         <View style={{flexDirection:'row',}}>
             
             <View style={{marginEnd:10,borderRadius:10000,backgroundColor:data.selected&&data.color,width:31,height:31,alignItems:'center',justifyContent:'center'}}>

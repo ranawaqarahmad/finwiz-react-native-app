@@ -99,7 +99,7 @@ const Property = ({ navigation }) => {
     return (
 
         <View style={{ flex: 1, backgroundColor: 'white' }}>
-                                    <SafeAreaView style={{flex:1}}>
+                                   
 
         {loader ?
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -122,7 +122,7 @@ const Property = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {dependants.map((item, index,) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected}/>)}
+                    {dependants.map((item, index,) => <SelectionComponent key={index} onpress={selectType} index={index} title={item.title} selected={item.selected}/>)}
                 </View>
 
 
@@ -151,7 +151,7 @@ const Property = ({ navigation }) => {
 
 
         </View>}
-        </SafeAreaView></View>
+        </View>
     )
 }
 

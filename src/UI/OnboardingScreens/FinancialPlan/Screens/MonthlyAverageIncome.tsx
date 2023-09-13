@@ -102,7 +102,6 @@ const MonthlyAverageIncome = ({ navigation }) => {
     return (
 
         <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <SafeAreaView style={{flex:1}}>
         {loader ?
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
@@ -125,7 +124,7 @@ const MonthlyAverageIncome = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {income.map((item, index,) => <SelectionComponent imgsrc={require('../../../../assets/Images/backarrow.png')} onpress={selectType} index={index} title={item.title} />)}
+                    {income.map((item, index,) => <SelectionComponent key={index} imgsrc={require('../../../../assets/Images/backarrow.png')} onpress={selectType} index={index} title={item.title} />)}
                 </View>
 
 
@@ -154,7 +153,7 @@ const MonthlyAverageIncome = ({ navigation }) => {
 
 
         </View>}
-        </SafeAreaView></View>
+        </View>
     )
 }
 

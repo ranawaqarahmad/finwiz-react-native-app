@@ -24,7 +24,9 @@ const FinancialPlanStack = () => {
 
     return (
         <View style={{ flex: 1,backgroundColor:'white' }}>
+            <SafeAreaView/>
             <Stack.Navigator initialRouteName="MonthlyAverageIncome" screenOptions={{ headerShown: false }}>
+
 
                 <Stack.Screen name="MonthlyAverageIncome" component={MonthlyAverageIncome} />
                 <Stack.Screen name="FormsOfIncome" component={FormsOfIncome} />

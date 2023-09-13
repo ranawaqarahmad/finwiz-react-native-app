@@ -90,7 +90,6 @@ const Mortage = ({ navigation }) => {
 
     return (
         <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
-                                    <SafeAreaView style={{flex:1}}>
 
             <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
@@ -135,7 +134,6 @@ const Mortage = ({ navigation }) => {
             </View>
 
 
-</SafeAreaView>
         </View>
     )
 }
