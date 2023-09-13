@@ -120,7 +120,7 @@ const YearsExp = ({ navigation }) => {
                         </View>
 
                         <View style={{ marginTop: 29 }}>
-                            {yearsOfExp.map((item, index) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
+                            {yearsOfExp.map((item, index) => <SelectionComponent key={index} onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
                         </View>
 
 

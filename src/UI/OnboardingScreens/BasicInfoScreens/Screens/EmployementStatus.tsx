@@ -121,7 +121,7 @@ const EmployementStatus = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {employementTypes.map((item, index) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
+                    {employementTypes.map((item, index) => <SelectionComponent   onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
                 </View>
 
 

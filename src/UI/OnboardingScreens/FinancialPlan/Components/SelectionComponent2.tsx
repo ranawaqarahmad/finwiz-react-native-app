@@ -6,7 +6,10 @@ const SelectionComponent2 = ({ onpress, selected, index, title, id,count,setcoun
     var counti=count
     return (
         <View key={index}>
-            <TouchableOpacity onPress={() => onpress(index)} activeOpacity={0.9} style={{ backgroundColor: 'white', padding: 16, flexDirection: 'row', borderRadius: 4, alignItems: 'center', elevation: 5, marginBottom: 13 }}>
+            <TouchableOpacity onPress={() => onpress(index)} activeOpacity={0.9} style={{shadowOffset: { width: 1, height: 2 },
+  shadowColor: 'black',
+  shadowOpacity: 0.1,
+  elevation: 3, backgroundColor: 'white', padding: 16, flexDirection: 'row', borderRadius: 4, alignItems: 'center', elevation: 5, marginBottom: 13 }}>
                 <Text style={{ flex: 1, fontSize: 16, fontWeight: '500', color: 'black' }}>{title}</Text>
                 {selected && (<Image style={{ width: 16, height: 16 }} source={require('../../../../assets/Images/greencheck.png')} />
                 )}

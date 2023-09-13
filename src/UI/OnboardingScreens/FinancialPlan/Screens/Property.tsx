@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
+import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, ActivityIndicator, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import { useSelector } from 'react-redux'
@@ -99,11 +99,13 @@ const Property = ({ navigation }) => {
     return (
 
         <View style={{ flex: 1, backgroundColor: 'white' }}>
+                                    <SafeAreaView style={{flex:1}}>
+
         {loader ?
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
             </View> :
-        <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
+        <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
             <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
                 <TouchableOpacity
@@ -148,7 +150,8 @@ const Property = ({ navigation }) => {
 
 
 
-        </View>}</View>
+        </View>}
+        </SafeAreaView></View>
     )
 }
 

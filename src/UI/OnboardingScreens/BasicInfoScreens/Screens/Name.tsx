@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, TextInput, StatusBar, ActivityIndicator } from 'react-native'
+import { View, Text,TouchableWithoutFeedback, TouchableOpacity, Image, TextInput, StatusBar, ActivityIndicator, Keyboard, KeyboardAvoidingView } from 'react-native'
 import React, { useState } from 'react'
 import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
@@ -59,17 +59,18 @@ const Name = ({ navigation }) => {
     return (
 
 
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={{ backgroundColor: 'white',flex:1 ,justifyContent: 'center',
+        alignItems: 'center', }}>
+
             {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
                 <ActivityIndicator size={'large'} color={'black'}></ActivityIndicator>
             </View>:
 
-            <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
-                <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
+<View style={{ width: '100%',flex:1,paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }} onPress={()=>{Keyboard.dismiss()}} >
+           
 
-                <View>
-                    <TouchableOpacity
-                        onPress={goBack}>
+                <View style={{borderWidth:1}}>
+                    <TouchableOpacity style={{ width: 32, height: 32,alignItems:'center',justifyContent:'center' }}>
                         <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
 
                     </TouchableOpacity>
@@ -77,7 +78,6 @@ const Name = ({ navigation }) => {
                     <View style={{ marginTop: 29 }}>
                         <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', }}>Basic Information</Text>
                         <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>What's Your Name</Text>
-
                     </View>
 
                     <View style={{ marginTop: 35 }}>
@@ -94,7 +94,7 @@ const Name = ({ navigation }) => {
 
 
 
-                <View style={{ marginBottom: 16 }}>
+                <View style={{ marginBottom: 16,borderWidth:1 }}>
 
 
 
@@ -110,7 +110,7 @@ const Name = ({ navigation }) => {
 
 
 
-            </View>
+           </View>
             }
         </View>
 

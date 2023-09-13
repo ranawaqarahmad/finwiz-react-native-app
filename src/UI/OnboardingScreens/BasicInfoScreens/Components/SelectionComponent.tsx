@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const SelectionComponent = ({onpress, index,title, selected, }) => {
     return (
-        <View style={{elevation:5}} key={index}>
+        <View style={{elevation:5}}>
              <TouchableOpacity onPress={()=>onpress(index)} activeOpacity={0.9}  style={{shadowOffset: { width: 1, height: 2 },
   shadowColor: 'black',
   shadowOpacity: 0.1,

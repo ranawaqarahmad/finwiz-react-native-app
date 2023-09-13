@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native'
+import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
@@ -89,7 +89,9 @@ const Mortage = ({ navigation }) => {
 
 
     return (
-        <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
+        <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+                                    <SafeAreaView style={{flex:1}}>
+
             <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
                 <TouchableOpacity
@@ -133,7 +135,7 @@ const Mortage = ({ navigation }) => {
             </View>
 
 
-
+</SafeAreaView>
         </View>
     )
 }

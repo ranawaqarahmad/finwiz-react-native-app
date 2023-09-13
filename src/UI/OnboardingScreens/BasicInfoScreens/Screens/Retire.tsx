@@ -134,7 +134,7 @@ const Retire = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    {retire.map((item, index) => <SelectionComponent onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
+                    {retire.map((item, index) => <SelectionComponent key={index} onpress={selectType} index={index} title={item.title} selected={item.selected} />)}
                 </View>
 
 

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import { useSelector } from 'react-redux'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const MonthlyAverageIncome = ({ navigation }) => {
 
@@ -101,11 +102,12 @@ const MonthlyAverageIncome = ({ navigation }) => {
     return (
 
         <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <SafeAreaView style={{flex:1}}>
         {loader ?
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
             </View> :
-        <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: '#F9FAFB', justifyContent: 'space-between' }}>
+        <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
             <StatusBar backgroundColor={'#F9FAFB'} barStyle={'dark-content'}></StatusBar>
             <View>
                 <TouchableOpacity
@@ -151,7 +153,8 @@ const MonthlyAverageIncome = ({ navigation }) => {
 
 
 
-        </View>}</View>
+        </View>}
+        </SafeAreaView></View>
     )
 }
 
