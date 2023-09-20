@@ -1,17 +1,32 @@
 import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, SafeAreaView } from 'react-native'
-import React, { useState } from 'react'
-import { setAuthToken, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import React, { useEffect, useState } from 'react'
+import { setAuthToken, setTokenSaved, setUserId, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import { useDispatch } from 'react-redux';
 import { registerApi } from '../../../../Services/ApiList';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 const Welcome = ({ navigation }) => {
+
 
     const [email, setEmail] = useState('tamoorssssmalik088@gmail.com')
     const [password, setPassword] = useState('Profe$$ional789')
     const dispatch = useDispatch()
     const [loader, setLoader] = useState(false)
+    const isFocused = useIsFocused();
 
+   useEffect(() => {
+        if(isFocused){
+            setLoader(false)
+
+        }
+    
+
+        return () => {
+          
+        };
+      }, [isFocused]);
 
     const [pass, setpass] = useState('default')
     const getPasswordStrength = (password: string) => {
@@ -62,11 +77,15 @@ const Welcome = ({ navigation }) => {
                 console.log(data.status);
                 if (data.status === true) {
                     dispatch(setAuthToken(data.token))
-                    console.log('TOKEN SAVED');
-                    dispatch(setstack('AuthNav'))
+
+                    console.log('TOKEN SAVED', data.token);
+                    storeToken(data.token)
+                    storeId(data.data.id)
+                    dispatch(setTokenSaved(true))
+                    dispatch(setUserId(data.data.id))
 
                 } else {
-                    console.log('MESSAGE', data.message);
+                    console.log('MESSAGE', data);
                     setLoader(false)
                 }
 
@@ -77,6 +96,26 @@ const Welcome = ({ navigation }) => {
             });
 
 
+
+    };
+
+    const storeToken = async (token: string) => {
+
+        try {
+            await AsyncStorage.setItem('token', token);
+            console.log('Token stored successfully.');
+        } catch (error) {
+            console.error('Error storing data: ', error);
+        }
+    };
+
+    const storeId = async (id: { toString: () => string; }) => {
+        try {
+            await AsyncStorage.setItem('userId', id.toString());
+            console.log('User ID stored successfully.');
+        } catch (error) {
+            console.error('Error storing data: ', error);
+        }
 
     };
     return (

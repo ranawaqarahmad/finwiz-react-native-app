@@ -1,13 +1,26 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import { useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
 
 const YearsExp = ({ navigation }) => {
 
+    const isFocused = useIsFocused();
 
+   useEffect(() => {
+        if(isFocused){
+            setLoader(false)
+
+        }
+    
+
+        return () => {
+          
+        };
+      }, [isFocused]);
     const [yearsOfExp, setyearsOfExp] = useState([
         {
             title: 'less then 6 months',

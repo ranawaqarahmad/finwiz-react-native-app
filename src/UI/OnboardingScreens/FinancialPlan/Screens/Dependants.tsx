@@ -1,12 +1,25 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, ActivityIndicator, SafeAreaView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent2 from '../Components/SelectionComponent2'
 import { useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
 
 const Dependants = ({ navigation }) => {
 
+    const isFocused = useIsFocused();
 
+    useEffect(() => {
+         if(isFocused){
+             setLoader(false)
+ 
+         }
+     
+ 
+         return () => {
+           
+         };
+       }, [isFocused]);
     const [count,setcount]=useState(1)
     const selector = useSelector(state => state.AppReducer);
     const questions = selector.questions;

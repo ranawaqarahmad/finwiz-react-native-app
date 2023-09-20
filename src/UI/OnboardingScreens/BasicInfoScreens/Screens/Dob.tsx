@@ -2,12 +2,25 @@ import {
     View, Text, StatusBar, TouchableOpacity, Image,TouchableWithoutFeedback, TextInput, ActivityIndicator, KeyboardAvoidingView, Keyboard, Modal
 } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import { useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native';
 
 const Dob = ({ navigation }) => {
+    const isFocused = useIsFocused();
 
+   useEffect(() => {
+        if(isFocused){
+            setLoader(false)
+
+        }
+    
+
+        return () => {
+          
+        };
+      }, [isFocused]);
     const [dob, setDob] = useState('')
     const [loader, setLoader] = useState(false)
     const selector = useSelector(state => state.AppReducer);

@@ -1,11 +1,24 @@
 import { View, Text,TouchableWithoutFeedback, TouchableOpacity, Image, TextInput, StatusBar, ActivityIndicator, Keyboard, KeyboardAvoidingView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import { useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
 
 const Name = ({ navigation }) => {
+    const isFocused = useIsFocused();
 
+    useEffect(() => {
+        if(isFocused){
+            setLoader(false)
+
+        }
+    
+
+        return () => {
+          
+        };
+      }, [isFocused]);
     const [firstName, setFirstName] = useState('Tamoor')
     const [secondName, setSecondName] = useState('Malik')
     const [loader, setLoader] = useState(false)
@@ -63,7 +76,7 @@ const Name = ({ navigation }) => {
         alignItems: 'center', }}>
 
             {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
-                <ActivityIndicator size={'large'} color={'black'}></ActivityIndicator>
+                <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
             </View>:
 
 <View style={{ width: '100%',flex:1,paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }} onPress={()=>{Keyboard.dismiss()}} >

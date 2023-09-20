@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 const BasicInfoStack = () => {
 
     return (
-        <View style={{ flex: 1,backgroundColor:'white' }}>
+        <View style={{ flex: 1,backgroundColor:'white',paddingVertical:16 }}>
             <SafeAreaView />
             <Stack.Navigator initialRouteName="Name" screenOptions={{ headerShown: false }}>
 

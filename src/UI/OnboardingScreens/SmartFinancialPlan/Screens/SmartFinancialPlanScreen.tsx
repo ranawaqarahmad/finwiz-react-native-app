@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import StepsComp from '../Components/StepsComp'
 import { useDispatch } from 'react-redux'
 import { setstack } from '../../../../redux/AppReducer'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SmartFinancialPlanScreen = ({ navigation }) => {
     const [steps, setsteps] = useState([
@@ -30,6 +31,7 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <SafeAreaView style={{flex:1}}>
             <StatusBar backgroundColor={'#21014E'} barStyle={'light-content'}></StatusBar>
             <View style={{ flex: 0.5, backgroundColor: '#21014E', borderBottomLeftRadius: 24, borderBottomRightRadius: 24, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ paddingVertical: 32, justifyContent: 'space-between', }}>
@@ -38,7 +40,7 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
                 </View>
 
             </View>
-            <View style={{ flex: 0.5, padding: 16, justifyContent: 'space-between' }}>
+            <View style={{ flex: 0.5, paddingHorizontal: 16, justifyContent: 'space-between' }}>
 
 
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -69,7 +71,7 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
 
 
 
-
+            </SafeAreaView>
         </View>
     )
 }

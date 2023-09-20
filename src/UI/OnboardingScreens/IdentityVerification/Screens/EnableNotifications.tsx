@@ -56,9 +56,9 @@ const EnableNotifications = ({ navigation }) => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white',  }}>
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%',  backgroundColor: 'white',  }}>
         <SafeAreaView style={{flex:1,backgroundColor:'white',}}>
-        <View style={{flex:1,backgroundColor:'white',justifyContent: 'space-between',padding:16}}>
+        <View style={{flex:1,backgroundColor:'white',justifyContent: 'space-between',paddingHorizontal:16}}>
 
             <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
             <View>

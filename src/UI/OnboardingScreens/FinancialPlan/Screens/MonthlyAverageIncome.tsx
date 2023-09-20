@@ -1,12 +1,25 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import { useSelector } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useIsFocused } from '@react-navigation/native'
 
 const MonthlyAverageIncome = ({ navigation }) => {
+    const isFocused = useIsFocused();
 
+    useEffect(() => {
+         if(isFocused){
+             setLoader(false)
+ 
+         }
+     
+ 
+         return () => {
+           
+         };
+       }, [isFocused]);
     const selector = useSelector(state => state.AppReducer);
     const questions = selector.questions;
     const userId = selector.userId;

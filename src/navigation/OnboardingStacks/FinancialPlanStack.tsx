@@ -23,7 +23,7 @@ const Stack = createStackNavigator();
 const FinancialPlanStack = () => {
 
     return (
-        <View style={{ flex: 1,backgroundColor:'white' }}>
+        <View style={{ flex: 1,backgroundColor:'white',paddingVertical:16 }}>
             <SafeAreaView/>
             <Stack.Navigator initialRouteName="MonthlyAverageIncome" screenOptions={{ headerShown: false }}>
 

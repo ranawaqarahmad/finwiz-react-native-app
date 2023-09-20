@@ -1,14 +1,27 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBasicinfoCompleted, setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useIsFocused } from '@react-navigation/native'
 
 const Retire = ({ navigation }) => {
 
+    const isFocused = useIsFocused();
 
+   useEffect(() => {
+        if(isFocused){
+            setLoader(false)
+
+        }
+    
+
+        return () => {
+          
+        };
+      }, [isFocused]);
     const dispatch = useDispatch()
     const [retire, setRetire] = useState([
         {

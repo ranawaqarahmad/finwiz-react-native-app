@@ -33,7 +33,7 @@ const AuthNav = () => {
 
 
     return (
-        <View style={{ flex: 1,backgroundColor:'white' }}>
+        <View style={{ flex: 1,backgroundColor:'white',paddingVertical:16 }}>
             <StatusBar backgroundColor={'white'} barStyle={'dark-content'}></StatusBar>
             <Stack.Navigator initialRouteName={faceIdVerified ? (notificationEnabled ? ("") : "EnableNotifications") : ("FaceId")} screenOptions={{ headerShown: false }}>
 

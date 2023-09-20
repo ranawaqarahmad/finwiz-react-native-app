@@ -1,15 +1,28 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, SafeAreaView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../Components/SelectionComponent'
 import TextInputCom from '../../BasicInfoScreens/Components/TextInputCom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBasicinfoCompleted, setFinancialInfoCompleted, setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useIsFocused } from '@react-navigation/native'
 
 const Mortage = ({ navigation }) => {
 
+    const isFocused = useIsFocused();
 
+    useEffect(() => {
+         if(isFocused){
+             setLoader(false)
+ 
+         }
+     
+ 
+         return () => {
+           
+         };
+       }, [isFocused]);
     const dispatch = useDispatch()
     const selector = useSelector(state => state.AppReducer);
     const questions = selector.questions;
@@ -107,7 +120,7 @@ const Mortage = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginTop: 29 }}>
-                    <TextInputCom startImageSrc={require('../../../../assets/Images/dollar.png')} placeholder={'enter amount'} text={amount} setText={setAmount} />
+                    <TextInputCom keyboardType={'numeric'} startImageSrc={require('../../../../assets/Images/dollar.png')} placeholder={'enter amount'} text={amount} setText={setAmount} />
                 </View>
 
 

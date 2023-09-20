@@ -18,7 +18,6 @@ const SignIn = ({ navigation }) => {
     if (tokenSaved) {
         console.log(tokenSaved);
         console.log('NAVIGATE DIRECTLY');
-
     }
     const handleSignIn = async () => {
 
@@ -109,8 +108,8 @@ const SignIn = ({ navigation }) => {
                         </View>
 
                         <View style={{ marginTop: 35 }}>
-                            <TextInput placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
-                            <TextInput
+                            <TextInput value={email} placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
+                            <TextInput value={password}
                                 onChangeText={(text) => { setPassword(text) }}
                                 secureTextEntry={true}
                                 placeholder='Password' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginTop: 9, padding: 10 }}></TextInput>

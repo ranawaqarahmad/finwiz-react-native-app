@@ -19,7 +19,7 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
         console.log('SUCCESS');
 
         console.log(success)
-        handleApiCall(success.publicToken)
+        // handleApiCall(success.publicToken)
 
         success.metadata.accounts.map((item) => {
           console.log(item);
@@ -35,7 +35,7 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
       // UI is always presented in full screen on Android.
       iOSPresentationStyle={LinkIOSPresentationStyle.MODAL}
     >
-      <Text>Hello </Text>
+      <Text> </Text>
       <RoundButton onpress={onpress} />
     </PlaidLink>
   );

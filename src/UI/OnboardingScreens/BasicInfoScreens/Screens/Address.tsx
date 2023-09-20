@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity, Image, TextInput, StatusBar, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import { useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
 
 const Address = ({ navigation }) => {
 
@@ -11,6 +12,20 @@ const Address = ({ navigation }) => {
     const selector = useSelector(state => state.AppReducer);
     const authToken = selector.authToken;
 
+
+    const isFocused = useIsFocused();
+
+   useEffect(() => {
+        if(isFocused){
+            setLoader(false)
+
+        }
+    
+
+        return () => {
+          
+        };
+      }, [isFocused]);
     const navigate = () => {
         handleApiCall()
     }

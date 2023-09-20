@@ -88,13 +88,13 @@ const SmartFinancialPlan = ({ navigation }) => {
     return (
 
 
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={{ flex: 1, backgroundColor: 'white',padding:16 }}>
             <SafeAreaView style={{flex:1}}>
             {loader ?
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
                 </View> :
-                <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between', }}>
+                <View style={{ width: '100%', height: '100%', backgroundColor: 'white', justifyContent: 'space-between', }}>
 
                     <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
 

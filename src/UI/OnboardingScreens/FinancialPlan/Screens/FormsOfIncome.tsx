@@ -1,11 +1,24 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, TextInput, ActivityIndicator, SafeAreaView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import SelectionComponent from '../../BasicInfoScreens/Components/SelectionComponent'
 import { useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
 
 const FormsOfIncome = ({ navigation }) => {
+    const isFocused = useIsFocused();
 
+    useEffect(() => {
+         if(isFocused){
+             setLoader(false)
+ 
+         }
+     
+ 
+         return () => {
+           
+         };
+       }, [isFocused]);
     const selector = useSelector(state => state.AppReducer);
     const questions = selector.questions;
     const userId = selector.userId;
