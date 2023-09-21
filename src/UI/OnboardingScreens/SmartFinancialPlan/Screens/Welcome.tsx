@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, SafeAreaView } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { setAuthToken, setTokenSaved, setUserId, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import { useDispatch } from 'react-redux';
@@ -10,28 +10,30 @@ import { useIsFocused } from '@react-navigation/native';
 const Welcome = ({ navigation }) => {
 
 
-    const [email, setEmail] = useState('tamoorssssmalik088@gmail.com')
+    const [email, setEmail] = useState('tamoormalik088@gmail.com')
     const [password, setPassword] = useState('Profe$$ional789')
     const dispatch = useDispatch()
     const [loader, setLoader] = useState(false)
     const isFocused = useIsFocused();
+    const [isErrorVisible, setIsErrorVisible] = useState(false)
+    const [errorText, setErrorText] = useState('')
 
-   useEffect(() => {
-        if(isFocused){
+    useEffect(() => {
+        if (isFocused) {
             setLoader(false)
 
         }
-    
+
 
         return () => {
-          
+
         };
-      }, [isFocused]);
+    }, [isFocused]);
 
     const [pass, setpass] = useState('default')
     const getPasswordStrength = (password: string) => {
         // Define your criteria for password strength
-        const lengthRegex = /^.{8,}$/;
+        const lengthRegex = /^.{6,}$/;
         const uppercaseRegex = /^(?=.*[A-Z])/;
         const lowercaseRegex = /^(?=.*[a-z])/;
         const numberRegex = /^(?=.*\d)/;
@@ -60,6 +62,11 @@ const Welcome = ({ navigation }) => {
 
 
     const handleRegistration = async () => {
+        if (password.length < 7) {
+            setErrorText('Password must be more then 6 digits')
+            setIsErrorVisible(true)
+            return;
+        }
 
         setLoader(true)
         fetch('https://api-finwiz.softsquare.io/api/register', {
@@ -86,12 +93,16 @@ const Welcome = ({ navigation }) => {
 
                 } else {
                     console.log('MESSAGE', data);
+                    setErrorText(data.data.email)
+                    setIsErrorVisible(true)
                     setLoader(false)
                 }
 
             })
             .catch((error) => {
                 console.log(error);
+                setErrorText(error)
+                setIsErrorVisible(true)
                 setLoader(false)
             });
 
@@ -119,113 +130,126 @@ const Welcome = ({ navigation }) => {
 
     };
     return (
-        <View style={{flex:1,backgroundColor:'white'}}>
-            <SafeAreaView style={{flex:1}}>
+        <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}} style={{ backgroundColor: 'white', flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
 
-            {loader?(
+                {loader ? (
 
-                <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
-                    <ActivityIndicator style={{alignItems:'center',justifyContent:'center',flex:1}} size={'large'} color={'#7C56FE'}></ActivityIndicator>
-                </View>
-            ):(
-                 <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+                    <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+                        <ActivityIndicator style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }} size={'large'} color={'#7C56FE'}></ActivityIndicator>
+                    </View>
+                ) : (
+                    <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
 
-                 <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
-                 <View>
-                     <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                         <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
- 
-                     </TouchableOpacity>
- 
-                     <View style={{ marginTop: 29 }}>
-                         <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>Welcome to Finwiz</Text>
-                         <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>Let’s create your profile and get started</Text>
-                     </View>
- 
-                     <View style={{ marginTop: 35 }}>
-                         <TextInput placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
-                         <TextInput
-                             onChangeText={(text) => { getPasswordStrength(text) }}
-                             secureTextEntry={true}
-                             placeholder='Password' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginTop: 9, padding: 10 }}></TextInput>
-                     </View>
- 
-                     <View style={{ marginTop: 25 }}>
-                         <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>Password Strength</Text>
-                         {pass === 'strong' && (
-                             <View style={{ flexDirection: 'row', marginTop: 12 }}>
- 
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66', marginHorizontal: 4 }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
-                             </View>
-                         )}
-                         {pass === 'weak' && (
-                             <View style={{ flexDirection: 'row', marginTop: 12 }}>
- 
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#E60E0E' }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB', marginHorizontal: 4 }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-                             </View>
-                         )}
-                         {pass === 'medium' && (
-                             <View style={{ flexDirection: 'row', marginTop: 12 }}>
- 
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#E60E0E', marginHorizontal: 4 }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-                             </View>
-                         )}
-                         {pass === 'default' && (
-                             <View style={{ flexDirection: 'row', marginTop: 12 }}>
- 
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB', marginHorizontal: 4 }}></View>
-                                 <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-                             </View>
-                         )}
- 
-                         <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginTop: 18 }}>Password must be a minimum of 8 characters, include one letter one number and one symbol</Text>
- 
-                     </View>
-                 </View>
- 
- 
- 
- 
- 
- 
- 
-                 <View style={{ marginBottom: 16 }}>
- 
-                     <View>
-                         <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>By Continuing you agree to Finwiz platform <Text style={{ color: '#1C64F2' }}> terms and conditions, Rewards Policy</Text> and <Text style={{ color: '#1C64F2' }}> Privacy Policy</Text></Text>
-                     </View>
- 
-                     <TouchableOpacity
-                         onPress={() => {
-                             // dispatch(setWelcomeNavStatus(1))
-                             // dispatch(setstack('WelcomeNav'))
-                             // navigation.navigate('SmartFinancialPlan')
- 
-                             handleRegistration()
-                         }}
-                         style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
-                         <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Continue</Text>
- 
-                     </TouchableOpacity>
- 
-                     <View>
-                         <Text style={{ fontSize: 14, fontWeight: '500', color: 'black', alignSelf: 'center', marginTop: 25 }}>Already have an account? <Text onPress={() => { navigation.navigate('SignIn') }} style={{ color: '#1C64F2' }}>Signin</Text></Text>
-                     </View>
-                 </View>
- 
- 
- 
-             </View>
-            )}
-           </SafeAreaView>
-        </View>
+                        <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
+                        <View>
+                            <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                                <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
+
+                            </TouchableOpacity>
+
+                            <View style={{ marginTop: 29 }}>
+                                <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>Welcome to Finwiz</Text>
+                                <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>Let’s create your profile and get started</Text>
+                            </View>
+
+                            <View style={{ marginTop: 35 }}>
+                                <TextInput onChangeText={(text) => {
+                                    setErrorText('')
+                                    setIsErrorVisible(false)
+                                    setEmail(text)
+                                }} value={email} placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
+                                <TextInput
+                                    value={password}
+                                    onChangeText={(text) => {
+                                        setErrorText('')
+                                        setIsErrorVisible(false)
+                                        setPassword(text)
+                                        getPasswordStrength(text)
+                                    }}
+                                    secureTextEntry={true}
+                                    placeholder='Password' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginTop: 9, padding: 10 }}></TextInput>
+                            </View>
+
+                            {isErrorVisible && (<Text style={{ color: 'red', fontWeight: '400', marginTop: 8 }}>{errorText}</Text>)}
+
+
+                            <View style={{ marginTop: 25 }}>
+                                <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>Password Strength</Text>
+                                {pass === 'strong' && (
+                                    <View style={{ flexDirection: 'row', marginTop: 12 }}>
+
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66', marginHorizontal: 4 }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
+                                    </View>
+                                )}
+                                {pass === 'weak' && (
+                                    <View style={{ flexDirection: 'row', marginTop: 12 }}>
+
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#E60E0E' }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB', marginHorizontal: 4 }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
+                                    </View>
+                                )}
+                                {pass === 'medium' && (
+                                    <View style={{ flexDirection: 'row', marginTop: 12 }}>
+
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#E60E0E', marginHorizontal: 4 }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
+                                    </View>
+                                )}
+                                {pass === 'default' && (
+                                    <View style={{ flexDirection: 'row', marginTop: 12 }}>
+
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB', marginHorizontal: 4 }}></View>
+                                        <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
+                                    </View>
+                                )}
+
+                                <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginTop: 18 }}>Password must be a minimum of 8 characters, include one letter one number and one symbol</Text>
+
+                            </View>
+                        </View>
+
+
+
+
+
+
+
+                        <View style={{ marginBottom: 16 }}>
+
+                            <View>
+                                <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>By Continuing you agree to Finwiz platform <Text style={{ color: '#1C64F2' }}> terms and conditions, Rewards Policy</Text> and <Text style={{ color: '#1C64F2' }}> Privacy Policy</Text></Text>
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    // dispatch(setWelcomeNavStatus(1))
+                                    // dispatch(setstack('WelcomeNav'))
+                                    // navigation.navigate('SmartFinancialPlan')
+
+                                    handleRegistration()
+                                }}
+                                style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
+                                <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Continue</Text>
+
+                            </TouchableOpacity>
+
+                            <View>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: 'black', alignSelf: 'center', marginTop: 25 }}>Already have an account? <Text onPress={() => { navigation.navigate('SignIn') }} style={{ color: '#1C64F2' }}>Signin</Text></Text>
+                            </View>
+                        </View>
+
+
+
+                    </View>
+                )}
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
 
 
     )

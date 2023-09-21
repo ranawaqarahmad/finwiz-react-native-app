@@ -22,7 +22,8 @@ const WelcomeFinwiz = ({ navigation }) => {
             description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
             selected: false,
             color: '#9747FF',
-            imgsrc: require('../../../../assets/Images/account.png')
+            imgsrc: require('../../../../assets/Images/account.png'),
+            auto:true,
         },
         {
             step: 'Step 2',
@@ -30,13 +31,22 @@ const WelcomeFinwiz = ({ navigation }) => {
             description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
             selected: false,
             color: '#21014E',
-            imgsrc: require('../../../../assets/Images/logo.png')
+            imgsrc: require('../../../../assets/Images/logo.png'),
+            auto:false,
+
         },
     ])
 
     const navigate = () => {
         console.log('Create LINK TOKEN');
 
+        navigation.navigate('FurtherApp')
+        // handleApiCall()
+    }
+    const navigate2 = () => {
+        console.log('Create LINK TOKEN');
+
+        navigation.navigate('SmartFinancialPlanScreen')
         // handleApiCall()
     }
     const createLinkToken = React.useCallback(async () => {
@@ -48,7 +58,7 @@ const WelcomeFinwiz = ({ navigation }) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                client_name: "Tamoor Malik",
+                client_name: "Finwiz",
                 country_codes: [
                     "US"
                 ],
@@ -141,7 +151,7 @@ const WelcomeFinwiz = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={{ flex: 0.7, paddingHorizontal: 16 }}>
-                    {steps.map((item, index) => <StepsComp key={index} linkToken={linkToken} onpress={navigate} item={item} />)}
+                    {steps.map((item, index) => <StepsComp navigate2={navigate2} key={index} linkToken={linkToken} onpress={navigate} item={item} />)}
                 </View>
                 {/* {MyPlaidComponent(linkToken)} */}
 

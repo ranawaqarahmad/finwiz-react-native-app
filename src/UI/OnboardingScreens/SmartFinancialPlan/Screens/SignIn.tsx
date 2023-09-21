@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native'
+import { TouchableWithoutFeedback, View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthToken, setState, setTokenSaved, setUserId, setstack } from '../../../../redux/AppReducer';
@@ -13,6 +13,8 @@ const SignIn = ({ navigation }) => {
     const [loader, setLoader] = useState(false)
     const selector = useSelector(state => state.AppReducer);
     const tokenSaved = selector.tokenSaved;
+    const [isErrorVisible, setIsErrorVisible] = useState(false)
+    const [errorText, setErrorText] = useState('')
 
 
     if (tokenSaved) {
@@ -20,6 +22,12 @@ const SignIn = ({ navigation }) => {
         console.log('NAVIGATE DIRECTLY');
     }
     const handleSignIn = async () => {
+
+        if(!email||!password){
+            setErrorText('Email or Password is empty')
+            setIsErrorVisible(true)
+            return
+        }
 
         setLoader(true)
         fetch('https://api-finwiz.softsquare.io/api/login', {
@@ -44,19 +52,23 @@ const SignIn = ({ navigation }) => {
                     dispatch(setTokenSaved(true))
                     dispatch(setUserId(data.data.id))
 
-                  
+
 
 
 
 
                 } else {
-                    console.log('MESSAGE', data.message);
+                    console.log('MESSAGE', data);
+                    setErrorText(data.message)
+                    setIsErrorVisible(true)
                     setLoader(false)
                 }
 
             })
             .catch((error) => {
                 console.log(error);
+                setErrorText(error)
+                setIsErrorVisible(true)
                 setLoader(false)
             });
 
@@ -86,36 +98,49 @@ const SignIn = ({ navigation }) => {
 
     const dispatch = useDispatch()
     return (
-        <View style={{ backgroundColor: 'white', flex: 1 }}>
-            <SafeAreaView style={{flex:1}}>
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ backgroundColor: 'white', flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
 
-            {loader ? (
-                <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-                    <ActivityIndicator style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }} size={'large'} color={'#7C56FE'}></ActivityIndicator>
-                </View>) : (
-                <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
+                {loader ? (
+                    <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+                        <ActivityIndicator style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }} size={'large'} color={'#7C56FE'}></ActivityIndicator>
+                    </View>) : (
+                    <View style={{ width: '100%', height: '100%', padding: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
 
-                    <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
-                    <View>
-                        <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                            <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
+                        <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
+                        <View>
+                            <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                                <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
-                        </TouchableOpacity>
+                            </TouchableOpacity>
 
-                        <View style={{ marginTop: 29 }}>
-                            <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>Welcome Back</Text>
-                            <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>Enter your credentials to continue</Text>
-                        </View>
+                            <View style={{ marginTop: 29 }}>
+                                <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>Welcome Back</Text>
+                                <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>Enter your credentials to continue</Text>
+                            </View>
 
-                        <View style={{ marginTop: 35 }}>
-                            <TextInput value={email} placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
-                            <TextInput value={password}
-                                onChangeText={(text) => { setPassword(text) }}
-                                secureTextEntry={true}
-                                placeholder='Password' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginTop: 9, padding: 10 }}></TextInput>
-                        </View>
+                            <View style={{ marginTop: 35 }}>
+                                <TextInput value={email} onChangeText={(text) => {
+                                    setErrorText('')
+                                    setIsErrorVisible(false)
+                                    setEmail(text)
+                                }}
+                                    placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
+                                <TextInput value={password}
+                                    onChangeText={(text) => {
+                                        setErrorText('')
+                                        setIsErrorVisible(false)
+                                        setPassword(text)
+                                    }}
+                                    secureTextEntry={true}
+                                    placeholder='Password' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginTop: 9, padding: 10 }}></TextInput>
+                            </View>
 
-                        {/* <View style={{ marginTop: 25 }}>
+
+                            {isErrorVisible && (<Text style={{ color: 'red', fontWeight: '400', marginTop: 8 }}>{errorText}</Text>)}
+
+
+                            {/* <View style={{ marginTop: 25 }}>
           <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>Password Strength</Text>
           {pass === 'strong' && (
               <View style={{ flexDirection: 'row', marginTop: 12 }}>
@@ -153,36 +178,36 @@ const SignIn = ({ navigation }) => {
           <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginTop: 18 }}>Password must be a minimum of 8 characters, include one letter one number and one symbol</Text>
   
       </View> */}
-                    </View>
-
-
-
-
-
-
-
-                    <View style={{ marginBottom: 16 }}>
-
-
-                        <TouchableOpacity
-                            onPress={() => { handleSignIn() }}
-                            style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
-                            <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Continue</Text>
-                        </TouchableOpacity>
-
-                        <View>
-                            <Text style={{ fontSize: 14, fontWeight: '500', color: 'black', alignSelf: 'center', marginTop: 25 }}>Don't have an account? <Text onPress={() => { navigation.navigate('Welcome') }} style={{ color: '#1C64F2' }}>Sign Up</Text></Text>
                         </View>
+
+
+
+
+
+
+
+                        <View style={{ marginBottom: 16 }}>
+
+
+                            <TouchableOpacity
+                                onPress={() => { handleSignIn() }}
+                                style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
+                                <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Continue</Text>
+                            </TouchableOpacity>
+
+                            <View>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: 'black', alignSelf: 'center', marginTop: 25 }}>Don't have an account? <Text onPress={() => { navigation.navigate('Welcome') }} style={{ color: '#1C64F2' }}>Sign Up</Text></Text>
+                            </View>
+                        </View>
+
+
+
                     </View>
+                )}
 
 
-
-                </View>
-            )}
-
-
-</SafeAreaView>
-        </View>
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
 
     )
 }

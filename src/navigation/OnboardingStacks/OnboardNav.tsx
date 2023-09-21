@@ -1,7 +1,7 @@
 import { View, Text, StatusBar } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
+import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
 import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
 import Welcome from '../../UI/OnboardingScreens/IdentityVerification/Screens/Welcome';
 import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
@@ -58,9 +58,9 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
                         dispatch(setstack('WelcomeNav'))
                         dispatch(setWelcomeNavStatus(1))
                     }else{
-                        dispatch(setFinancialPlanScreen(1))
-                        dispatch(setstack('WelcomeNav'))
-                        dispatch(setWelcomeNavStatus(1))
+                        // dispatch(setFinancialPlanScreen(1))
+                        dispatch(setstack('AuthNav'))
+                        // dispatch(setWelcomeNavStatus(1))
                     }
                     
                   
@@ -169,11 +169,14 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
                 {!authStackCompleted && <Stack.Screen name="AuthNav" component={AuthNav} />}
                 <Stack.Screen name="WelcomeNav" component={WelcomeNav} />
 
+
             </Stack.Navigator>
 
 
         </View>
     )
 }
+
+
 
 export default OnBoardNav

@@ -5,7 +5,7 @@
  * @format
  */
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 
 import AuthNav from './src/navigation/OnboardingStacks/AuthNav';
@@ -30,12 +30,14 @@ function App() {
   const welcomeScreen = selector.WelcomeScreen;
   const dispatch = useDispatch()
 
+
   console.log('STACK APP IS', stack);
 
   useEffect(() => {
 
     // getVerifications()
     console.log('STACK Changed');
+    // clearAllData()
 
   }, []);
 

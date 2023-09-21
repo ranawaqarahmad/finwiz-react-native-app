@@ -2,12 +2,16 @@ import { View, Text,TouchableWithoutFeedback, TouchableOpacity, Image, TextInput
 import React, { useEffect, useState } from 'react'
 import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
+import { setBasicinfoCompleted, setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Name = ({ navigation }) => {
+    const dispatch=useDispatch()
     const isFocused = useIsFocused();
-
+    const [isErrorVisible, setIsErrorVisible] = useState(false)
+    const [errorText, setErrorText] = useState('')
     useEffect(() => {
         if(isFocused){
             setLoader(false)
@@ -38,6 +42,11 @@ const Name = ({ navigation }) => {
 
     const handleApiCall = async () => {
 
+        if(!firstName||!secondName){
+            setErrorText('Name cannot be empty')
+            setIsErrorVisible(true)
+            return
+        }
         setLoader(true)
         fetch('https://api-finwiz.softsquare.io/api/user/update-user', {
             method: 'POST',
@@ -54,7 +63,9 @@ const Name = ({ navigation }) => {
                 console.log(data.status);
                 if (data.status) {
                     console.log('Name Updated');
-                    navigation.navigate('Dob');
+                    dispatch(setBasicinfoCompleted(true))
+                    storeBasicInfoCompleted('true')
+                    dispatch(setstack('AuthNav'))
                 } else {
                     console.log('MESSAGE', data.message);
                     setLoader(false)
@@ -69,6 +80,20 @@ const Name = ({ navigation }) => {
 
 
     };
+
+    const storeBasicInfoCompleted = async (token: string) => {
+        try {
+            await AsyncStorage.setItem('basicInfoComplete', token);
+            console.log('Basic Info status Stored successfully.');
+        } catch (error) {
+            console.error('Error storing data: ', error);
+        }
+    };
+
+    const errorInvisible=()=>{
+        setErrorText('')
+        setIsErrorVisible(false)
+    }
     return (
 
 
@@ -94,9 +119,11 @@ const Name = ({ navigation }) => {
                     </View>
 
                     <View style={{ marginTop: 35 }}>
-                        <TextInputCom placeholder={'Legal First Name'} text={firstName} setText={setFirstName} startImageSrc={null} />
-                        <TextInputCom placeholder={'Legal Second Name'} text={secondName} setText={setSecondName} startImageSrc={null} />
+                        <TextInputCom errorInvisible={errorInvisible} placeholder={'Legal First Name'} text={firstName} setText={setFirstName} startImageSrc={null} />
+                        <TextInputCom errorInvisible={errorInvisible}  placeholder={'Legal Second Name'} text={secondName} setText={setSecondName} startImageSrc={null} />
                     </View>
+
+                    {isErrorVisible && (<Text style={{ color: 'red', fontWeight: '400', marginTop: 8 }}>{errorText}</Text>)}
 
 
                 </View>

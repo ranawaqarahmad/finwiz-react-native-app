@@ -1,8 +1,7 @@
-import { View, Text } from 'react-native'
+import { View, Text, BackHandler } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/MobileNumberScreen';
-import OTPVerification from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/OTPVerification';
+
 import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
 import Dob from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
 import Address from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
@@ -47,11 +46,8 @@ const WelcomeNav = () => {
                 <Stack.Screen name="FirstScreen" component={FirstScreen} />
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="SignIn" component={SignIn} />
-                {/* {!phoneVerified && ( */}
-                <Stack.Screen name="MobileNumberScreen" component={MobileNumberScreen} />
-               
-                {/* {!phoneVerified && ( */}
-                <Stack.Screen name="OTPVerification" component={OTPVerification} />
+                <Stack.Screen name="FurtherApp" component={FurtherApp} />
+
                 {/* )} */}
 
 
@@ -64,6 +60,20 @@ const WelcomeNav = () => {
 
 
             </Stack.Navigator>
+        </View>
+    )
+}
+
+
+const FurtherApp=()=>{
+    BackHandler.addEventListener('hardwareBackPress', () => {
+        // Exit the app (this will close the app)
+        BackHandler.exitApp();
+        return true; // Prevent default behavior (e.g., navigating back)
+      });
+    return(
+        <View style={{backgroundColor:'white',flex:1,justifyContent:'center',alignItems:'center'}}>
+            <Text style={{textAlign:'center',fontSize:32,color:'black',fontWeight:'bold',padding:16}}>WELCOME TO FINWIZ APP</Text>
         </View>
     )
 }

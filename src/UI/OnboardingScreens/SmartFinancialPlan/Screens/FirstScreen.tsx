@@ -31,7 +31,7 @@ const FirstScreen = ({navigation}) => {
               onPress={() => {
                
                 
-                navigation.navigate('SignIn') }}
+                navigation.navigate('Welcome') }}
               style={{ flex: 1, backgroundColor: '#9747FF', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', padding: 16, borderRadius: 4 }}>
               <Text style={{ fontSize: 16, fontWeight: '600', color: 'white', }}>Continue</Text>
 
@@ -42,7 +42,7 @@ const FirstScreen = ({navigation}) => {
           </View>
 
           <View>
-            <Text style={{ fontSize: 14, fontWeight: '500', color: 'black', alignSelf: 'center', marginTop: 25 }}>Already have an account? <Text onPress={() => { navigation.navigate('Welcome') }} style={{ color: '#1C64F2' }}>Sign In</Text></Text>
+            <Text style={{ fontSize: 14, fontWeight: '500', color: 'black', alignSelf: 'center', marginTop: 25 }}>Already have an account? <Text onPress={() => { navigation.navigate('SignIn') }} style={{ color: '#1C64F2' }}>Sign In</Text></Text>
           </View>
         </View>
 

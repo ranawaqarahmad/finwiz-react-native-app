@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Image,Text ,View} from 'react-native';
 import { PlaidLink, LinkSuccess, LinkExit, LinkLogLevel, LinkIOSPresentationStyle } from 'react-native-plaid-link-sdk';
 import RoundButton from '../UI/OnboardingScreens/SmartFinancialPlan/Components/RoundButton';
 import { useSelector } from 'react-redux';
@@ -17,6 +17,7 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
       }}
       onSuccess={(success: LinkSuccess) => {
         console.log('SUCCESS');
+        onpress()
 
         console.log(success)
         // handleApiCall(success.publicToken)
@@ -35,9 +36,12 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
       // UI is always presented in full screen on Android.
       iOSPresentationStyle={LinkIOSPresentationStyle.MODAL}
     >
-      <Text> </Text>
-      <RoundButton onpress={onpress} />
-    </PlaidLink>
+<View
+    style={{ width: 36, height: 36, backgroundColor: 'black', alignSelf: 'flex-end', borderRadius: 400, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25, }}>
+    <Image style={{ width: 16, height: 16 }} source={require('../assets/Images/whitearrow.png')} />
+
+</View> 
+   </PlaidLink>
   );
 };
 

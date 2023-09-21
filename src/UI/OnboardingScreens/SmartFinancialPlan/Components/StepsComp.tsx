@@ -4,7 +4,7 @@ import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import RoundButton from './RoundButton'
 import { MyPlaidComponent } from '../../../../utils/PlaidFunction'
 
-const StepsComp = ({ item, onpress,linkToken }) => {
+const StepsComp = ({ item, onpress,linkToken,navigate2 }) => {
     return (
         <View style={{ marginVertical: 16 }}>
             <Text style={{ fontSize: 14, color: 'black' }}>{item.step}</Text>
@@ -24,7 +24,9 @@ const StepsComp = ({ item, onpress,linkToken }) => {
                         <Text style={{ marginEnd: 16, flex: 1, textAlignVertical: 'center', }}>
                             {item.description}
                         </Text>
-                          {MyPlaidComponent(linkToken,onpress)}
+                        {item.auto?MyPlaidComponent(linkToken,onpress): <RoundButton onpress={navigate2}/>}
+                       
+                          
 
 
 
