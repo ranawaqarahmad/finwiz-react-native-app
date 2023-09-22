@@ -56,6 +56,8 @@ const initialState = {
     authStackCompleted:false,
     questions:'',
     userId:0,
+    syncAccountDone:false,
+    setupBudgetPlanDone:false,
 
 };
 selfPatient: null
@@ -173,6 +175,12 @@ export const AppSlice = createSlice({
         setUserId: (state, action) => {            
             state.userId = action.payload
         },
+        setSyncAccountDone: (state, action) => {            
+            state.syncAccountDone = action.payload
+        },
+        setSetupBudgetPlanDone: (state, action) => {            
+            state.setupBudgetPlanDone = action.payload
+        },
     },
 });
 
@@ -212,7 +220,9 @@ export const {
     setBasicinfoCompleted,
     setQuestions,
     setUserId,
-    setFinancialInfoCompleted
+    setFinancialInfoCompleted,
+    setSyncAccountDone,
+    setSetupBudgetPlanDone
 
 } = AppSlice.actions;
 

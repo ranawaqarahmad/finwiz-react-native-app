@@ -1,10 +1,11 @@
 import { Image,Text ,View} from 'react-native';
 import { PlaidLink, LinkSuccess, LinkExit, LinkLogLevel, LinkIOSPresentationStyle } from 'react-native-plaid-link-sdk';
 import RoundButton from '../UI/OnboardingScreens/SmartFinancialPlan/Components/RoundButton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSyncAccountDone } from '../redux/AppReducer';
 const selector = useSelector(state => state.AppReducer);
 const authToken = selector.authToken;
-export const MyPlaidComponent = (linkToken: any, onpress) => {
+const MyPlaidComponent = ({linkToken, onpress}) => {
   return (
 
     <PlaidLink
@@ -17,7 +18,9 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
       }}
       onSuccess={(success: LinkSuccess) => {
         console.log('SUCCESS');
-        onpress()
+       onpress(0)
+
+      //  dispatch(setSyncAccountDone(true))
 
         console.log(success)
         // handleApiCall(success.publicToken)
@@ -43,5 +46,7 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
 </View> 
    </PlaidLink>
   );
-};
+}
+
+export default MyPlaidComponent
 
