@@ -4,18 +4,13 @@ import StepsComp from '../Components/StepsComp'
 import { MyPlaidComponent } from '../../../../utils/PlaidFunction'
 import { PlaidLink, LinkSuccess, LinkExit, LinkLogLevel, LinkIOSPresentationStyle } from 'react-native-plaid-link-sdk';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSyncAccountDone } from '../../../../redux/AppReducer';
+import { useSelector } from 'react-redux';
 
 const WelcomeFinwiz = ({ navigation }) => {
     // const [linkToken, setLinkToken] = useState(null)
     var authToken: any;
     const [linkToken, setLinkToken] = useState(null)
-    const [errorText,setErrorText]=useState('')
-    const [comp,setComp]=useState(-1)
 
-
-    const dispatch=useDispatch()
 
     const selector = useSelector(state => state.AppReducer);
     authToken = selector.authToken;
@@ -25,7 +20,7 @@ const WelcomeFinwiz = ({ navigation }) => {
             step: 'Step 1',
             title: 'Sync Your Accounts',
             description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected:selector.syncAccountDone?true: false,
+            selected: false,
             color: '#9747FF',
             imgsrc: require('../../../../assets/Images/account.png'),
             auto:true,
@@ -42,23 +37,17 @@ const WelcomeFinwiz = ({ navigation }) => {
         },
     ])
 
-    const toggleSelected = (index) => {
-        const updatedSteps = [...steps];
-        updatedSteps[index].selected = true;
-        setsteps(updatedSteps);
-        dispatch(setSyncAccountDone(true))
-        setErrorText('')
-        setComp(-1)
-      };
+    const navigate = () => {
+        console.log('Create LINK TOKEN');
+
+        navigation.navigate('FurtherApp')
+        // handleApiCall()
+    }
     const navigate2 = () => {
         console.log('Create LINK TOKEN');
 
         navigation.navigate('SmartFinancialPlanScreen')
         // handleApiCall()
-    }
-    const errorShow=()=>{
-        setErrorText('Complete the account sync process first')
-        setComp(0)
     }
     const createLinkToken = React.useCallback(async () => {
         await fetch(`https://api-finwiz.softsquare.io/api/user/plaid-generate-link-token
@@ -162,7 +151,7 @@ const WelcomeFinwiz = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={{ flex: 0.7, paddingHorizontal: 16 }}>
-                    {steps.map((item, index) => <StepsComp errorShow={errorShow} index={index} error={errorText} comp={comp} navigate2={navigate2} key={index} linkToken={linkToken} onpress={toggleSelected} item={item} />)}
+                    {steps.map((item, index) => <StepsComp navigate2={navigate2} key={index} linkToken={linkToken} onpress={navigate} item={item} />)}
                 </View>
                 {/* {MyPlaidComponent(linkToken)} */}
 
