@@ -1,16 +1,18 @@
 import { View, Text, StatusBar, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import StepsComp from '../Components/StepsComp'
-import { MyPlaidComponent } from '../../../../utils/PlaidFunction'
-import { PlaidLink, LinkSuccess, LinkExit, LinkLogLevel, LinkIOSPresentationStyle } from 'react-native-plaid-link-sdk';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSyncAccountDone } from '../../../../redux/AppReducer';
 
 const WelcomeFinwiz = ({ navigation }) => {
     // const [linkToken, setLinkToken] = useState(null)
     var authToken: any;
     const [linkToken, setLinkToken] = useState(null)
+    const [errorText,setErrorText]=useState('')
+    const [comp,setComp]=useState(-1)
 
+    const dispatch=useDispatch()
 
     const selector = useSelector(state => state.AppReducer);
     authToken = selector.authToken;
@@ -20,7 +22,7 @@ const WelcomeFinwiz = ({ navigation }) => {
             step: 'Step 1',
             title: 'Sync Your Accounts',
             description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected: false,
+            selected:selector.syncAccountDone?true: false,
             color: '#9747FF',
             imgsrc: require('../../../../assets/Images/account.png'),
             auto:true,
@@ -37,12 +39,25 @@ const WelcomeFinwiz = ({ navigation }) => {
         },
     ])
 
-    const navigate = () => {
-        console.log('Create LINK TOKEN');
+    const toggleSelected = (index) => {
+        const updatedSteps = [...steps];
+        updatedSteps[index].selected = true;
+        setsteps(updatedSteps);
+        dispatch(setSyncAccountDone(true))
+        setErrorText('')
+        setComp(-1)
+      };
 
-        navigation.navigate('FurtherApp')
-        // handleApiCall()
+      const errorShow=()=>{
+        setErrorText('Complete the account Sync First')
+        setComp(0)
     }
+
+    const errorShow2=()=>{
+        setErrorText('Already Synced')
+        setComp(0)
+    }
+
     const navigate2 = () => {
         console.log('Create LINK TOKEN');
 
@@ -151,8 +166,8 @@ const WelcomeFinwiz = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={{ flex: 0.7, paddingHorizontal: 16 }}>
-                    {steps.map((item, index) => <StepsComp navigate2={navigate2} key={index} linkToken={linkToken} onpress={navigate} item={item} />)}
-                </View>
+                {steps.map((item, index) => <StepsComp errorShow2={errorShow2} errorShow={errorShow} index={index} error={errorText} comp={comp} navigate2={navigate2} key={index} linkToken={linkToken} onpress={toggleSelected} item={item} />)}
+                                </View>
                 {/* {MyPlaidComponent(linkToken)} */}
 
 
@@ -164,3 +179,5 @@ const WelcomeFinwiz = ({ navigation }) => {
 }
 
 export default WelcomeFinwiz
+
+

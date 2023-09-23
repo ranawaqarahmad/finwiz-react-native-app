@@ -2,9 +2,12 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import RoundButtonComp from '../../BasicInfoScreens/Components/RoundButtonComp'
 import RoundButton from './RoundButton'
-import { MyPlaidComponent } from '../../../../utils/PlaidFunction'
+import MyPlaidComponent from '../../../../utils/PlaidFunction'
+import { useSelector } from 'react-redux'
 
-const StepsComp = ({ item, onpress,linkToken,navigate2 }) => {
+const StepsComp = ({ item, onpress, linkToken, navigate2, errorShow,errorShow2, error, comp, index }) => {
+    const selector = useSelector(state => state.AppReducer);
+
     return (
         <View style={{ marginVertical: 16 }}>
             <Text style={{ fontSize: 14, color: 'black' }}>{item.step}</Text>
@@ -24,15 +27,15 @@ const StepsComp = ({ item, onpress,linkToken,navigate2 }) => {
                         <Text style={{ marginEnd: 16, flex: 1, textAlignVertical: 'center', }}>
                             {item.description}
                         </Text>
-                        {item.auto?MyPlaidComponent(linkToken,onpress): <RoundButton onpress={navigate2}/>}
-                       
-                          
+                        {item.auto ? !item.selected?<MyPlaidComponent linkToken={linkToken} onpress={onpress}/>:<RoundButton onpress={errorShow2} /> : <RoundButton  onpress={selector.syncAccountDone ? navigate2 : errorShow} />}
+
 
 
 
                     </View>
                 </View>
             </View>
+            {comp == index && (<Text style={{ color: 'red', fontWeight: '400', marginTop: 8 }}>{error}</Text>)}
 
         </View>
     )

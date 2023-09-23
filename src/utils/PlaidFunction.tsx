@@ -1,10 +1,7 @@
-import { Image,Text ,View} from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { PlaidLink, LinkSuccess, LinkExit, LinkLogLevel, LinkIOSPresentationStyle } from 'react-native-plaid-link-sdk';
-import RoundButton from '../UI/OnboardingScreens/SmartFinancialPlan/Components/RoundButton';
-import { useSelector } from 'react-redux';
-const selector = useSelector(state => state.AppReducer);
-const authToken = selector.authToken;
-export const MyPlaidComponent = (linkToken: any, onpress) => {
+
+const MyPlaidComponent = ({ linkToken, onpress }) => {
   return (
 
     <PlaidLink
@@ -17,7 +14,7 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
       }}
       onSuccess={(success: LinkSuccess) => {
         console.log('SUCCESS');
-        onpress()
+        onpress(0)
 
         console.log(success)
         // handleApiCall(success.publicToken)
@@ -36,12 +33,16 @@ export const MyPlaidComponent = (linkToken: any, onpress) => {
       // UI is always presented in full screen on Android.
       iOSPresentationStyle={LinkIOSPresentationStyle.MODAL}
     >
-<View
-    style={{ width: 36, height: 36, backgroundColor: 'black', alignSelf: 'flex-end', borderRadius: 400, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25, }}>
-    <Image style={{ width: 16, height: 16 }} source={require('../assets/Images/whitearrow.png')} />
+      <View
+        style={{ width: 36, height: 36, backgroundColor: 'black', alignSelf: 'flex-end', borderRadius: 400, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25, }}>
+        <Image style={{ width: 16, height: 16 }} source={require('../assets/Images/whitearrow.png')} />
 
-</View> 
-   </PlaidLink>
+      </View>
+    </PlaidLink>
   );
 };
+
+export default MyPlaidComponent
+
+
 

@@ -25,7 +25,7 @@ const FinancialPlanStack = () => {
 
     return (
         <View style={{ flex: 1,backgroundColor:'white',paddingVertical:16 }}>
-            <SafeAreaView/>
+            <StatusBar backgroundColor={'white'} barStyle={'dark-content'}></StatusBar>
             <Stack.Navigator initialRouteName="FinancialParentScreen" screenOptions={{ headerShown: false }}>
 
 

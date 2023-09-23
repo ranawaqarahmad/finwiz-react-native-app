@@ -145,6 +145,7 @@ const FinancialParentScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <StatusBar backgroundColor={'white'} barStyle={'dark-content'}></StatusBar>
             <Progress.Bar unfilledColor='#F1F1F1' style={{ borderRadius: 0, borderWidth: 0, }} progress={progress} width={null} color="#9747FF" />
             <TouchableOpacity style={{marginHorizontal:16}}
                         >
