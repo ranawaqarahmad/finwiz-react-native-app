@@ -104,32 +104,37 @@ const WelcomeFinwiz = ({ navigation }) => {
     }, [setLinkToken]);
 
 
-    // const handleApiCall = async () => {
-
-    //     console.log('AuthToken is ', authToken);
-
-    //     fetch('https://api-finwiz.softsquare.io/api/user/plaid-auth', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Authorization': `Bearer ${authToken}`,
-    //             'Content-Type': 'application/json',
-    //         },
-
-    //     })
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
 
 
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //             // setLoader(false)
-    //         });
+    const publicTokenApiCall = async (publicToken) => {
+
+        console.log('AuthToken is ', authToken);
+
+        fetch('https://api-finwiz.softsquare.io/api/user/plaid-get-access-token', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },body: JSON.stringify({
+                public_token: publicToken,
+                
+            }),
+
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+
+            })
+            .catch((error) => {
+                console.log(error);
+                // setLoader(false)
+            });
 
 
 
-    // };
+    };
     // handleApiCall()
     React.useEffect(() => {
         if (linkToken == null) {
@@ -166,7 +171,7 @@ const WelcomeFinwiz = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={{ flex: 0.7, paddingHorizontal: 16 }}>
-                {steps.map((item, index) => <StepsComp errorShow2={errorShow2} errorShow={errorShow} index={index} error={errorText} comp={comp} navigate2={navigate2} key={index} linkToken={linkToken} onpress={toggleSelected} item={item} />)}
+                {steps.map((item, index) => <StepsComp publicTokenApiCall={publicTokenApiCall} errorShow2={errorShow2} errorShow={errorShow} index={index} error={errorText} comp={comp} navigate2={navigate2} key={index} linkToken={linkToken} onpress={toggleSelected} item={item} />)}
                                 </View>
                 {/* {MyPlaidComponent(linkToken)} */}
 

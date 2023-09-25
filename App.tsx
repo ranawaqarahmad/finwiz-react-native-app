@@ -49,14 +49,7 @@ function App() {
     getBasicInfoCompleteStatus()
     getUserId()
     getfinancialPlanCompletedStatus()
-    // clearAllData()
-
-    // if(await getPhoneVerified()&&await getNotificationEnabled()&&await getFaceIdVerified()){
-    //   dispatch(setAuthStackCompleted(true))
-    //   dispatch(setstack('WelcomeNav'))
-    //   dispatch(setWelcomeNavStatus(2))
-
-    // }
+  
   }
 
   getVerifications()

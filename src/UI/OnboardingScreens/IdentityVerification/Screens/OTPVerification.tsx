@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setAuthToken, setPhoneVerified, setTokenSaved, setUserId } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused, useRoute } from '@react-navigation/native';
-let otpCode = '';
+// let otpCode = '';
 
 const OTPVerification = ({ navigation }) => {
   const [otp, setOTP] = useState(['', '', '', '', '']);
@@ -14,12 +14,14 @@ const OTPVerification = ({ navigation }) => {
   const route = useRoute()
   const inputRefs = useRef([]);
   const [wordCount, setWordCount] = useState(0);
+  const [otpCode, setOtpCode] = useState('');
+
 
   const [loader, setLoader] = useState(false)
   const navigate = () => {
     navigation.navigate('FaceId');
   }
-  const { token, id,otpCodeCheck } = route.params;
+  const { token, id, otpCodeCheck } = route.params;
   const [isErrorVisible, setIsErrorVisible] = useState(false)
   const [errorText, setErrorText] = useState('')
   const isFocused = useIsFocused();
@@ -31,15 +33,16 @@ const OTPVerification = ({ navigation }) => {
     const newOTP = [...otp];
     newOTP[index] = value;
     setOTP(newOTP);
-    otpCode = otpCode.concat(value);
-
+    const newOtpCode = newOTP.join('');
+    setOtpCode(newOtpCode);
     // Move to the next input
     if (index < 4 && value !== '') {
       inputRefs.current[index + 1].focus();
     }
     console.log('======OTP========', otp.length);
-    console.log('======OTP========', otpCode.length);
-    if (otpCode.length >= 5) {
+    console.log('======OTP========', otpCode);
+    
+    if (otpCode.length >= 4) {
 
 
 
@@ -51,23 +54,26 @@ const OTPVerification = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if(isFocused){
-        setLoader(false)
+    if (isFocused) {
+      setLoader(false)
+      setOtpCode('')
+      setOTP(['', '', '', '', ''])
+
     }
 
 
     return () => {
-      
+
     };
   }, [isFocused]);
 
   const verifyOTP = async () => {
-    if(otpCode.length<5){
-      
-        setErrorText('OTP code can not be less then 5 digits')
-        setIsErrorVisible(true)
-        return
-    
+    if (otpCode.length < 4) {
+
+      setErrorText('OTP code can not be less then 5 digits')
+      setIsErrorVisible(true)
+      return
+
     }
 
     setLoader(true)
@@ -86,12 +92,12 @@ const OTPVerification = ({ navigation }) => {
         console.log(data.status);
         if (data.status) {
           console.log('PHONE VERIFIED');
-          
+
           savePhoneVerified('true')
           dispatch(setPhoneVerified(true))
           navigation.navigate('FaceId')
-         
-          
+
+
         } else {
           console.log('MESSAGE', data.message);
           setLoader(false)
@@ -118,9 +124,21 @@ const OTPVerification = ({ navigation }) => {
     }
   };
 
-  const handleBackspace = (index: number) => {
+  const handleBackspace = (index) => {
     if (index > 0 && otp[index] === '') {
+      // Clear the text of the previous TextInput
+      inputRefs.current[index - 1].setNativeProps({ text: '' });
+
+      // Focus on the previous TextInput
       inputRefs.current[index - 1].focus();
+
+      // Remove the last character from otpCode
+      const newOtp = [...otp];
+      newOtp[index - 1] = '';
+      setOTP(newOtp);
+      setOtpCode(newOtp.join(''));
+      console.log(otpCode);
+      
     }
   };
 
@@ -164,7 +182,7 @@ const OTPVerification = ({ navigation }) => {
                     borderTopRightRadius: 5,
                     borderTopLeftRadius: 5,
                     borderBottomWidth: 2,
-
+                    color: '#000000',
                     fontWeight: 'bold',
                     fontSize: 18,
                     backgroundColor: '#F3F4F6',
