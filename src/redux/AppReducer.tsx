@@ -55,6 +55,8 @@ const initialState = {
     notificationEnabled:false,
     authStackCompleted:false,
     questions:'',
+    answers:'',
+
     userId:0,
     syncAccountDone:false,
     setupBudgetPlanDone:false,
@@ -174,6 +176,9 @@ export const AppSlice = createSlice({
         setQuestions: (state, action) => {            
             state.questions = action.payload
         },
+        setAnswers: (state, action) => {            
+            state.answers = action.payload
+        },
         setUserId: (state, action) => {            
             state.userId = action.payload
         },
@@ -225,7 +230,8 @@ export const {
     setUserId,
     setFinancialInfoCompleted,
     setSyncAccountDone,
-    setSetupBudgetPlanDone
+    setSetupBudgetPlanDone,
+    setAnswers
 
 
 } = AppSlice.actions;

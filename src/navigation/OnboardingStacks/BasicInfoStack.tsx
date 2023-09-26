@@ -21,12 +21,12 @@ const BasicInfoStack = () => {
             <Stack.Navigator initialRouteName="Name" screenOptions={{ headerShown: false }}>
 
                 <Stack.Screen name="Name" component={Name} />
-                <Stack.Screen name="Dob" component={Dob} />
+                {/* <Stack.Screen name="Dob" component={Dob} />
                 <Stack.Screen name="Address" component={Address} />
                 <Stack.Screen name="EmployementStatus" component={EmployementStatus} />
                 <Stack.Screen name="YearsExp" component={YearsExp} />
                 <Stack.Screen name="Retire" component={Retire} />
-                <Stack.Screen name="SmartFinancialPlan" component={SmartFinancialPlan} />
+                <Stack.Screen name="SmartFinancialPlan" component={SmartFinancialPlan} /> */}
 
 
 

@@ -1,7 +1,7 @@
 import { Image, Text, View } from 'react-native';
 import { PlaidLink, LinkSuccess, LinkExit, LinkLogLevel, LinkIOSPresentationStyle } from 'react-native-plaid-link-sdk';
 
-const MyPlaidComponent = ({ linkToken, onpress,publicTokenApiCall }) => {
+const MyPlaidComponent = ({ linkToken, onpress, publicTokenApiCall }) => {
   return (
 
     <PlaidLink
@@ -15,7 +15,7 @@ const MyPlaidComponent = ({ linkToken, onpress,publicTokenApiCall }) => {
       onSuccess={(success: LinkSuccess) => {
         console.log('SUCCESS');
         onpress(0)
-        
+
 
         console.log(success.publicToken)
         publicTokenApiCall(success.publicToken)

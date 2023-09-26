@@ -1,8 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
-import { setBasicinfoCompleted, setFinancialInfoCompleted, setPhoneVerified, setUserId, setnotificationEnabled } from '../redux/AppReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthToken, setBasicinfoCompleted, setFinancialInfoCompleted, setPhoneVerified, setTokenSaved, setUserId, setWelcomeNavStatus, setnotificationEnabled, setstack } from '../redux/AppReducer';
+
+
 
 const dispatch = useDispatch()
+
+
+
 export const getServerURL = async () => {
   const environment = await AsyncStorage.getItem('environment');
   if (environment == 'dev') {
@@ -13,9 +18,6 @@ export const getServerURL = async () => {
     return 'https://api-finwiz.softsquare.io';
   }
 };
-
-
-
 
 export const getPhoneVerified = async () => {
   try {
@@ -114,7 +116,7 @@ export const getUserId = async () => {
   try {
     const savedNumber = await AsyncStorage.getItem('userId');
     const UserId = parseInt(savedNumber, 10);
-     // Replace 'key' with the actual key you used to store the data
+    // Replace 'key' with the actual key you used to store the data
     if (UserId != null) {
 
 
@@ -131,7 +133,7 @@ export const getUserId = async () => {
   }
 };
 
- export const clearAllData=async()=> {
+export const clearAllData = async () => {
   try {
     await AsyncStorage.clear();
     console.log('All AsyncStorage data has been cleared.');
@@ -140,7 +142,42 @@ export const getUserId = async () => {
   }
 }
 
-// Call the function to clear all data
+export const getToken = async (basicInfoCompleted,phoneVerified) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (token !== null) {
+      console.log('TOKEN IS THIS: ', token);
+      dispatch(setAuthToken(token))
+      dispatch(setTokenSaved(true))
+      console.log('BAISC INFO STACK COMPLETED', basicInfoCompleted);
+
+      if (basicInfoCompleted) {
+        if (phoneVerified) {
+          console.log('INSIDE WELCOME NAV NOW');
+          
+          dispatch(setWelcomeNavStatus(2))
+          dispatch(setstack('WelcomeNav'))
+        } else {
+          console.log('INSIDE AUTH NAV NOW');
+
+          // dispatch(setFinancialPlanScreen(1))
+          dispatch(setstack('AuthNav'))
+          // dispatch(setWelcomeNavStatus(1))
+        }
+
+
+      } else {
+
+        dispatch(setstack('BasicInfoStack'))
+      }
+    } else {
+      console.log('No data found in AsyncStorage.');
+    }
+  } catch (error) {
+    console.error('Error retrieving data: ', error);
+  }
+};
+
 
 
 

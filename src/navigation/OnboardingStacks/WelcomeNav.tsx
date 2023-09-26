@@ -38,7 +38,7 @@ const WelcomeNav = () => {
     return (
         <View style={{ flex: 1 }}>
             <Stack.Navigator
-                initialRouteName={welcomeNavStatus === 0 ? ("FirstScreen") : (welcomeNavStatus === 1 ? ("SmartFinancialPlan") : (welcomeNavStatus === 2 ? ("WelcomeFinwiz") : ('')))} screenOptions={{ headerShown: false }}>
+                initialRouteName={selector.welcomeNavStatus === 0 ? ("FirstScreen") : (selector.welcomeNavStatus === 1 ? ("SmartFinancialPlan") : (selector.welcomeNavStatus === 2 ? ("WelcomeFinwiz") : ('')))} screenOptions={{ headerShown: false }}>
 
                 <Stack.Screen name="SmartFinancialPlan" component={SmartFinancialPlan} />
                 <Stack.Screen name="WelcomeFinwiz" component={WelcomeFinwiz} />

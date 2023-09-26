@@ -28,130 +28,28 @@ import { setAuthStackCompleted, setAuthToken, setFaceIdVerified, setFinancialPla
 
 const Stack = createStackNavigator();
 
-const OnBoardNav = ({ stack, WelcomeScreen }) => {
+const OnBoardNav = ({ stack }) => {
 
 
     var phone: boolean, face: boolean, notification = false;
     const selector = useSelector(state => state.AppReducer);
     const currentStack = selector.stackinfo;
     const basicInfoCompleted = selector.basicInfoCompleted;
-    const financialInfoCompleted = selector.financialInfoCompleted;
-
-
     const tokenSaved = selector.tokenSaved;
     const authStackCompleted = selector.authStackCompleted;
-
+    const welcomeNavStatus = selector.welcomeNavStatus;
 
     const dispatch = useDispatch()
-    const getToken = async () => {
-        try {
-            const token = await AsyncStorage.getItem('token'); // Replace 'key' with the actual key you used to store the data
-            if (token !== null) {
-                console.log('TOKEN IS THIS: ', token);
-                dispatch(setAuthToken(token))
-                dispatch(setTokenSaved(true))
-                console.log('BAISC INFO STACK COMPLETED',basicInfoCompleted);
-                
-                if (basicInfoCompleted) { 
-                    if(financialInfoCompleted){
-                        dispatch(setFinancialPlanScreen(2))
-                        dispatch(setstack('WelcomeNav'))
-                        dispatch(setWelcomeNavStatus(1))
-                    }else{
-                        // dispatch(setFinancialPlanScreen(1))
-                        dispatch(setstack('AuthNav'))
-                        // dispatch(setWelcomeNavStatus(1))
-                    }
-                    
-                  
-                } else {
-                    
-                    dispatch(setstack('BasicInfoStack'))
-                }
-            } else {
-                console.log('No data found in AsyncStorage.');
-            }
-        } catch (error) {
-            console.error('Error retrieving data: ', error);
-        }
-    };
-    var phoneVerified
-    const getPhoneVerified = async () => {
-        try {
-            phoneVerified = await AsyncStorage.getItem('phoneVerified'); // Replace 'key' with the actual key you used to store the data
-            if (phoneVerified != null) {
-                console.log('Phone Verified in ONBOARD NAV IS THIS ', phoneVerified);
-                dispatch(setPhoneVerified(true))
-                phone = true
-            } else {
-                console.log('No data found in AsyncStorage.');
-            }
-        } catch (error) {
-            console.error('Error retrieving data: ', error);
-        }
-    };
-
-    const getFaceIdVerified = async () => {
-        try {
-            const faceIdVerified = await AsyncStorage.getItem('faceIdVerified'); // Replace 'key' with the actual key you used to store the data
-            if (faceIdVerified != null) {
-                console.log('FACE ID Verified in ONBOARD NAV IS THIS ', faceIdVerified);
-                dispatch(setFaceIdVerified(true))
-                face = true
-            } else {
-                console.log('No data found in AsyncStorage.');
-            }
-        } catch (error) {
-            console.error('Error retrieving data: ', error);
-        }
-    };
-
-    const getNotificationEnabled = async () => {
-        try {
-            const notificationEnabled = await AsyncStorage.getItem('notificationEnabledVerified'); // Replace 'key' with the actual key you used to store the data
-            if (notificationEnabled != null) {
-
-
-                console.log('notificationEnabled in ONBOARD NAV IS THIS ', notificationEnabled);
-                dispatch(setnotificationEnabled(true))
-                notification = true
-            } else {
-                console.log('No data found in AsyncStorage.');
-            }
-        } catch (error) {
-            console.error('Error retrieving data: ', error);
-        }
-    };
-
-
     const navigation = useNavigation()
     useEffect(() => {
 
-        if (phone && face && notification) {
-
-            console.log('AUTH STACK COMPLETED');
-
-            dispatch(setAuthStackCompleted(true))
-        } else {
-            console.log('These are the value ', phone, face, notification);
-
-        }
         console.log('STACK Changed', currentStack);
         navigation.reset({
             index: 0,
             routes: [{ name: currentStack }],
         });
-    }, [currentStack, tokenSaved, authStackCompleted, basicInfoCompleted]);
+    }, [currentStack, tokenSaved, authStackCompleted, basicInfoCompleted,welcomeNavStatus]);
 
-    useEffect(() => {
-
-
-        getToken()
-    }, [tokenSaved]);
-
-    // getPhoneVerified()
-    // getFaceIdVerified()
-    // getNotificationEnabled()
 
 
 
@@ -161,7 +59,7 @@ const OnBoardNav = ({ stack, WelcomeScreen }) => {
             <StatusBar backgroundColor={'white'} barStyle={'dark-content'}/>
 
             <Stack.Navigator
-                initialRouteName={currentStack}
+                initialRouteName={selector.stackinfo}
                 screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="BasicInfoStack" component={BasicInfoStack} />
                 <Stack.Screen name="FinancialPlanStack" component={FinancialPlanStack} />

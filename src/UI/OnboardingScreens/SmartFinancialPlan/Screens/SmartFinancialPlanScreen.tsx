@@ -2,13 +2,14 @@ import { SafeAreaView,View, Text, StatusBar, Image, TouchableOpacity, ActivityIn
 import React, { useState } from 'react'
 import StepsComp from '../Components/StepsComp'
 import { useDispatch, useSelector } from 'react-redux'
-import { setQuestions, setstack } from '../../../../redux/AppReducer'
+import { setAnswers, setQuestions, setstack } from '../../../../redux/AppReducer'
 
 const SmartFinancialPlanScreen = ({ navigation }) => {
 
     const [loader,setLoader]=useState(false)
     const selector = useSelector(state => state.AppReducer);
     const authToken = selector.authToken;
+    const dispatch=useDispatch()
 
     const handleApiCall = async () => {
 
@@ -43,29 +44,42 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
 
 
     };
-    const [steps, setsteps] = useState([
-        {
-            step: 'Step 1',
-            title: 'Sync Your Accounts',
-            description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected: false,
-            color: '#9747FF',
-            imgsrc: require('../../../../assets/Images/account.png')
-        },
-        {
-            step: 'Step 2',
-            title: 'Setup Your Budget Plan ',
-            description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected: false,
-            color: '#21014E',
-            imgsrc: require('../../../../assets/Images/logo.png')
-        },
-    ])
 
-    const dispatch=useDispatch()
-    const navigate = () => {
-        navigation.navigate('SmartFinancialPlanScreen')
-    }
+    const getUserAnsers = async () => {
+
+        setLoader(true)
+        fetch('https://api-finwiz.softsquare.io/api/user/get-user-question', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.status);
+                if (data.status) {
+                    console.log('Answers are this',data.data.user_question_answer);
+                    dispatch(setAnswers(data.data.user_question_answer))
+
+                } else {
+                    console.log('MESSAGE', data.message);
+                    setLoader(false)
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoader(false)
+            });
+
+
+
+    };
+   
+
+ 
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
              {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
@@ -94,6 +108,7 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
 
                     <TouchableOpacity
                         onPress={() => { 
+                            getUserAnsers()
                             handleApiCall()
                          }}
 

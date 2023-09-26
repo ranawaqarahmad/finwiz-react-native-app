@@ -7,20 +7,17 @@ import { store } from '../../../../redux/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignIn = ({ navigation }) => {
-
+    const selector = useSelector(state => state.AppReducer);
     const [password, setPassword] = useState('Profe$$ional789')
     const [email, setEmail] = useState('tamoormalik088@gmail.com')
     const [loader, setLoader] = useState(false)
-    const selector = useSelector(state => state.AppReducer);
-    const tokenSaved = selector.tokenSaved;
+    const basicInfoCompleted = selector.basicInfoCompleted;
+    const phoneVerified = selector.phoneVerified;
     const [isErrorVisible, setIsErrorVisible] = useState(false)
     const [errorText, setErrorText] = useState('')
 
 
-    if (tokenSaved) {
-        console.log(tokenSaved);
-        console.log('NAVIGATE DIRECTLY');
-    }
+   
     const handleSignIn = async () => {
 
         if(!email||!password){
@@ -42,15 +39,18 @@ const SignIn = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.status);
+                console.log('SIGN IN IS ',data.status);
                 if (data.status === true) {
-                    dispatch(setAuthToken(data.token))
 
                     console.log('TOKEN SAVED', data.token);
                     storeToken(data.token)
                     storeId(data.data.id)
+                    dispatch(setAuthToken(data.token))
                     dispatch(setTokenSaved(true))
                     dispatch(setUserId(data.data.id))
+                    // if(basicInfoCompleted&&phoneVerified){
+                    //     navigation.navigate('WelcomeFinwiz')
+                    // }
 
 
 
@@ -80,7 +80,7 @@ const SignIn = ({ navigation }) => {
 
         try {
             await AsyncStorage.setItem('token', token);
-            console.log('Token stored successfully.');
+            console.log('INSIDE SIGN IN','Token stored successfully.');
         } catch (error) {
             console.error('Error storing data: ', error);
         }

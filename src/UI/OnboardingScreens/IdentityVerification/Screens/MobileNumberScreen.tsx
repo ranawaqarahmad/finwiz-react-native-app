@@ -114,7 +114,7 @@ const MobileNumberScreen = ({ navigation }) => {
 
                     <StatusBar backgroundColor='white'></StatusBar>
                     <View>
-                        <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                        <TouchableOpacity onPress={() => { }}>
                             <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
                         </TouchableOpacity>

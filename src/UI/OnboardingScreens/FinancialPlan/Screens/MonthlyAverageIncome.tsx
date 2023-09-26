@@ -6,20 +6,29 @@ import { useSelector } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useIsFocused } from '@react-navigation/native'
 
-const MonthlyAverageoptions = ({ question, nextQuestion, setAnswerQuestion }) => {
+const MonthlyAverageoptions = ({answerIndex, question, nextQuestion, setAnswerQuestion }) => {
     const isFocused = useIsFocused();
     const [options, setOptions] = useState([])
     const selector = useSelector(state => state.AppReducer);
     const userId = selector.userId;
     const authToken = selector.authToken;
+    const answers = selector.answers;
+
+    console.log('ANSWER INDEX IS THIS',answerIndex);
+    
+
+
+
 
     // console.log('QUESTIONS ARRAY', question);
 
-    const array=question.options.map((item) => ({
+    const array = question.options.map((item,index) => ({
         title: item,
-        selected: false
+        selected:answerIndex==index?true: false
     }));
-    
+
+
+
 
 
     // console.log('ARRAY IS ', array);
@@ -59,6 +68,10 @@ const MonthlyAverageoptions = ({ question, nextQuestion, setAnswerQuestion }) =>
         // Update the state with the modified copy
         setLabeledArray(updatedEmployementTypes);
     };
+
+   
+
+    
 
     const navigate = () => {
 
@@ -118,9 +131,9 @@ const MonthlyAverageoptions = ({ question, nextQuestion, setAnswerQuestion }) =>
                 </View> :
                 <View style={{ width: '100%', height: '100%', paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }}>
                     <View>
-                       
 
-                        <View style={{ }}>
+
+                        <View style={{}}>
                             <Text style={{ fontSize: 16, fontWeight: '600', color: '#9747FF', }}>Financial Goals</Text>
                             <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>{question.question}</Text>
                             <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 7 }}>{question.i_e_text}</Text>

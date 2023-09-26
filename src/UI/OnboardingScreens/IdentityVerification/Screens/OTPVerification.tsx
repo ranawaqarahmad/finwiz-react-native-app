@@ -6,6 +6,7 @@ import { setAuthToken, setPhoneVerified, setTokenSaved, setUserId } from '../../
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused, useRoute } from '@react-navigation/native';
 // let otpCode = '';
+var newOtpCode ='';
 
 const OTPVerification = ({ navigation }) => {
   const [otp, setOTP] = useState(['', '', '', '', '']);
@@ -15,7 +16,6 @@ const OTPVerification = ({ navigation }) => {
   const inputRefs = useRef([]);
   const [wordCount, setWordCount] = useState(0);
   const [otpCode, setOtpCode] = useState('');
-
 
   const [loader, setLoader] = useState(false)
   const navigate = () => {
@@ -30,16 +30,18 @@ const OTPVerification = ({ navigation }) => {
   }
 
   const handleOTPChange = (index: number, value: string) => {
+    setErrorText('')
+    setIsErrorVisible(false)
     const newOTP = [...otp];
     newOTP[index] = value;
     setOTP(newOTP);
-    const newOtpCode = newOTP.join('');
+     newOtpCode = newOTP.join('');
     setOtpCode(newOtpCode);
     // Move to the next input
     if (index < 4 && value !== '') {
       inputRefs.current[index + 1].focus();
     }
-    console.log('======OTP========', otp.length);
+    // console.log('======OTP========', otp.length);
     console.log('======OTP========', otpCode);
     
     if (otpCode.length >= 4) {
@@ -59,6 +61,7 @@ const OTPVerification = ({ navigation }) => {
       setOtpCode('')
       setOTP(['', '', '', '', ''])
 
+      newOtpCode=''
     }
 
 
@@ -74,6 +77,21 @@ const OTPVerification = ({ navigation }) => {
       setIsErrorVisible(true)
       return
 
+    } 
+
+    console.log(otpCodeCheck);
+    console.log(newOtpCode);
+
+    
+    if(otpCodeCheck!=newOtpCode){
+      setErrorText('INCORRECT OTP Code')
+      setIsErrorVisible(true)
+      setLoader(false)
+      setOtpCode('')
+      setOTP(['', '', '', '', ''])
+      inputRefs.current[0].focus();
+      Keyboard.dismiss()
+      return
     }
 
     setLoader(true)
@@ -93,8 +111,7 @@ const OTPVerification = ({ navigation }) => {
         if (data.status) {
           console.log('PHONE VERIFIED');
 
-          savePhoneVerified('true')
-          dispatch(setPhoneVerified(true))
+          
           navigation.navigate('FaceId')
 
 

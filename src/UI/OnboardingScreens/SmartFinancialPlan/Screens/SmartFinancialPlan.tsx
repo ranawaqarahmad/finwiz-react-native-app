@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, ActivityIndi
 import React, { useState } from 'react'
 import PlanComp from '../Components/PlanComp'
 import { useDispatch, useSelector } from 'react-redux'
-import { setQuestions, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
+import { setQuestions, setWelcomeNavStatus, setstack ,setAnswers} from '../../../../redux/AppReducer'
 import { useRoute } from '@react-navigation/native'
 import FinancialPlanStack from '../../../../navigation/OnboardingStacks/FinancialPlanStack'
 import SmartFinancialPlanScreen from './SmartFinancialPlanScreen'
@@ -85,6 +85,39 @@ const SmartFinancialPlan = ({ navigation }) => {
 
     };
 
+    const getUserAnsers = async () => {
+
+        setLoader(true)
+        fetch('https://api-finwiz.softsquare.io/api/user/get-user-question', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.status);
+                if (data.status) {
+                    console.log('Answers are this',data);
+                    dispatch(setAnswers(data.data.user_question_answer))
+
+                } else {
+                    console.log('MESSAGE', data.message);
+                    setLoader(false)
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoader(false)
+            });
+
+
+
+    };
+
     return (
 
 
@@ -144,6 +177,7 @@ const SmartFinancialPlan = ({ navigation }) => {
                                 
                                 financialPlanScreen === 0 && (dispatch(setstack('BasicInfoStack')))
                                 financialPlanScreen === 1 && (
+                                    getUserAnsers(),
                                     handleApiCall()
 
                                 )

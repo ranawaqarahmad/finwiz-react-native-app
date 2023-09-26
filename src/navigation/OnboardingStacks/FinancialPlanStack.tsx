@@ -1,27 +1,20 @@
-import { View, Text, StatusBar, BackHandler } from 'react-native'
+import { View, Text, StatusBar, BackHandler,TouchableOpacity, Button } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
-import OTPVerification from '../../UI/OnboardingScreens/IdentityVerification/Screens/OTPVerification';
-import Name from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Name';
-import Dob from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Dob';
-import Address from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Address';
-import EmployementStatus from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/EmployementStatus';
-import YearsExp from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/YearsExp';
-import Retire from '../../UI/OnboardingScreens/BasicInfoScreens/Screens/Retire';
-import SmartFinancialPlan from '../../UI/OnboardingScreens/SmartFinancialPlan/Screens/SmartFinancialPlan';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import MonthlyAverageIncome from '../../UI/OnboardingScreens/FinancialPlan/Screens/MonthlyAverageIncome';
 import FormsOfIncome from '../../UI/OnboardingScreens/FinancialPlan/Screens/FormsOfIncome';
 import Dependants from '../../UI/OnboardingScreens/FinancialPlan/Screens/Dependants';
 import Property from '../../UI/OnboardingScreens/FinancialPlan/Screens/Property';
 import Mortage from '../../UI/OnboardingScreens/FinancialPlan/Screens/Mortage';
 import FinancialParentScreen from '../../UI/OnboardingScreens/FinancialPlan/Screens/FinancialParentScreen';
 import CircularProgress from '../../UI/OnboardingScreens/FinancialPlan/Screens/CircularProgress';
+import { useDispatch } from 'react-redux';
+import { setWelcomeNavStatus, setstack } from '../../redux/AppReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 
 const FinancialPlanStack = () => {
+
 
     return (
         <View style={{ flex: 1,backgroundColor:'white',paddingVertical:16 }}>
@@ -62,8 +55,26 @@ const FurtherApp=()=>{
         BackHandler.exitApp();
         return true; // Prevent default behavior (e.g., navigating back)
       });
+
+      const dispatch=useDispatch()
+
+       const clearAllData = async () => {
+        try {
+          await AsyncStorage.clear();
+          console.log('All AsyncStorage data has been cleared.');
+        } catch (error) {
+          console.error('Error clearing AsyncStorage data:', error);}
+        }
+        
+
     return(
         <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
+                <Text onPress={()=>{
+                    dispatch(setstack('WelcomeNav'))
+                    dispatch(setWelcomeNavStatus(0))
+                    clearAllData()
+
+                }} style={{color:'red',fontWeight:'bold',position:'absolute',right:16,top:16}}>LOGOUT</Text>
             <Text style={{textAlign:'center',fontSize:32,color:'black',fontWeight:'bold',padding:16}}>WELCOME TO FINWIZ APP</Text>
         </View>
     )
