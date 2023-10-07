@@ -83,16 +83,16 @@ const OTPVerification = ({ navigation }) => {
     console.log(newOtpCode);
 
     
-    if(otpCodeCheck!=newOtpCode){
-      setErrorText('INCORRECT OTP Code')
-      setIsErrorVisible(true)
-      setLoader(false)
-      setOtpCode('')
-      setOTP(['', '', '', '', ''])
-      inputRefs.current[0].focus();
-      Keyboard.dismiss()
-      return
-    }
+    // if(otpCodeCheck!=newOtpCode){
+    //   setErrorText('INCORRECT OTP Code')
+    //   setIsErrorVisible(true)
+    //   setLoader(false)
+    //   setOtpCode('')
+    //   setOTP(['', '', '', '', ''])
+    //   inputRefs.current[0].focus();
+    //   Keyboard.dismiss()
+    //   return
+    // }
 
     setLoader(true)
     fetch('https://api-finwiz.softsquare.io/api/user/verify-otp', {
@@ -110,6 +110,7 @@ const OTPVerification = ({ navigation }) => {
         console.log(data.status);
         if (data.status) {
           console.log('PHONE VERIFIED');
+          dispatch(setPhoneVerified(true))
 
           
           navigation.navigate('FaceId')

@@ -48,6 +48,7 @@ const initialState = {
     basicInfoCompleted: false,
     financialInfoCompleted: false,
 
+    btmNavVisibility:true,
     financialPlanComplete: false,
     identityVerificationComplete: false,
     phoneVerified: false,
@@ -60,6 +61,7 @@ const initialState = {
     userId:0,
     syncAccountDone:false,
     setupBudgetPlanDone:false,
+    accountId:'',
 
     
 
@@ -139,6 +141,9 @@ export const AppSlice = createSlice({
         setstack: (state, action) => {
             state.stackinfo = action.payload
         },
+        setBtmNavVisibility: (state, action) => {
+            state.btmNavVisibility = action.payload
+        },
         
         setnotificationEnabled: (state, action) => {
             state.notificationEnabled = action.payload
@@ -188,6 +193,9 @@ export const AppSlice = createSlice({
         setSetupBudgetPlanDone: (state, action) => {            
             state.setupBudgetPlanDone = action.payload
         },
+        setAccountId: (state, action) => {
+            state.accountId = action.payload
+        },
 
     },
 });
@@ -215,6 +223,7 @@ export const {
     //   ToastNumber,
     //   Setruncounter,
     //   LoadChats,
+    setBtmNavVisibility,
     setstack,
     setWelcomeScreen,
     setWelcomeNavStatus,
@@ -231,7 +240,8 @@ export const {
     setFinancialInfoCompleted,
     setSyncAccountDone,
     setSetupBudgetPlanDone,
-    setAnswers
+    setAnswers,
+    setAccountId
 
 
 } = AppSlice.actions;

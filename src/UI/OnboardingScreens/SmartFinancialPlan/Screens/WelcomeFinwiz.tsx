@@ -162,7 +162,7 @@ const WelcomeFinwiz = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log('ALL ANSWERS OF QUESTIONS', data);
+                // console.log('ALL ANSWERS OF QUESTIONS', data);
                 if (data.data.user_question_answer_count == data.data.total_questions) {
                     toggleSelected2(1)
                 }

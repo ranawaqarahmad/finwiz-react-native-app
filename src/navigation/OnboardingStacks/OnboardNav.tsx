@@ -28,7 +28,7 @@ import { setAuthStackCompleted, setAuthToken, setFaceIdVerified, setFinancialPla
 
 const Stack = createStackNavigator();
 
-const OnBoardNav = ({ stack }) => {
+const OnBoardNav = ({  }) => {
 
 
     var phone: boolean, face: boolean, notification = false;
@@ -43,7 +43,7 @@ const OnBoardNav = ({ stack }) => {
     const navigation = useNavigation()
     useEffect(() => {
 
-        console.log('STACK Changed', currentStack);
+        // console.log('STACK Changed', currentStack);
         navigation.reset({
             index: 0,
             routes: [{ name: currentStack }],
