@@ -11,12 +11,12 @@ const AddIncomeA = ({ controlModalVisibility }) => {
 
   const handlePressAddIncome = () => {
     controlModalVisibility()
-    navigation.navigate('AddIncomeB')
+    navigation.navigate('RecordExpense',{type:'Income'})
   }
   const handlePressRecordExpense = () => {
     controlModalVisibility()
 
-    navigation.navigate('RecordExpense')
+    navigation.navigate('RecordExpense',{type:'Expense'})
   }
   const handlePressAddNewCategory = () => {
     controlModalVisibility()

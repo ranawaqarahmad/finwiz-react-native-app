@@ -62,7 +62,7 @@ const CategoryDetails = () => {
                         </View>
 
                     </View>
-                    <TouchableOpacity onPress={handlePress}>
+                    <TouchableOpacity onPress={() => navigation.navigate('RecordExpense',{type:'null'})}>
                         <View style={{ borderWidth: 1, borderRadius: 33, width: 81, justifyContent: 'center', borderColor: '#F09F4B', height: 33, }}>
                             <Text style={{ textAlign: 'center', color: '#F09F4B', fontSize: 16, fontWeight: '500' }}>+Add</Text>
                         </View>
@@ -86,7 +86,7 @@ const CategoryDetails = () => {
                     <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#6B7280', flex: 1 }}>Finwiz Recommended limit is $300 for this category, based on your income and expenses</Text>
                 </View>
 
-                <TouchableOpacity onPress={() => navigation.navigate('EditCategory', { item: item })} style={{ marginTop: 12, borderRadius: 8, borderWidth: 1, borderColor: '#F09F4B', justifyContent: 'center', alignItems: 'center', paddingVertical: 8 }}>
+                <TouchableOpacity onPress={() => navigation.navigate('NewCategory', { items: item,editCategory:true })} style={{ marginTop: 12, borderRadius: 8, borderWidth: 1, borderColor: '#F09F4B', justifyContent: 'center', alignItems: 'center', paddingVertical: 8 }}>
                     <Text style={{ fontSize: 12, fontWeight: '600', color: '#F09F4B', flex: 1 }}>Edit Category
                     </Text>
                 </TouchableOpacity>
@@ -140,12 +140,14 @@ const CategoryDetails = () => {
 
                 {categoryDetails.user_category_pivots.map((item, index) => <View style={{ marginTop: 16, rowGap: 8 }} key={index}>
                     {item.category.sub_category.map((items, index) =>
-                 <View key={index}>
+                 <TouchableOpacity
+                 onPress={() => navigation.navigate('SubCategoryDetails', { basicDetails: items })}
+                  key={index}>
 
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
                             <Text style={{ fontSize: 16, fontWeight: '600', color: '#000' }}>{items.category}</Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('SubCategoryDetails', { basicDetails: items })}>
+                            <TouchableOpacity >
                                 <Image source={require('../../../../assets/Images/righthalfarrow.png')}
                                     style={{ height: 20, width: 20 }}
                                 />
@@ -153,7 +155,7 @@ const CategoryDetails = () => {
 
                         </View>
                         <Text style={{ marginTop: 3, fontSize: 14, fontWeight: '400' }}>{items.count} Transactions</Text>
-                    </View>
+                    </TouchableOpacity>
 
                     )}
                 </View>)}

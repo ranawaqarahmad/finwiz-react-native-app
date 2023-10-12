@@ -37,6 +37,8 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.mainview}>
+
+                <TouchableOpacity onPress={() => onClick(item)} activeOpacity={0.8}>
                 <View style={styles.upperview}>
                     <View style={{ justifyContent: 'center' }}>
                         <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: item.backgroundColor, borderRadius: 5 }}>
@@ -49,18 +51,36 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
                         <Text style={{ fontSize: 16, fontWeight: '600', color: 'black', paddingLeft: 12 }}>{item.category_name}</Text>
                     </View>
 
-                    <TouchableOpacity onPress={() => {
-                        console.log('PRESSED');
+                    <View style={{ flexDirection: 'row' }}>
+                        {item.fixed == 1 && (
+                            <TouchableOpacity onPress={() => {
+                                console.log('PRESSED');
 
-                        openSheet(item)
-                    }} style={{ justifyContent: 'center', flexDirection: 'row', alignSelf: 'center', }}>
+                                openSheet(item)
+                            }} style={{ padding:2,justifyContent: 'center', flexDirection: 'row', alignSelf: 'center', }}>
 
-                        <Image source={require('../../../../assets/Images/verticaldots.png')}
-                            style={{ height: 20, width: 20, }}
-                            resizeMode='contain'
-                        />
+                                <Image source={require('../../../../assets/Images/lock.png')}
+                                    style={{ height: 20, width: 20, }}
+                                    resizeMode='contain'
+                                />
 
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                        )}
+
+                        <TouchableOpacity  onPress={() => {
+                            console.log('PRESSED');
+
+                            openSheet(item)
+                        }} style={{ justifyContent: 'center',padding:2, flexDirection: 'row', alignSelf: 'center', }}>
+
+                            <Image source={require('../../../../assets/Images/verticaldots.png')}
+                                style={{ height: 20, width: 20, }}
+                                resizeMode='contain'
+                            />
+
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
                 <View style={styles.view2}>
@@ -82,6 +102,7 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
                         </View>
                     </View>
                 </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => openView(index)} style={{
                     flexDirection: 'row', borderBottomLeftRadius: 8,
@@ -146,7 +167,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         padding: 16,
-       
+
         elevation: 10,
         marginHorizontal: 16,
     },

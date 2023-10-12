@@ -3,21 +3,25 @@ import React, { useEffect, useState } from 'react'
 import DetailedCard from '../Components/DetailedCard';
 import * as Progress from 'react-native-progress';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import SliderCompo from '../Components/SliderCompo';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBtmNavVisibility } from '../../../../redux/AppReducer';
+import MultiSliderComponent from '../Components/MultiSliderComponent';
 
 const EditCategory = ({ }) => {
+  const [errorVisible, setErrorVisible] = useState(false)
+  const [errorText, setErrorText] = useState('')
   const navigation = useNavigation()
   const route = useRoute();
   const selector = useSelector(state => state.AppReducer);
   const authToken = selector.authToken;
   const { item } = route.params;
+  console.log('This is the data we are getting in edit category', item);
+
   const [categoryDetails, setCategoryDetails] = useState();
   const [progress, setProgress] = useState(0);
   const [loader, setLoader] = useState(true)
 
-  const [spendingLimit,setSpendingLimit]=useState('50')
+  const [spendingLimit, setSpendingLimit] = useState(item.limitation)
   useEffect(() => {
     console.log('ITEM IS======================', item);
 
@@ -27,7 +31,7 @@ const EditCategory = ({ }) => {
   }, [item]);
 
   const dispatch = useDispatch()
-  
+
 
   useEffect(() => {
 
@@ -64,7 +68,7 @@ const EditCategory = ({ }) => {
 
 
 
-    
+
   }
 
 
@@ -87,7 +91,7 @@ const EditCategory = ({ }) => {
       limitation: spendingLimit
     }));
     console.log(categoryDetails.category_name);
-    console.log('Spending limit is  =========================== ',convertStringToNumber(spendingLimit));
+    console.log('Spending limit is  =========================== ', convertStringToNumber(spendingLimit));
     console.log([categoryDetails.category_id]);
     const userCategories = []
     categoryDetails.user_category_pivots.map((item, index) => {
@@ -107,13 +111,25 @@ const EditCategory = ({ }) => {
         body: JSON.stringify({
           category_name: categoryDetails.category_name,
           limitation: convertStringToNumber(spendingLimit),
-          category_id: userCategories
+          fixed: item.fixed
+
         }),
       }).then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          // setLoader(false)
-          navigation.navigate('HomeScreen')
+
+          console.log('Data is ', data);
+
+
+          if (data.status == 'true') {
+            console.log(data);
+            navigation.navigate('HomeScreen')
+
+          } else {
+            setLoader(false)
+            setErrorText(data.message)
+            setErrorVisible(true)
+          }
+
 
         })
         .catch((error) => {
@@ -195,8 +211,10 @@ const EditCategory = ({ }) => {
                 <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#1F2A37' }}>{'$'}{spendingLimit}</Text>
               </View>
 
-              <View style={{ flexDirection: 'row' }}>
-                <SliderCompo onChangeSlider={onChangeSlider} item={categoryDetails} />
+
+              <View style={{ alignItems: 'center' }}>
+
+                <MultiSliderComponent onChangeSlider={onChangeSlider} item={categoryDetails} />
 
               </View>
 
@@ -213,6 +231,8 @@ const EditCategory = ({ }) => {
                 </View> */}
               </View>
             </View>
+            {errorVisible && <Text style={{ color: 'red', fontWeight: '400', margin: 16 }}>{errorText}</Text>}
+
 
             {/* <TouchableOpacity onPress={() => { openView() }} style={{
               flexDirection: 'row', borderBottomLeftRadius: 8,

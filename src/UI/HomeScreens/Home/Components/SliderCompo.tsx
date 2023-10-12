@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
 import Slider from '@react-native-community/slider';
 import CategoryDetails from '../Screens/CategoryDetails';
+import MultiSlider from '@ptomasroos/react-native-multi-slider'
+
 
 const SliderCompo = ({ onChangeSlider, item }) => {
   var maxvalue, value;
-  console.log('=============================',item);
+  console.log('=============================', item);
 
 
   const convertStringToNumber = (str) => {
-    console.log('=============================',item);
-    
-    // Use parseFloat() to convert to a floating-point number
+    console.log('=============================', item);
+
     return parseFloat(str);
   };
 
@@ -21,9 +22,9 @@ const SliderCompo = ({ onChangeSlider, item }) => {
   useEffect(() => {
     maxvalue = convertStringToNumber(item.limitation * 2);
     value = convertStringToNumber(item.limitation);
-    console.log(maxvalue,value);
-    
-    
+    console.log(maxvalue, value);
+
+
   }, [])
 
 
@@ -37,23 +38,26 @@ const SliderCompo = ({ onChangeSlider, item }) => {
   };
 
 
-  console.log('OUTSIDE   ',maxvalue+value);
+  console.log('OUTSIDE   ', maxvalue + value);
 
 
   return (
 
+
     <Slider
-      style={{ flex: 1, height: 40 }}
+      style={{ flex: 1, height: 40,width:'100%' }}
       minimumValue={0}
       maximumValue={maxvalue?maxvalue:convertStringToNumber(item.limitation * 2)}
       value={value?value:convertStringToNumber(item.limitation)}
-      minimumTrackTintColor="#000000"
+      minimumTrackTintColor='black'
       maximumTrackTintColor="grey"
       thumbTintColor='black'
       onValueChange={onChangeSlider}
 
 
     />
+
+
 
   );
 };

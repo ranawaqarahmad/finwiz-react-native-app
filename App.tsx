@@ -252,13 +252,6 @@ function App() {
     getfinancialPlanCompletedStatus()
     getPhoneVerified()
     getToken(basicInfoCompleted, phoneVerified)
-    // if (authToken) {
-    //   authUser()
-
-    // }
-    // clearAllData()
-
-
   }
 
   useEffect(() => {

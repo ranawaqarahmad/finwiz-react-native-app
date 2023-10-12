@@ -6,6 +6,7 @@ import ToggleSwitch from 'toggle-switch-react-native';
 import CategoryDetails from '../../../HomeScreens/Home/Screens/CategoryDetails';
 import ChooseCategory from './ChooseCategory';
 import { useSelector } from 'react-redux';
+import MultiSliderComponent from '../../../HomeScreens/Home/Components/MultiSliderComponent';
 
 const NewCategory = () => {
   const route = useRoute()
@@ -39,7 +40,7 @@ const NewCategory = () => {
 
     setSpendingLimit(roundedValue);
   }
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(items.fixed==1?true:false);
   const toggleSwitch = () => {
     console.log(isEnabled);
 
@@ -97,8 +98,9 @@ const NewCategory = () => {
         body: JSON.stringify({
           category_name: categoryName,
           limitation: convertStringToNumber(spendingLimit),
-          category_id: [id],
+          fixed:isEnabled?1:0
 
+          
         }),
       }).then((response) => response.json())
         .then((data) => {
@@ -243,8 +245,8 @@ const NewCategory = () => {
              </View>
            </View>
  
-           <View style={{ flexDirection: 'row' }}>
-             <SliderCompo onChangeSlider={onChangeSlider} item={item} />
+           <View style={{ flexDirection: 'row',alignSelf:'center',width:'100%',justifyContent:'center'}}>
+             <MultiSliderComponent onChangeSlider={onChangeSlider} item={item} />
  
            </View>
  

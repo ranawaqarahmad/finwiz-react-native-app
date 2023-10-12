@@ -16,7 +16,7 @@ const HomeScreen = () => {
   useEffect(() => {
 
     console.log('USE EFFECT');
-    
+
     setTotalBalance(0)
     setAvailableBalance(0)
 
@@ -177,6 +177,46 @@ const HomeScreen = () => {
     // },
   ])
 
+  const lockCategory = async (items) => {
+    setCategoryLoader(true)
+
+
+
+    console.log(items);
+
+    try {
+      await fetch(`https://api-finwiz.softsquare.io/api/user/user-categories/${items.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          category_name: items.category_name,
+          limitation: convertStringToNumber(items.limitation),
+          fixed: 1
+
+
+        }),
+      }).then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          console.log(data);
+          getCategories()
+          closeSheet()
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+
+    }
+    catch (error) {
+      console.error(error);
+    }
+  };
+
   const getCategories = async () => {
     setCategoryLoader(true)
     // console.log('AuthToken is ', authToken);
@@ -227,7 +267,7 @@ const HomeScreen = () => {
     console.log('AUTH USER IS ACTIVE');
     console.log('AUTH USER IS ACTIVE');
 
-    
+
     setTotalBalance(0)
     setCategoryLoader(true)
     // console.log('AuthToken is ', authToken);
@@ -380,22 +420,22 @@ const HomeScreen = () => {
       </View>
       {/* top bar ends */}
       <BottomSheet
-          ref={bottomSheetRef}
-          height={250} // Adjust the height according to your requirements
-          duration={250} // Animation duration in milliseconds
-          closeOnDragDown={true}
-          closeOnPressMask={true}
-          customStyles={{
-            container: {
+        ref={bottomSheetRef}
+        height={200} // Adjust the height according to your requirements
+        duration={250} // Animation duration in milliseconds
+        closeOnDragDown={true}
+        closeOnPressMask={true}
+        customStyles={{
+          container: {
 
-              borderTopLeftRadius: 32,
-              borderTopRightRadius: 32,
+            borderTopLeftRadius: 32,
+            borderTopRightRadius: 32,
 
-            }
-          }}
-        >
-          <MenuComponent menuItem={menuItem} onDelete={onDelete} onEdit={onEdit} onMerge={onMerge} />
-        </BottomSheet>
+          }
+        }}
+      >
+        <MenuComponent lockCategory={lockCategory} menuItem={menuItem} onDelete={onDelete} onEdit={onEdit} onMerge={onMerge} />
+      </BottomSheet>
       <ScrollView style={styles.mainview}>
 
 
@@ -487,7 +527,7 @@ const HomeScreen = () => {
 
 
 
-       
+
 
       </ScrollView>
       {/* mainview ends */}
