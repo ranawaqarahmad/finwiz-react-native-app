@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView, StatusBar, Modal } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView, StatusBar, Modal, Dimensions } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import EditCategory from './EditCategory'
+import { LineChart } from 'react-native-chart-kit'
 
 const CategoryDetails = () => {
     const navigation = useNavigation()
@@ -17,6 +18,11 @@ const CategoryDetails = () => {
         item)
     return (
         <SafeAreaView style={styles.container}>
+
+            <View>
+
+
+            </View>
             <StatusBar backgroundColor={'#FFFFFF'} barStyle={'dark-content'} />
             <ScrollView contentContainerStyle={{ padding: 16, }} style={styles.mainview}>
                 {/* BACK ARROW AND MONTH STARTS*/}
@@ -62,7 +68,7 @@ const CategoryDetails = () => {
                         </View>
 
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('RecordExpense',{type:'null'})}>
+                    <TouchableOpacity onPress={() => navigation.navigate('RecordExpense', { type: 'null' })}>
                         <View style={{ borderWidth: 1, borderRadius: 33, width: 81, justifyContent: 'center', borderColor: '#F09F4B', height: 33, }}>
                             <Text style={{ textAlign: 'center', color: '#F09F4B', fontSize: 16, fontWeight: '500' }}>+Add</Text>
                         </View>
@@ -86,27 +92,69 @@ const CategoryDetails = () => {
                     <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#6B7280', flex: 1 }}>Finwiz Recommended limit is $300 for this category, based on your income and expenses</Text>
                 </View>
 
-                <TouchableOpacity onPress={() => navigation.navigate('NewCategory', { items: item,editCategory:true })} style={{ marginTop: 12, borderRadius: 8, borderWidth: 1, borderColor: '#F09F4B', justifyContent: 'center', alignItems: 'center', paddingVertical: 8 }}>
+                <TouchableOpacity onPress={() => navigation.navigate('NewCategory', { items: item, editCategory: true })} style={{ marginTop: 12, borderRadius: 8, borderWidth: 1, borderColor: '#F09F4B', justifyContent: 'center', alignItems: 'center', paddingVertical: 8 }}>
                     <Text style={{ fontSize: 12, fontWeight: '600', color: '#F09F4B', flex: 1 }}>Edit Category
                     </Text>
                 </TouchableOpacity>
                 {/* Spending Limit Text */}
 
                 {/* Edit Category Starts */}
-                <View style={{ height: 232, width: '100%', marginTop: 15, padding: 13, borderColor: '#D1D1D1', borderWidth: 1, borderRadius: 8 }}>
-                    <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginBottom: 7 }}>Spending Summary</Text>
-                    <View style={{ height: 180, width: '100%' }}>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928', marginBottom: 20 }}>{'$'}{categoryDetails.limitation}</Text>
-                        <View style={{ borderWidth: 1, borderStyle: 'dashed', position: 'relative', borderColor: '#9CA3AF' }}></View>
-                        <Image source={require('../../../../assets/Images/graphline.png')}
-                            resizeMode='contain'
-                            style={{ height: 130, width: 315, position: 'absolute' }}
-                        />
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: -15 }}>
-                        <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 1</Text>
-                        <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>30</Text>
+                <View style={{ height: 280, paddingVertical: 8, width: '100%', marginTop: 15, borderColor: '#D1D1D1', borderWidth: 1, borderRadius: 8 }}>
+                    <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginBottom: 7, marginHorizontal: 16 }}>Spending Summary</Text>
 
+                    <LineChart
+                        data={{
+                            labels: ["1", "30","1", "30","1", "30","1", "30","1", "30","1", "30","1", "30"],
+                            datasets: [
+                                {
+                                    data: [0,  item.manual_spending]
+                                },
+                                {
+                                    data: [item.limitation],
+                                    color: () =>item.backgroundColor ,
+                                    strokeWidth: 1,
+                                    withDots: false,
+
+
+                                },
+
+                            ]
+                        }}
+                        width={Dimensions.get('window').width - 64}
+                        height={200}
+
+                        style={{ marginHorizontal: 8, paddingRight:0,marginTop:25 }}
+                        withOuterLines={false} // Hide outer lines
+                        withHorizontalLabels={false} // Hide horizontal labels
+                        withHorizontalLines={false} // Hide horizontal grid lines
+                        withVerticalLines={false} // Show vertical grid lines
+                        withVerticalLabels={false} // Hide vertical labels
+                        withDots={false} // Hide data points dots
+                        withShadow={false}
+
+
+                        bezier={true}
+                        chartConfig={{
+                            backgroundGradientFrom: 'white',
+                            backgroundGradientTo: 'white',
+
+                            fillShadowGradient: 'white',
+                            backgroundColor: 'white',
+                            color: (opacity = 1) => item.backgroundColor, // Change color here
+                        }}
+                    />
+
+                    <View style={{ position: 'absolute', width: '90%' }}>
+                        <View style={{ width: '100%', marginTop: 32, flex: 1, height: 180, marginHorizontal: 16 }}>
+                            <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928', marginBottom: 20 }}>{'$'}{categoryDetails.limitation}</Text>
+                            <View style={{ borderWidth: 1, borderStyle: 'dashed', borderColor: '#9CA3AF', width: '100%' }}></View>
+
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 24, marginHorizontal: 16 }}>
+                            <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 1</Text>
+                            <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 30</Text>
+
+                        </View>
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', width: '100%', marginTop: 8 }}>
@@ -140,22 +188,22 @@ const CategoryDetails = () => {
 
                 {categoryDetails.user_category_pivots.map((item, index) => <View style={{ marginTop: 16, rowGap: 8 }} key={index}>
                     {item.category.sub_category.map((items, index) =>
-                 <TouchableOpacity
-                 onPress={() => navigation.navigate('SubCategoryDetails', { basicDetails: items })}
-                  key={index}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('SubCategoryDetails', { basicDetails: items })}
+                            key={index}>
 
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-                            <Text style={{ fontSize: 16, fontWeight: '600', color: '#000' }}>{items.category}</Text>
-                            <TouchableOpacity >
-                                <Image source={require('../../../../assets/Images/righthalfarrow.png')}
-                                    style={{ height: 20, width: 20 }}
-                                />
-                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+                                <Text style={{ fontSize: 16, fontWeight: '600', color: '#000' }}>{items.category}</Text>
+                                <TouchableOpacity >
+                                    <Image source={require('../../../../assets/Images/righthalfarrow.png')}
+                                        style={{ height: 20, width: 20 }}
+                                    />
+                                </TouchableOpacity>
 
-                        </View>
-                        <Text style={{ marginTop: 3, fontSize: 14, fontWeight: '400' }}>{items.count} Transactions</Text>
-                    </TouchableOpacity>
+                            </View>
+                            <Text style={{ marginTop: 3, fontSize: 14, fontWeight: '400' }}>{items.count} Transactions</Text>
+                        </TouchableOpacity>
 
                     )}
                 </View>)}
