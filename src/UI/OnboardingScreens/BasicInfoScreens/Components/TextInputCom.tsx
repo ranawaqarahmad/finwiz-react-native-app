@@ -12,7 +12,7 @@ const TextInputCom = ({errorInvisible, placeholder, text, setText,startImageSrc,
             console.log(text);
             
             errorInvisible()
-            setText(text) }} placeholder={placeholder} style={{  flex:1,fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8,  padding: 10 }}></TextInput>
+            setText(text) }} placeholderTextColor={'grey'} placeholder={placeholder} style={{  flex:1,fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8,  padding: 10 }}></TextInput>
         </View>
     )
 }

@@ -2,24 +2,26 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StatusBar, View, TouchableOpacity, Text, StyleSheet, SafeAreaView, ScrollView, Image, ImageBackground, FlatList, ActivityIndicator } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import DetailedCard from '../Components/DetailedCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BottomSheet from "react-native-raw-bottom-sheet";
 import MenuComponent from '../Components/MenuComponent';
+import { setAccountId, setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSyncAccountDone, setTokenSaved, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const navigation = useNavigation()
   const selector = useSelector(state => state.AppReducer);
   const authToken = selector.authToken;
+  const accountId = selector.accountId;
+
   const [categoryLoader, setCategoryLoader] = useState(false)
 
   const isFocused = useIsFocused()
   useEffect(() => {
 
-    console.log('USE EFFECT');
 
     setTotalBalance(0)
     setAvailableBalance(0)
-
     getCategories()
     authUser()
     closeSheet()
@@ -220,8 +222,10 @@ const HomeScreen = () => {
   const getCategories = async () => {
     setCategoryLoader(true)
     // console.log('AuthToken is ', authToken);
+    // console.log('Account ID is ', accountId);
 
-    fetch(`https://api-finwiz.softsquare.io/api/user/user-all-categories/vdaWNKxMroSqBXWpz33AH8Ez4vb7qJCqGK1bL`, {
+
+    fetch(`https://api-finwiz.softsquare.io/api/user/user-all-categories/${selector.accountId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -246,7 +250,7 @@ const HomeScreen = () => {
       })
       .catch((error) => {
         console.log(error);
-        // setLoader(false)
+        setCategoryLoader(false)
       });
 
 
@@ -259,13 +263,7 @@ const HomeScreen = () => {
   };
   const authUser = async () => {
 
-    console.log('AUTH USER IS ACTIVE');
-    console.log('AUTH USER IS ACTIVE');
-    console.log('AUTH USER IS ACTIVE');
-    console.log('AUTH USER IS ACTIVE');
-    console.log('AUTH USER IS ACTIVE');
-    console.log('AUTH USER IS ACTIVE');
-    console.log('AUTH USER IS ACTIVE');
+   
 
 
     setTotalBalance(0)
@@ -384,6 +382,23 @@ const HomeScreen = () => {
 
 
   }
+  const dispatch = useDispatch()
+  const clearAllData = async () => {
+    dispatch(setBasicinfoCompleted(false))
+    dispatch(setPhoneVerified(false))
+    dispatch(setSyncAccountDone(false))
+    dispatch(setAuthToken(null))
+    dispatch(setTokenSaved(false))
+    dispatch(setAccountId(''))
+
+    try {
+      await AsyncStorage.clear();
+      console.log('All AsyncStorage data has been cleared.');
+    } catch (error) {
+      console.error('Error clearing AsyncStorage data:', error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* mainview starts */}
@@ -399,7 +414,17 @@ const HomeScreen = () => {
           />
         </View>
 
-        <View style={{ width: '24%', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+
+          <Text onPress={() => {
+            console.log('LOGOUT PRESSED');
+            dispatch(setAuthToken(null))
+            
+            dispatch(setstack('WelcomeNav'))
+            dispatch(setWelcomeNavStatus(0))
+            clearAllData()
+          }
+          } style={{ marginEnd: 16, fontWeight: 'bold', color: 'red' }}>logout</Text>
           {/* BELLICON STARTS */}
           <TouchableOpacity>
             <View style={{ height: 33, width: 33, borderRadius: 20, backgroundColor: '#E5E7EB', alignSelf: 'center', justifyContent: 'center' }}>
@@ -534,7 +559,7 @@ const HomeScreen = () => {
 
 
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 

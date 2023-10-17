@@ -1,13 +1,55 @@
-import { View, Text, StatusBar, Image } from 'react-native'
+import { View, Text, StatusBar, Image, Alert, BackHandler } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import StepsComp from '../Components/StepsComp'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSetupBudgetPlanDone, setSyncAccountDone, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import { setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSetupBudgetPlanDone, setSyncAccountDone, setTokenSaved, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WelcomeFinwiz = ({ navigation }) => {
     // const [linkToken, setLinkToken] = useState(null)
+
+
+
+    const showAlert = () => {
+        Alert.alert(
+            'Are You Sure',       // Title of the alert
+            'Are you sure you want to quit the app?',     // Message of the alert
+            [
+                {
+                    text: 'OK',       // Button text
+                    onPress: () => {
+                        BackHandler.exitApp(); // Exit the app
+                        console.log('OK button pressed');
+                    },
+                },
+                {
+                    text: 'Cancel',
+                    onPress: () => {
+                        // Action to perform when the user clicks the "Cancel" button
+                        console.log('Cancel button pressed');
+                    },
+                    style: 'cancel',
+                },
+            ],
+            { cancelable: false } // Set to false to prevent dismissing the alert by tapping outside
+        );
+    };
+
+    React.useEffect(() => {
+        const backAction = () => {
+            // Handle what you want to do when the user tries to go back
+            showAlert(); // Display the alert when the user presses the back button
+            return true; // Return true to block the back action.
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
     var authToken: any;
     const [linkToken, setLinkToken] = useState(null)
     const [errorText, setErrorText] = useState('')
@@ -17,7 +59,7 @@ const WelcomeFinwiz = ({ navigation }) => {
 
     const selector = useSelector(state => state.AppReducer);
     authToken = selector.authToken;
-    console.log('AUTH TOKEN IN WELCOME FINWIZ IS THIS ', authToken);
+    // console.log('AUTH TOKEN IN WELCOME FINWIZ IS THIS ', authToken);
 
 
     const [steps, setsteps] = useState([
@@ -58,6 +100,17 @@ const WelcomeFinwiz = ({ navigation }) => {
         dispatch(setSetupBudgetPlanDone(true))
         setErrorText('')
         setComp(-1)
+
+
+
+        console.log('selector.authToken', selector.authToken);
+        console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
+        console.log('selector.phoneVerified', selector.phoneVerified);
+        console.log('selector.syncAccountDone ', selector.syncAccountDone);
+        console.log('selector.accountId ', selector.accountId);
+        console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
+
+
     };
 
     const errorShow = () => {
@@ -120,7 +173,7 @@ const WelcomeFinwiz = ({ navigation }) => {
 
     const checkPlaidSignIn = async () => {
 
-        console.log('AuthToken is ', authToken);
+        // console.log('AuthToken is ', authToken);
 
         fetch('https://api-finwiz.softsquare.io/api/user/auth-user', {
             method: 'GET',
@@ -150,7 +203,7 @@ const WelcomeFinwiz = ({ navigation }) => {
 
     const checkUserQuestionAnswers = async () => {
 
-        console.log('AuthToken is ', authToken);
+        // console.log('AuthToken is ', authToken);
 
         fetch('https://api-finwiz.softsquare.io/api/user/get-user-question', {
             method: 'GET',
@@ -169,6 +222,8 @@ const WelcomeFinwiz = ({ navigation }) => {
 
 
 
+
+
             })
             .catch((error) => {
                 console.log(error);
@@ -182,7 +237,7 @@ const WelcomeFinwiz = ({ navigation }) => {
 
     const publicTokenApiCall = async (publicToken) => {
 
-        console.log('AuthToken is ', authToken);
+        // console.log('AuthToken is ', authToken);
 
         fetch('https://api-finwiz.softsquare.io/api/user/plaid-get-access-token', {
             method: 'POST',
@@ -265,6 +320,11 @@ const WelcomeFinwiz = ({ navigation }) => {
                 <Text onPress={() => {
                     dispatch(setstack('WelcomeNav'))
                     dispatch(setWelcomeNavStatus(0))
+                    dispatch(setBasicinfoCompleted(false))
+                    dispatch(setPhoneVerified(false))
+                    dispatch(setSyncAccountDone(false))
+                    dispatch(setAuthToken(null))
+                    dispatch(setTokenSaved(false))
                     clearAllData()
 
                 }} style={{ elevation: 5, color: 'white', fontWeight: 'bold', position: 'absolute', right: 16, top: 16 }}>LOGOUT</Text>

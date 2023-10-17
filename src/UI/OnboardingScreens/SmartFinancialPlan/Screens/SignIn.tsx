@@ -1,7 +1,7 @@
 import { TouchableWithoutFeedback, View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthToken, setState, setTokenSaved, setUserId, setstack } from '../../../../redux/AppReducer';
+import { setAccountId, setAuthToken, setState, setTokenSaved, setUserId, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '../../../../redux/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -46,7 +46,6 @@ const SignIn = ({ navigation }) => {
                     storeToken(data.token)
                     storeId(data.data.id)
                     dispatch(setAuthToken(data.token))
-                    dispatch(setTokenSaved(true))
                     dispatch(setUserId(data.data.id))
                     // if(basicInfoCompleted&&phoneVerified){
                     //     navigation.navigate('WelcomeFinwiz')
@@ -75,6 +74,8 @@ const SignIn = ({ navigation }) => {
 
 
     };
+
+ 
 
     const storeToken = async (token: string) => {
 
@@ -125,7 +126,7 @@ const SignIn = ({ navigation }) => {
                                     setIsErrorVisible(false)
                                     setEmail(text)
                                 }}
-                                    placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
+                                    placeholder='Email' placeholderTextColor={'grey'} style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
                                 <TextInput value={password}
                                     onChangeText={(text) => {
                                         setErrorText('')
@@ -133,6 +134,7 @@ const SignIn = ({ navigation }) => {
                                         setPassword(text)
                                     }}
                                     secureTextEntry={true}
+                                    placeholderTextColor={'grey'}
                                     placeholder='Password' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginTop: 9, padding: 10 }}></TextInput>
                             </View>
 
@@ -140,44 +142,7 @@ const SignIn = ({ navigation }) => {
                             {isErrorVisible && (<Text style={{ color: 'red', fontWeight: '400', marginTop: 8 }}>{errorText}</Text>)}
 
 
-                            {/* <View style={{ marginTop: 25 }}>
-          <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>Password Strength</Text>
-          {pass === 'strong' && (
-              <View style={{ flexDirection: 'row', marginTop: 12 }}>
-  
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66', marginHorizontal: 4 }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
-              </View>
-          )}
-          {pass === 'weak' && (
-              <View style={{ flexDirection: 'row', marginTop: 12 }}>
-  
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#E60E0E' }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB', marginHorizontal: 4 }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-              </View>
-          )}
-          {pass === 'medium' && (
-              <View style={{ flexDirection: 'row', marginTop: 12 }}>
-  
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#31EE66' }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#E60E0E', marginHorizontal: 4 }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-              </View>
-          )}
-          {pass === 'default' && (
-              <View style={{ flexDirection: 'row', marginTop: 12 }}>
-  
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB', marginHorizontal: 4 }}></View>
-                  <View style={{ height: 3, flex: 1, backgroundColor: '#F9FAFB' }}></View>
-              </View>
-          )}
-  
-          <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginTop: 18 }}>Password must be a minimum of 8 characters, include one letter one number and one symbol</Text>
-  
-      </View> */}
+
                         </View>
 
 

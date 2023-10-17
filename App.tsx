@@ -7,22 +7,13 @@
 
 import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-
-import AuthNav from './src/navigation/OnboardingStacks/AuthNav';
-import BasicInfoStack from './src/navigation/OnboardingStacks/BasicInfoStack';
 import OnBoardNav from './src/navigation/OnboardingStacks/OnboardNav';
-
-// import BasicInfoStack from './src/navigation/BasicInfoStack';
-
 import { useDispatch, useSelector } from 'react-redux';
-import FinancialPlanStack from './src/navigation/OnboardingStacks/FinancialPlanStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setAuthStackCompleted, setAuthToken, setBasicinfoCompleted, setFinancialInfoCompleted, setPhoneVerified, setSyncAccountDone, setTokenSaved, setUserId, setWelcomeNavStatus, setnotificationEnabled, setstack } from './src/redux/AppReducer';
-
+import { setAccountId, setAuthToken, setBasicinfoCompleted, setFinancialInfoCompleted, setOTPScreen, setPhoneVerified, setSetupBudgetPlanDone, setSyncAccountDone, setTokenSaved, setUserId, setWelcomeNavStatus, setnotificationEnabled, setstack } from './src/redux/AppReducer';
 import BtmNav from './src/navigation/BtmNav';
-import HOMENAV from './src/navigation/HOMENAV';
-import MainNav from './src/navigation/MainNav';
 import { ActivityIndicator, View } from 'react-native';
+import WelcomeNav from './src/navigation/OnboardingStacks/WelcomeNav';
 
 
 
@@ -176,7 +167,6 @@ function App() {
       if (token !== null) {
         // console.log('TOKEN IS THIS: ', token);
         dispatch(setAuthToken(token))
-        dispatch(setTokenSaved(true))
         // console.log('BAISC INFO STACK COMPLETED', basicInfoCompleted);
         authUser()
 
@@ -225,26 +215,14 @@ function App() {
   // const welcomeScreen = selector.WelcomeScreen;
   const basicInfoCompleted = selector.basicInfoCompleted;
   const phoneVerified = selector.phoneVerified;
+
   const authToken = selector.authToken;
   const [loader, setLoader] = useState(false)
-
-
-
-  // console.log('BASIC INFO COMPLETED', basicInfoCompleted);
-  // console.log('phoneVerified COMPLETED', phoneVerified);
-
+  const [flag, setFlag] = useState(false)
 
 
 
   const dispatch = useDispatch()
-
-
-
-
-
-
-
-
 
   const getVerifications = async () => {
     getBasicInfoCompleteStatus()
@@ -267,7 +245,11 @@ function App() {
   const authUser = async () => {
 
 
-    console.log('auth token is', authToken);
+    console.log('AUTH USER RUNS=======================');
+
+
+
+    // console.log('auth token is', authToken);
 
 
     fetch(`https://api-finwiz.softsquare.io/api/user/auth-user`, {
@@ -280,11 +262,34 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
 
         if (data.status == 'true') {
-          console.log('PLAID ACCESS TOKEN', data.data[0].plaid_access_token);
-          dispatch(setSyncAccountDone(true))
+          if (data.data[0].name) {
+            dispatch(setBasicinfoCompleted(true))
+          }
+          if (data.data[0].verified == 1) {
+            dispatch(setPhoneVerified(true))
+            dispatch(setOTPScreen(true))
+          }
+          if (data.data[0].plaid_access_token) {
+            dispatch(setSyncAccountDone(true))
+          }
+
+
+          if (data.data[0]?.auth[0]?.account_id) {
+            console.log('Account ID is', data.data[0].auth[0].account_id);
+
+            dispatch(setAccountId(data.data[0].auth[0].account_id))
+
+          }
+
+          setTimeout(() => {
+            dispatch(setTokenSaved(true))
+            console.log('TOKEN SAVED TRUE RUN');
+            
+
+          }, 4000);
 
         }
 
@@ -301,6 +306,80 @@ function App() {
 
   };
 
+  const checkUserQuestionAnswers = async () => {
+
+    console.log('AuthToken is ', authToken);
+
+    fetch('https://api-finwiz.softsquare.io/api/user/get-user-question', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log('ALL ANSWERS OF QUESTIONS', data);
+        if (data.data.user_question_answer_count == data.data.total_questions) {
+          dispatch(setSetupBudgetPlanDone(true))
+        }
+
+
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+
+  };
+
+
+  useEffect(() => {
+
+    // console.log('selector.authToken',selector.authToken);
+    // console.log('selector.basicInfoCompleted',selector.basicInfoCompleted);
+    // console.log('selector.phoneVerified',selector.phoneVerified);
+    // console.log('selector.setupBudgetPlanDone ',selector.setupBudgetPlanDone );
+
+
+    console.log('USE EFFECT RUNS AGAINS');
+    authUser()
+    checkUserQuestionAnswers()
+  }, [])
+
+
+  useEffect(() => {
+
+
+
+
+    console.log('USE EFFECT RUNS');
+    console.log('selector.tokenSaved', selector.tokenSaved);
+
+    dispatch(setTokenSaved(false))
+    console.log('selector.tokenSaved', selector.tokenSaved);
+
+
+
+  }, [selector.authToken])
+
+  // const isFocused=useIsFocused()
+  // useEffect(() => {
+
+  //   // console.log('selector.authToken',selector.authToken);
+  //   // console.log('selector.basicInfoCompleted',selector.basicInfoCompleted);
+  //   // console.log('selector.phoneVerified',selector.phoneVerified);
+  //   // console.log('selector.setupBudgetPlanDone ',selector.setupBudgetPlanDone );
+
+
+  //  setFlag(false)
+  // }, [isFocused])
+
+
+
 
 
 
@@ -308,12 +387,17 @@ function App() {
 
   return (
     <NavigationContainer>
-      {loader ? <View style={{flex:1,backgroundColor:'white',justifyContent:'center'}}>
+      {loader ? <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center' }}>
         <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
       </View> :
-         selector.authToken
-          // && selector.syncAccountDone
-           ? <BtmNav /> : <OnBoardNav /> }
+        selector.authToken && selector.basicInfoCompleted && selector.phoneVerified && selector.syncAccountDone && selector.accountId && selector.setupBudgetPlanDone ?
+          <BtmNav /> :
+
+          selector.tokenSaved == true ?
+            <OnBoardNav /> :
+            <WelcomeNav />
+
+      }
 
     </NavigationContainer>
   );

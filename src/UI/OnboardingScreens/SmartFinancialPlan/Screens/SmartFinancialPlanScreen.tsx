@@ -28,7 +28,7 @@ const SmartFinancialPlanScreen = ({ navigation }) => {
                 if (data.status) {
                     console.log(data);
                     dispatch(setQuestions(data.data))
-                    dispatch(setstack('FinancialPlanStack'))
+                    navigation.navigate('FinancialParentScreen')
 
                 } else {
                     console.log('MESSAGE', data.message);

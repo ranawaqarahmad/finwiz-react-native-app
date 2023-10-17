@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import moment from 'moment'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useSelector } from 'react-redux';
+import RNFS from 'react-native-fs';
 
 
 const Reciept = () => {
@@ -16,6 +17,22 @@ const Reciept = () => {
     const { recieptDetails, basicDetails } = route.params
     console.log('recieptDetails', recieptDetails);
 
+
+
+    function base64ToBinary(base64) {
+        const binaryString = atob(base64);
+        const bytes = new Uint8Array(binaryString.length);
+      
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+      
+        return bytes;
+      }
+    function isBase64(str) {
+        const base64RegExp = /^[A-Za-z0-9+/]+[=]{0,3}$/;
+        return base64RegExp.test(str);
+      }
 
     const formatDate = (dateStr: any) => {
         const originalDate = moment(dateStr, 'YYYY-MM-DD HH:mm:ss').format('MMMM D');
@@ -47,7 +64,7 @@ const Reciept = () => {
     };
     const openGallery = () => {
         const options = {
-            title: 'Take a Photo',
+            title: 'Select an Image',
             storageOptions: {
                 skipBackup: true,
                 path: 'images',
@@ -60,58 +77,63 @@ const Reciept = () => {
             } else if (response.error) {
                 console.log('Camera Error: ', response.error);
             } else {
-                // Display the taken photo
                 console.log(response.assets[0].uri);
 
-                const source = { uri: response.assets[0].uri };
-                setImageSource(source);
-                addReciept(response.assets[0].uri)
+                // Read the image file without encoding as base64
+                RNFS.readFile(response.assets[0].uri, 'base64')
+                    .then((imageBinaryData) => {
+                        if (isBase64(imageBinaryData)) {
+                            console.log("The data is in base64 format.");
+                          } else {
+                            console.log("The data is not in base64 format.");
+                          }
+
+                          const binaryData = base64ToBinary(imageBinaryData);
+
+                          if (isBase64(binaryData)) {
+                            console.log("The data is in base64 format.");
+                          } else {
+                            console.log("The data is not in base64 format.");
+                          }
+
+                        // console.log('Image Binary Data is',imageBinaryData);
+                        addReceipt(binaryData);
+                    });
             }
         });
     };
 
-    const addReciept = async (imageUri) => {
-        const formData = new FormData();
-
-        formData.append('image', {
-            uri: imageUri,
-            type: 'image/jpeg', // Adjust the type as needed based on your image format
-            name: 'image.jpg', // You can specify the name you want for the uploaded file
-        });
-
-        // Append the account_id to the form data
-        formData.append('account_id', accountId);
-
-
-
-
-
+    const addReceipt = async (imageBinaryData) => {
+        console.log('Receipt Details', recieptDetails.id);
+        console.log('Account ID', recieptDetails.account_id);
+        // console.log('Auth Token', authToken);
 
         try {
-            await fetch(`https://api-finwiz.softsquare.io/api/user/transaction-receipt/${recieptDetails.id}/upload`, {
+            // Create a FormData object to send binary data
+          
+
+            const response = await fetch(`https://api-finwiz.softsquare.io/api/user/transaction-receipt/${recieptDetails.id}/upload`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
-                body: formData,
+                body: JSON.stringify({
+                    account_id:recieptDetails.account_id,
+                    receipt: `data:image/jpeg;base64,${imageBinaryData}`
+                    
+                }),
+            });
 
-            }).then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
+            const data = await response.json();
 
-
-                })
-                .catch((error) => {
-                    console.log(error);
-                    // setLoader(false)
-                });
-
-
-        }
-        catch (error) {
-            console.error(error);
-            // setLoader(false);
+            if (data.status) {
+                console.log('Data:', data);
+            } else {
+                console.log('False Data:', data);
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
 
@@ -141,7 +163,7 @@ const Reciept = () => {
                     <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928' }}>{recieptDetails.merchant_name}</Text>
                     <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928' }}>{recieptDetails.amount}</Text>
                 </View>
-                <Text style={{ marginTop: 4 }}>
+                <Text style={{ marginTop: 4, color: '#6B7280' }}>
                     {formatDate(recieptDetails.datetime)} , {basicDetails.category}
                 </Text>
 
@@ -162,7 +184,7 @@ const Reciept = () => {
                         {imageSource ?
 
                             <View>
-                                <Image resizeMode='cover' source={imageSource} style={{ height: 200, width: 200, alignSelf: 'center', borderRadius: 16 }}></Image>
+                                <Image resizeMode='cover' source={{ uri: imageSource }} style={{ height: 200, width: 200, alignSelf: 'center', borderRadius: 16 }}></Image>
                                 <TouchableOpacity onPress={openGallery}>
                                     <Text style={{ textAlign: 'justify', alignSelf: 'center', fontSize: 14, fontWeight: '400', color: '#7C56FE', marginTop: 30 }}>Upload again</Text>
                                 </TouchableOpacity>

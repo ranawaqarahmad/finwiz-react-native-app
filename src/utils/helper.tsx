@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthToken, setBasicinfoCompleted, setFinancialInfoCompleted, setPhoneVerified, setTokenSaved, setUserId, setWelcomeNavStatus, setnotificationEnabled, setstack } from '../redux/AppReducer';
+import { setAuthToken, setBasicinfoCompleted, setFinancialInfoCompleted, setPhoneVerified, setUserId, setWelcomeNavStatus, setnotificationEnabled, setstack } from '../redux/AppReducer';
 
 
 
@@ -148,7 +148,6 @@ export const getToken = async (basicInfoCompleted,phoneVerified) => {
     if (token !== null) {
       console.log('TOKEN IS THIS: ', token);
       dispatch(setAuthToken(token))
-      dispatch(setTokenSaved(true))
       console.log('BAISC INFO STACK COMPLETED', basicInfoCompleted);
 
       if (basicInfoCompleted) {

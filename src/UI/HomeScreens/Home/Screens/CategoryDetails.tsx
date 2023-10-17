@@ -202,7 +202,7 @@ const CategoryDetails = () => {
                                 </TouchableOpacity>
 
                             </View>
-                            <Text style={{ marginTop: 3, fontSize: 14, fontWeight: '400' }}>{items.count} Transactions</Text>
+                            <Text style={{ marginTop: 3, fontSize: 14, fontWeight: '400',color:'#1F2A37' }}>{items.count} Transactions</Text>
                         </TouchableOpacity>
 
                     )}

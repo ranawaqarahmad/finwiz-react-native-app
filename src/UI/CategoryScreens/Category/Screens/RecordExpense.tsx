@@ -18,6 +18,7 @@ const RecordExpense = () => {
   const route=useRoute()
   const {type}=route.params
   const selector = useSelector(state => state.AppReducer);
+  const accountId = selector.accountId;
   const authToken = selector.authToken;
   const [loader, setLoader] = useState(false)
   const navigation = useNavigation();
@@ -75,7 +76,7 @@ const RecordExpense = () => {
         body: JSON.stringify({
           amount: amount,
           category_id: category.id,
-          account_id: "vdaWNKxMroSqBXWpz33AH8Ez4vb7qJCqGK1bL",
+          account_id: accountId,
           datetime: formattedDate,
           merchant_name: merchantName,
           transaction_type: value,
@@ -145,6 +146,7 @@ const RecordExpense = () => {
 
                 {/* TextInput */}
                 <TextInput
+                               placeholderTextColor={'grey'}
                   inputMode='numeric'
                   value={amount}
                   onChangeText={(text) => setAmount(text)}
@@ -158,6 +160,8 @@ const RecordExpense = () => {
                     borderWidth: 1,
                     borderColor: '#9CA3AF',
                     borderRadius: 4,
+                    color:'black'
+
                   }}
                   placeholder="$$$"
                 />
@@ -170,6 +174,8 @@ const RecordExpense = () => {
 
                 {/* TextInput */}
                 <TextInput
+                               placeholderTextColor={'grey'}
+
                   value={merchantName}
                   onChangeText={(text) => setMerchantName(text)}
 
@@ -182,6 +188,7 @@ const RecordExpense = () => {
                     borderWidth: 1,
                     borderColor: '#9CA3AF',
                     borderRadius: 4,
+                    color:'black'
                   }}
                   placeholder="Type Merchant Name Here"
                 />
@@ -205,7 +212,7 @@ const RecordExpense = () => {
                     borderWidth: 1,
                     borderColor: '#9CA3AF',
                   }}>
-                  <Text>{category ? category.name : 'Choose Category'}</Text>
+                  <Text style={{color:category ? 'black' : 'grey'}}>{category ? category.name : 'Choose Category'}</Text>
                   <Image
                     source={require('../../../../assets/Images/downarrow.png')}
                     style={{ height: 20, width: 20, marginLeft: 30 }}

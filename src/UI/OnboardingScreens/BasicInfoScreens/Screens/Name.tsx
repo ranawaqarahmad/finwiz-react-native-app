@@ -65,7 +65,8 @@ const Name = ({ navigation }) => {
                     console.log('Name Updated');
                     dispatch(setBasicinfoCompleted(true))
                     storeBasicInfoCompleted('true')
-                    dispatch(setstack('AuthNav'))
+                    navigation.navigate('MobileNumberScreen')
+                    // dispatch(setstack('AuthNav'))
                 } else {
                     console.log('MESSAGE', data.message);
                     setLoader(false)

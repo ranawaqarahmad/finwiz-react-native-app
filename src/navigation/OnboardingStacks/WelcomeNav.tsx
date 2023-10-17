@@ -29,7 +29,7 @@ const Stack = createStackNavigator();
 const WelcomeNav = () => {
 
     const selector = useSelector(state => state.AppReducer);
-    const financialPlanScreen=selector.financialPlanScreen
+    const financialPlanScreen = selector.financialPlanScreen
 
     const welcomeNavStatus = selector.welcomeNavStatus;
 
@@ -38,15 +38,14 @@ const WelcomeNav = () => {
     return (
         <View style={{ flex: 1 }}>
             <Stack.Navigator
-                initialRouteName={selector.welcomeNavStatus === 0 ? ("FirstScreen") : (selector.welcomeNavStatus === 1 ? ("SmartFinancialPlan") : (selector.welcomeNavStatus === 2 ? ("WelcomeFinwiz") : ('')))} screenOptions={{ headerShown: false }}>
+                screenOptions={{ headerShown: false }}>
 
-                <Stack.Screen name="SmartFinancialPlan" component={SmartFinancialPlan} />
-                <Stack.Screen name="WelcomeFinwiz" component={WelcomeFinwiz} />
-                <Stack.Screen name="SmartFinancialPlanScreen" component={SmartFinancialPlanScreen} />
+                
+
+
                 <Stack.Screen name="FirstScreen" component={FirstScreen} />
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="SignIn" component={SignIn} />
-                <Stack.Screen name="FurtherApp" component={FurtherApp} />
 
                 {/* )} */}
 
@@ -65,15 +64,15 @@ const WelcomeNav = () => {
 }
 
 
-const FurtherApp=()=>{
+const FurtherApp = () => {
     BackHandler.addEventListener('hardwareBackPress', () => {
         // Exit the app (this will close the app)
         BackHandler.exitApp();
         return true; // Prevent default behavior (e.g., navigating back)
-      });
-    return(
-        <View style={{backgroundColor:'white',flex:1,justifyContent:'center',alignItems:'center'}}>
-            <Text style={{textAlign:'center',fontSize:32,color:'black',fontWeight:'bold',padding:16}}>WELCOME TO FINWIZ APP</Text>
+    });
+    return (
+        <View style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ textAlign: 'center', fontSize: 32, color: 'black', fontWeight: 'bold', padding: 16 }}>WELCOME TO FINWIZ APP</Text>
         </View>
     )
 }

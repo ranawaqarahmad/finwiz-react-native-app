@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity, Image, StatusBar, TextInput, Keyboard, ActivityIndicator } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
-import { setAuthToken, setPhoneVerified, setTokenSaved, setUserId } from '../../../../redux/AppReducer';
+import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused, useRoute } from '@react-navigation/native';
 // let otpCode = '';
@@ -11,6 +10,8 @@ var newOtpCode ='';
 const OTPVerification = ({ navigation }) => {
   const [otp, setOTP] = useState(['', '', '', '', '']);
   const dispatch = useDispatch()
+  const selector = useSelector(state => state.AppReducer);
+  const authToken = selector.authToken;
 
   const route = useRoute()
   const inputRefs = useRef([]);
@@ -79,38 +80,44 @@ const OTPVerification = ({ navigation }) => {
 
     } 
 
-    console.log(otpCodeCheck);
-    console.log(newOtpCode);
+    console.log('otpCodeCheck',typeof(otpCodeCheck));
+    console.log('newOtpCode',typeof(newOtpCode));
+
+    console.log('otpCodeCheck',otpCodeCheck);
+    console.log('newOtpCode',newOtpCode);
 
     
-    // if(otpCodeCheck!=newOtpCode){
-    //   setErrorText('INCORRECT OTP Code')
-    //   setIsErrorVisible(true)
-    //   setLoader(false)
-    //   setOtpCode('')
-    //   setOTP(['', '', '', '', ''])
-    //   inputRefs.current[0].focus();
-    //   Keyboard.dismiss()
-    //   return
-    // }
+    if(otpCodeCheck!=newOtpCode){
+      setErrorText('INCORRECT OTP Code')
+      setIsErrorVisible(true)
+      setLoader(false)
+      setOtpCode('')
+      setOTP(['', '', '', '', ''])
+      inputRefs.current[0].focus();
+      Keyboard.dismiss()
+      return
+    }
 
     setLoader(true)
     fetch('https://api-finwiz.softsquare.io/api/user/verify-otp', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${authToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        otp: otpCode,
+        otp: newOtpCode,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data.status);
-        if (data.status) {
+        console.log(data);
+        
+        if (data.status=='true') {
+          console.log(data);
+          
           console.log('PHONE VERIFIED');
-          dispatch(setPhoneVerified(true))
 
           
           navigation.navigate('FaceId')
@@ -195,6 +202,7 @@ const OTPVerification = ({ navigation }) => {
               {otp.map((digit, index) => (
                 <TextInput
                   key={index}
+                  placeholderTextColor={'grey'}
                   style={{
                     textAlign: 'center',
                     borderTopRightRadius: 5,
@@ -208,6 +216,7 @@ const OTPVerification = ({ navigation }) => {
                     borderColor: otp[index] ? '#00A3FF' : 'green',
                     justifyContent: 'center',
                     padding: 15,
+                    
                   }}
                   value={digit}
                   onChangeText={value => handleOTPChange(index, value)}

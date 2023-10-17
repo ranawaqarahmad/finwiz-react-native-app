@@ -44,7 +44,7 @@ const EnableNotifications = ({ navigation }) => {
       };
     return (
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', backgroundColor: 'white', }}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white', }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingVertical:16}}>
                 <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'space-between', paddingHorizontal: 16 }}>
 
                     <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>
@@ -80,11 +80,12 @@ const EnableNotifications = ({ navigation }) => {
                         <TouchableOpacity
                             onPress={() => {
 
-                                dispatch(setWelcomeNavStatus(2))
-                                dispatch(setstack('WelcomeNav'))
+                                navigation.navigate('WelcomeFinwiz')
+
+                                // dispatch(setWelcomeNavStatus(2))
+                                // dispatch(setstack('WelcomeNav'))
                                 saveNotificationEnabledVerified('true')
-                                savePhoneVerified('true')
-                                dispatch(setPhoneVerified(true))
+                               
                             }}
                             style={{ backgroundColor: '#7C56FE', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25 }}>
                             <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>Enable</Text>
@@ -93,10 +94,10 @@ const EnableNotifications = ({ navigation }) => {
 
                         <View style={{ marginTop: 24, alignItems: 'center' }}>
                             <Text onPress={() => {
-                                dispatch(setWelcomeNavStatus(2))
-                                dispatch(setstack('WelcomeNav'))
-                                savePhoneVerified('true')
-                                dispatch(setPhoneVerified(true))
+
+                                navigation.navigate('WelcomeFinwiz')
+                                // savePhoneVerified('true')
+                                // dispatch(setPhoneVerified(true))
                             }} style={{ color: '#1C64F2' }}>Maybe later</Text>
                         </View>
                     </View>

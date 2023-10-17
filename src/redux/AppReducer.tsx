@@ -45,25 +45,34 @@ const initialState = {
     financialPlanScreen: 0,
     authToken: null,
     tokenSaved: false,
+
+
     basicInfoCompleted: false,
+    phoneVerified: false,
+    OTPScreen:false,
+    faceIdVerified: false,
+    notificationEnabled: false,
+    syncAccountDone: false,
+    setupBudgetPlanDone: false,
+
     financialInfoCompleted: false,
 
-    btmNavVisibility:true,
+    btmNavVisibility: true,
     financialPlanComplete: false,
     identityVerificationComplete: false,
-    phoneVerified: false,
-    faceIdVerified:false,
-    notificationEnabled:false,
-    authStackCompleted:false,
-    questions:'',
-    answers:'',
 
-    userId:0,
-    syncAccountDone:false,
-    setupBudgetPlanDone:false,
-    accountId:'',
+    authStackCompleted: false,
+    questions: '',
+    answers: '',
 
-    
+    userId: 0,
+
+    accountId: '',
+
+
+
+
+
 
 };
 selfPatient: null
@@ -75,76 +84,14 @@ export const AppSlice = createSlice({
     name: "AppReducer",
     initialState,
     reducers: {
-        // appLanguage: (state, action) => {
-        //   state.currentLanguage = action.payload;
-        // },
-        // setFirstScreen: (state, action) => {
-        //   state.firstScreen = action.payload;
-        // },
-        // setUserData: (state, action) => {
-        //   state.userData = action.payload;
-        // },
-        // startLoader: (state, action) => {
-        //   state.loader = action.payload;
-        // },
-        // setAlertObj: (state, action) => {
-        //   state.alertObj = action.payload;
-        // },
-        // setUSerProfileInformation:(state,action)=>{
-        //   state.userProfileInfo=action.payload;
-        // },
-        // setLoginInformation:(state,action)=>{
-        //   state.userLoginInfo=action.payload;
-        // },
-        // patientSelfData:(state,action)=>{
-        //   state.selfPatient=action.payload;
-        // },
-        // patientAllAnwsers:(state,action)=>{
-        //   state.patientAnwser=action.payload;
-        // },
-        // DetailsList:(state,action)=>{
-        //   state.detailArray=action.payload;
-        // },
-        // PatientAnwserSubmission:(state,action)=>{
-        //   state.isPatientSubmittedAnwsers=action.payload
-        // },
-        // BpmConnectionStatus:(state,action)=>{
-        //   state.isDeviceConnected=action.payload
-        // },
-        // isQuestion:(state,action)=>{
-        //   state.Question=action.payload
-        // },
-        // events: (state, action) => {
-        //   state.eventText = action.payload;
-        // },
-        // isBPMVisible:(state,action)=>{
-        //   state.isBPM=action.payload
-        // },
-        // UserProfileData:(state,action)=>{
-        //   state.user_profile_Info=action.payload
-        // },
-        // NotificationCountUser:(state,action)=>{
-        //   state.user_notification_count+=1
-        // },
-        // IsNotificationScreenOpen:(state,action)=>{
-        //  state.notifyscreen=action.payload
-        // },
-        // NotificationMessage:(state,action)=>{
-        //   state.messagenotification=action.payload
-        //  }, 
-        //  ToastNumber:(state,action)=>{
-        //   state.number_toast=action.payload
-        //  }, 
-        //  Setruncounter:(state,action)=>{
-        //   state.runcounter=action.payload
-        //  },
+
         setstack: (state, action) => {
             state.stackinfo = action.payload
         },
         setBtmNavVisibility: (state, action) => {
             state.btmNavVisibility = action.payload
         },
-        
+
         setnotificationEnabled: (state, action) => {
             state.notificationEnabled = action.payload
         },
@@ -172,29 +119,32 @@ export const AppSlice = createSlice({
         setFinancialPlanScreen: (state, action) => {
             state.financialPlanScreen = action.payload
         },
-        setBasicinfoCompleted: (state, action) => {            
+        setBasicinfoCompleted: (state, action) => {
             state.basicInfoCompleted = action.payload
         },
-        setFinancialInfoCompleted: (state, action) => {            
+        setFinancialInfoCompleted: (state, action) => {
             state.financialInfoCompleted = action.payload
         },
-        setQuestions: (state, action) => {            
+        setQuestions: (state, action) => {
             state.questions = action.payload
         },
-        setAnswers: (state, action) => {            
+        setAnswers: (state, action) => {
             state.answers = action.payload
         },
-        setUserId: (state, action) => {            
+        setUserId: (state, action) => {
             state.userId = action.payload
         },
-        setSyncAccountDone: (state, action) => {            
+        setSyncAccountDone: (state, action) => {
             state.syncAccountDone = action.payload
         },
-        setSetupBudgetPlanDone: (state, action) => {            
+        setSetupBudgetPlanDone: (state, action) => {
             state.setupBudgetPlanDone = action.payload
         },
         setAccountId: (state, action) => {
             state.accountId = action.payload
+        },
+        setOTPScreen: (state, action) => {
+            state.OTPScreen = action.payload
         },
 
     },
@@ -223,6 +173,7 @@ export const {
     //   ToastNumber,
     //   Setruncounter,
     //   LoadChats,
+    setOTPScreen,
     setBtmNavVisibility,
     setstack,
     setWelcomeScreen,

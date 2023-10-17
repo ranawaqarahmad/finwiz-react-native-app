@@ -32,7 +32,7 @@ const FaceId = ({ navigation }) => {
     return (
 
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ width: '100%', height: '100%', backgroundColor: 'white', }}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white', }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white',paddingVertical:16 }}>
 
                 <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'space-between', paddingHorizontal: 16 }}>
                     <StatusBar backgroundColor='white' barStyle={'dark-content'}></StatusBar>

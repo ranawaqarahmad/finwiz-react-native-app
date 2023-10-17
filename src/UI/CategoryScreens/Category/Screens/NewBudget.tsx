@@ -4,7 +4,6 @@ import {
   StyleSheet,
   SafeAreaView,
   Text,
-  TextInput,
   Image,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';

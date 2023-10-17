@@ -1,6 +1,6 @@
 import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { setAuthToken, setTokenSaved, setUserId, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import { setAuthToken, setUserId } from '../../../../redux/AppReducer';
 import { useDispatch } from 'react-redux';
 import { registerApi } from '../../../../Services/ApiList';
 import axios from 'axios';
@@ -88,7 +88,6 @@ const Welcome = ({ navigation }) => {
                     console.log('TOKEN SAVED', data.token);
                     storeToken(data.token)
                     storeId(data.data.id)
-                    dispatch(setTokenSaved(true))
                     dispatch(setUserId(data.data.id))
 
                 } else {
@@ -158,7 +157,8 @@ const Welcome = ({ navigation }) => {
                                     setErrorText('')
                                     setIsErrorVisible(false)
                                     setEmail(text)
-                                }} value={email} placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
+                                }} value={email} 
+                                placeholderTextColor={'grey'} placeholder='Email' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 10 }}></TextInput>
                                 <TextInput
                                     value={password}
                                     onChangeText={(text) => {
@@ -168,6 +168,7 @@ const Welcome = ({ navigation }) => {
                                         getPasswordStrength(text)
                                     }}
                                     secureTextEntry={true}
+                                    placeholderTextColor={'grey'}
                                     placeholder='Password' style={{ borderWidth: 1, borderColor: '#E5E7EB', fontSize: 16, fontWeight: 'normal', color: 'black', backgroundColor: '#F9FAFB', borderRadius: 8, marginTop: 9, padding: 10 }}></TextInput>
                             </View>
 

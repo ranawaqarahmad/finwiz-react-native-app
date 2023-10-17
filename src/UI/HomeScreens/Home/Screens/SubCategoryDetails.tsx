@@ -11,6 +11,7 @@ const SubCategoryDetails = () => {
     }
     const selector = useSelector(state => state.AppReducer);
     const authToken = selector.authToken;
+    const accountId=selector.accountId;
     const [subcategoryLoader, setSubcategoryLoader] = useState(true)
 
     const route = useRoute()
@@ -67,7 +68,7 @@ const SubCategoryDetails = () => {
         setSubcategoryLoader(true)
         console.log('AuthToken is ', authToken);
 
-        fetch(`https://api-finwiz.softsquare.io/api/user/transaction-count-with-detail/${basicDetails.id}/vdaWNKxMroSqBXWpz33AH8Ez4vb7qJCqGK1bL`, {
+        fetch(`https://api-finwiz.softsquare.io/api/user/transaction-count-with-detail/${basicDetails.id}/${accountId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`,

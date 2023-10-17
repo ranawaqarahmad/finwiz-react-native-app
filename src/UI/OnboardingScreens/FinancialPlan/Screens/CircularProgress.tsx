@@ -2,10 +2,16 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, BackHandler } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAccountId } from '../../../../redux/AppReducer';
 
 const CircularProgress = ({navigation}) => {
   const [progress, setProgress] = useState(0);
+  const selector = useSelector(state => state.AppReducer);
+  // const welcomeScreen = selector.WelcomeScreen;
 
+
+  const authToken = selector.authToken;
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 2));
@@ -26,6 +32,68 @@ const CircularProgress = ({navigation}) => {
     return true; // Prevent default behavior (e.g., navigating back)
   });
 
+
+
+
+  const dispatch=useDispatch()
+  const authUser = async () => {
+
+
+    console.log('AUTH USER RUNS=======================');
+
+
+
+    // console.log('auth token is', authToken);
+
+
+    fetch(`https://api-finwiz.softsquare.io/api/user/auth-user`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+
+        if (data.status == 'true') {
+
+          console.log(data.data[0].auth[0]);
+          
+         
+          
+         
+
+
+          if (data.data[0]?.auth[0]?.account_id) {
+            console.log('Account ID is', data.data[0].auth[0].account_id);
+
+            dispatch(setAccountId(data.data[0].auth[0].account_id))
+
+          }
+
+       
+
+        }
+
+
+
+
+      })
+      .catch((error) => {
+        console.log(error);
+        // setLoader(false)
+      });
+
+
+
+  };
+
+  useEffect(()=>{
+authUser()
+  },[])
   return (
     <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
       <View style={styles.progressbar}>

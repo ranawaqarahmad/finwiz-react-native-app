@@ -40,7 +40,7 @@ const NewCategory = () => {
 
     setSpendingLimit(roundedValue);
   }
-  const [isEnabled, setIsEnabled] = useState(items.fixed==1?true:false);
+  const [isEnabled, setIsEnabled] = useState(items?items.fixed==1?true:false:false);
   const toggleSwitch = () => {
     console.log(isEnabled);
 
@@ -205,6 +205,8 @@ const NewCategory = () => {
              <TextInput
                value={categoryName}
                onChangeText={(text) => setCategoryName(text)}
+               placeholderTextColor={'grey'}
+
                style={{
                  width: '100%',
                  height: 58,
@@ -212,6 +214,7 @@ const NewCategory = () => {
                  paddingHorizontal: 16,
                  fontSize: 14,
                  borderWidth: 1,
+                 color:'black',
                  borderColor: '#9CA3AF',
                  borderRadius: 4,
                }}

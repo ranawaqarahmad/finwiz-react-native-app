@@ -73,6 +73,8 @@ const PlanPurchase = () => {
 
           {/* TextInput */}
           <TextInput
+                         placeholderTextColor={'grey'}
+
             style={{
               width: '100%',
               height: 58,
@@ -97,6 +99,8 @@ const PlanPurchase = () => {
 
           {/* TextInput */}
           <TextInput
+                         placeholderTextColor={'grey'}
+
             style={{
               width: '100%',
               height: 58,

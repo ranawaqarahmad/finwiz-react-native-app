@@ -39,11 +39,6 @@ const AddIncomeB = () => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
     console.log(formattedDate);
-
-
-
-
-
     try {
       await fetch(`https://api-finwiz.softsquare.io/api/user/user-transaction`, {
         method: 'POST',
@@ -119,6 +114,7 @@ const AddIncomeB = () => {
                   inputMode='numeric'
                   value={amount}
                   onChangeText={(text) => setAmount(text)}
+                  placeholderTextColor={'grey'}
 
                   style={{
                     width: '100%',
@@ -129,6 +125,7 @@ const AddIncomeB = () => {
                     borderWidth: 1,
                     borderColor: '#9CA3AF',
                     borderRadius: 4,
+                    color:'black'
                   }}
                   placeholder="$$$"
                 />
@@ -143,6 +140,7 @@ const AddIncomeB = () => {
                 <TextInput
                   value={merchantName}
                   onChangeText={(text) => setMerchantName(text)}
+                  placeholderTextColor={'grey'}
 
                   style={{
                     width: '100%',

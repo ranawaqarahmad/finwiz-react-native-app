@@ -114,7 +114,7 @@ const MobileNumberScreen = ({ navigation }) => {
 
                     <StatusBar backgroundColor='white'></StatusBar>
                     <View>
-                        <TouchableOpacity onPress={() => { }}>
+                        <TouchableOpacity onPress={() => { navigation.goBack()}}>
                             <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/backarrow.png')} />
 
                         </TouchableOpacity>
@@ -133,7 +133,7 @@ const MobileNumberScreen = ({ navigation }) => {
 
 
                                 setnumber(text)
-                            }} maxLength={12} keyboardType='numeric' placeholder='' style={{ fontSize: 16, fontWeight: 'normal', color: '#6B7280', marginTop: 2, flex: 1 }}></TextInput>
+                            }} maxLength={12} placeholderTextColor={'grey'} keyboardType='numeric' placeholder='' style={{ fontSize: 16, fontWeight: 'normal', color: '#6B7280', marginTop: 2, flex: 1 }}></TextInput>
                             <TouchableOpacity onPress={() => { setnumber('') }}><Image style={{ width: 25, height: 25, }} source={require('../../../../assets/Images/cross.png')} />
                             </TouchableOpacity>
 
