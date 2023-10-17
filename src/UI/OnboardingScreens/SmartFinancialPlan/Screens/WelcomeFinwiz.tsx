@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import StepsComp from '../Components/StepsComp'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSetupBudgetPlanDone, setSyncAccountDone, setTokenSaved, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import { setAccountId, setAuthToken, setBasicinfoCompleted, setOTPScreen, setPhoneVerified, setSetupBudgetPlanDone, setSyncAccountDone, setTokenSaved, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WelcomeFinwiz = ({ navigation }) => {
@@ -67,7 +67,7 @@ const WelcomeFinwiz = ({ navigation }) => {
             step: 'Step 1',
             title: 'Sync Your Accounts',
             description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected: selector.syncAccountDone ? true : false,
+            selected: false,
             color: '#9747FF',
             imgsrc: require('../../../../assets/Images/account.png'),
             auto: true,
@@ -76,7 +76,7 @@ const WelcomeFinwiz = ({ navigation }) => {
             step: 'Step 2',
             title: 'Setup Your Budget Plan ',
             description: 'Lörem ipsum dek presk, don sek, press. Onisade geoskap. ',
-            selected: selector.setupBudgetPlanDone ? true : false,
+            selected: false,
             color: '#21014E',
             imgsrc: require('../../../../assets/Images/logo.png'),
             auto: false,
@@ -85,6 +85,8 @@ const WelcomeFinwiz = ({ navigation }) => {
     ])
 
     const toggleSelected = (index) => {
+        console.log('TOGGLE SELECT ',index);
+        
         const updatedSteps = [...steps];
         updatedSteps[index].selected = true;
         setsteps(updatedSteps);
@@ -147,19 +149,15 @@ const WelcomeFinwiz = ({ navigation }) => {
                     "client_user_id": "4"
                 },
                 products: [
-                    [
-                        "auth",
-                        "transactions",
-                        "identity",
-                        "investments"
-                    ]
+                    ["auth", "transactions", "identity", "assets", "liabilities", "investments"]
+
                 ]
             }),
         })
             .then(response => response.json())
             .then(data => {
                 setLinkToken(data.link_token);
-                console.log(data);
+                console.log(data.link_token);
                 // handleApiCall()
 
             })
@@ -185,10 +183,44 @@ const WelcomeFinwiz = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((data) => {
+                console.log('CHECK PLAID ===== ', data);
+                console.log('CHECK PLAID ===== ', data.data);
+
+
                 console.log('CHECK PLAID ===== ', data.data.plaid_access_token);
-                if (data.data.plaid_access_token) {
+                if (data.data[0].plaid_access_token) {
                     toggleSelected(0)
                 }
+
+
+            })
+            .catch((error) => {
+                console.log(error);
+                // setLoader(false)
+            });
+
+
+
+    };
+
+    const plaidAccounts = async () => {
+
+        // console.log('AuthToken is ', authToken);
+
+        fetch('https://api-finwiz.softsquare.io/api/user/plaid-auth', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if(data.status=='true'){
+                    authUser()
+                }
+               
 
 
             })
@@ -215,7 +247,9 @@ const WelcomeFinwiz = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log('ALL ANSWERS OF QUESTIONS', data);
+                console.log('ALL ANSWERS OF QUESTIONS', data);
+                console.log('ALL ANSWERS OF QUESTIONS', selector.setupBudgetPlanDone);
+
                 if (data.data.user_question_answer_count == data.data.total_questions) {
                     toggleSelected2(1)
                 }
@@ -233,6 +267,70 @@ const WelcomeFinwiz = ({ navigation }) => {
 
 
     };
+
+    const authUser = async () => {
+
+
+        console.log('AUTH USER RUNS=======================');
+    
+    
+    
+        // console.log('auth token is', authToken);
+    
+    
+        fetch(`https://api-finwiz.softsquare.io/api/user/auth-user`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+    
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(data);
+    
+            if (data.status == 'true') {
+              if (data.data[0].name) {
+                dispatch(setBasicinfoCompleted(true))
+              }
+              if (data.data[0].verified == 1) {
+                dispatch(setPhoneVerified(true))
+                dispatch(setOTPScreen(true))
+              }
+              if (data.data[0].plaid_access_token) {
+                dispatch(setSyncAccountDone(true))
+              }
+    
+    
+              if (data.data[0]?.auth[0]?.account_id) {
+                console.log('Account ID is', data.data[0].auth[0].account_id);
+    
+                dispatch(setAccountId(data.data[0].auth[0].account_id))
+    
+              }
+    
+              setTimeout(() => {
+                dispatch(setTokenSaved(true))
+                console.log('TOKEN SAVED TRUE RUN');
+                
+    
+              }, 4000);
+    
+            }
+    
+    
+    
+    
+          })
+          .catch((error) => {
+            console.log(error);
+            // setLoader(false)
+          });
+    
+    
+    
+      };
 
 
     const publicTokenApiCall = async (publicToken) => {
@@ -252,6 +350,9 @@ const WelcomeFinwiz = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((data) => {
+                console.log('PLAID ACCESS TOKEN');
+                plaidAccounts()
+
                 console.log(data);
 
 

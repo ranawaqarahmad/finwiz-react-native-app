@@ -1,7 +1,7 @@
 import { TouchableWithoutFeedback, View, Text, Image, TextInput, TouchableOpacity, StatusBar, ActivityIndicator, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setAccountId, setAuthToken, setState, setTokenSaved, setUserId, setstack } from '../../../../redux/AppReducer';
+import { setAccountId, setAuthToken, setBasicinfoCompleted, setOTPScreen, setPhoneVerified, setSetupBudgetPlanDone, setState, setSyncAccountDone, setTokenSaved, setUserId, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '../../../../redux/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,10 +17,10 @@ const SignIn = ({ navigation }) => {
     const [errorText, setErrorText] = useState('')
 
 
-   
+
     const handleSignIn = async () => {
 
-        if(!email||!password){
+        if (!email || !password) {
             setErrorText('Email or Password is empty')
             setIsErrorVisible(true)
             return
@@ -39,17 +39,14 @@ const SignIn = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log('SIGN IN IS ',data.status);
+                console.log('SIGN IN IS ', data.status);
                 if (data.status === true) {
 
-                    console.log('TOKEN SAVED', data.token);
-                    storeToken(data.token)
-                    storeId(data.data.id)
-                    dispatch(setAuthToken(data.token))
-                    dispatch(setUserId(data.data.id))
-                    // if(basicInfoCompleted&&phoneVerified){
-                    //     navigation.navigate('WelcomeFinwiz')
-                    // }
+                    authUser(data.token, data.data.id)
+                    checkUserQuestionAnswers(data.token)
+
+
+
 
 
 
@@ -75,13 +72,155 @@ const SignIn = ({ navigation }) => {
 
     };
 
- 
+
+
+    const checkUserQuestionAnswers = async (authToken) => {
+
+        console.log('AuthToken is ', authToken);
+
+        fetch('https://api-finwiz.softsquare.io/api/user/get-user-question', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+
+                if (data.status == 'true') {
+                    console.log('ALL ANSWERS OF QUESTIONS', data);
+                    console.log('ALL ANSWERS OF QUESTIONS', data.data.user_question_answer_count);
+                    console.log('ALL ANSWERS OF QUESTIONS', data.data.total_questions);
+
+                    if (data.data.user_question_answer_count == data.data.total_questions) {
+                        console.log('QUESTIONS ANSWERED TRUE');
+
+                        dispatch(setSetupBudgetPlanDone(true))
+                    } else {
+                        dispatch(setSetupBudgetPlanDone(false))
+                        console.log('QUESTIONS ANSWERED False');
+
+
+                    }
+                }
+
+
+
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+
+
+    };
+
+
+    const authUser = async (authToken, authId) => {
+
+
+        console.log('AUTH USER RUNS=======================');
+
+
+
+        // console.log('auth token is', authToken);
+
+
+        fetch(`https://api-finwiz.softsquare.io/api/user/auth-user`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+                if (data.status == 'true') {
+                    if (data.data[0].name) {
+                        dispatch(setBasicinfoCompleted(true))
+                        console.log('BASIC INFO IS TRUE', data.data[0].name);
+
+                    }
+                    if (data.data[0].verified == 1) {
+                        dispatch(setPhoneVerified(true))
+                        dispatch(setOTPScreen(true))
+                        console.log('Phone Verified IS TRUE', data.data[0].verified);
+
+                    }
+                    if (data.data[0].plaid_access_token) {
+                        dispatch(setSyncAccountDone(true))
+                        console.log('PLAID Verified IS TRUE', data.data[0].plaid_access_token);
+
+                    }
+                    console.log('AUTH IS  ', data);
+
+
+                    if (data.data[0]?.auth[0]?.account_id) {
+                        console.log('Account ID is', data.data[0].auth[0].account_id);
+
+                        dispatch(setAccountId(data.data[0].auth[0].account_id))
+
+                    }
+
+                    console.log('TOKEN SAVED', authToken);
+                    storeToken(authToken)
+                    storeId(authId)
+                    dispatch(setAuthToken(authToken))
+                    dispatch(setUserId(authId))
+
+
+
+
+                    console.log('selector.authToken', selector.authToken);
+                    console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
+                    console.log('selector.phoneVerified', selector.phoneVerified);
+                    console.log('selector.syncAccountDone ', selector.syncAccountDone);
+                    console.log('selector.accountId ', selector.accountId);
+                    console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
+
+                    setTimeout(() => {
+                        dispatch(setTokenSaved(true))
+                        console.log('TOKEN SAVED TRUE RUN');
+
+
+                        // console.log('selector.authToken', selector.authToken);
+                        // console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
+                        // console.log('selector.phoneVerified', selector.phoneVerified);
+                        // console.log('selector.syncAccountDone ', selector.syncAccountDone);
+                        // console.log('selector.accountId ', selector.accountId);
+                        // console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
+
+                    }, 4000);
+
+                }
+
+
+
+
+            })
+            .catch((error) => {
+                console.log(error);
+                // setLoader(false)
+            });
+
+
+
+    };
+
 
     const storeToken = async (token: string) => {
 
         try {
             await AsyncStorage.setItem('token', token);
-            console.log('INSIDE SIGN IN','Token stored successfully.');
+            console.log('INSIDE SIGN IN', 'Token stored successfully.');
         } catch (error) {
             console.error('Error storing data: ', error);
         }

@@ -28,6 +28,16 @@ const Name = ({ navigation }) => {
     const [loader, setLoader] = useState(false)
     const selector = useSelector(state => state.AppReducer);
     const authToken = selector.authToken;
+    console.log('===============================');
+    
+    console.log('selector.authToken', selector.authToken);
+    console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
+    console.log('selector.phoneVerified', selector.phoneVerified);
+    console.log('selector.syncAccountDone ', selector.syncAccountDone);
+    console.log('selector.accountId ', selector.accountId);
+    console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
+    console.log('===============================');
+
 
     const navigate = () => {
         console.log(authToken);

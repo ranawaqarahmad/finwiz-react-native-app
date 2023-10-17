@@ -169,6 +169,7 @@ function App() {
         dispatch(setAuthToken(token))
         // console.log('BAISC INFO STACK COMPLETED', basicInfoCompleted);
         authUser()
+        checkUserQuestionAnswers()
 
         if (basicInfoCompleted) {
           if (phoneVerified) {
@@ -234,6 +235,7 @@ function App() {
 
   useEffect(() => {
     getVerifications()
+    // clearAllData()
 
   }, [basicInfoCompleted, phoneVerified])
 
@@ -287,7 +289,7 @@ function App() {
           setTimeout(() => {
             dispatch(setTokenSaved(true))
             console.log('TOKEN SAVED TRUE RUN');
-            
+
 
           }, 4000);
 
@@ -320,10 +322,28 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log('ALL ANSWERS OF QUESTIONS', data);
-        if (data.data.user_question_answer_count == data.data.total_questions) {
-          dispatch(setSetupBudgetPlanDone(true))
+        console.log(data);
+        console.log(data);
+        
+        
+
+        if (data.status == 'true') {
+          console.log('ALL ANSWERS OF QUESTIONS', data);
+          console.log('ALL ANSWERS OF QUESTIONS', data.data.user_question_answer_count);
+          console.log('ALL ANSWERS OF QUESTIONS', data.data.total_questions);
+
+          if (data.data.user_question_answer_count == data.data.total_questions) {
+            console.log('QUESTIONS ANSWERED TRUE');
+
+            dispatch(setSetupBudgetPlanDone(true))
+          } else {
+            dispatch(setSetupBudgetPlanDone(false))
+            console.log('QUESTIONS ANSWERED False');
+
+
+          }
         }
+
 
 
 

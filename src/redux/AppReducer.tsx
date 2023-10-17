@@ -138,6 +138,8 @@ export const AppSlice = createSlice({
             state.syncAccountDone = action.payload
         },
         setSetupBudgetPlanDone: (state, action) => {
+            console.log('setSetupBudgetPlanDone+++++++++++++++++++++++++++++++++++',action.payload);
+            
             state.setupBudgetPlanDone = action.payload
         },
         setAccountId: (state, action) => {

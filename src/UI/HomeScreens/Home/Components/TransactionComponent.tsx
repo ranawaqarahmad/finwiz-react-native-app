@@ -25,7 +25,7 @@ const TransactionComponent = ({ navigationClick, item }) => {
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ fontSize: 16, fontWeight: '500', color: '#000', marginEnd: 8 }}>{item.transaction_type == 'Expense' ? ('-' + item.amount) : item.amount}</Text>
+          <Text style={{ fontSize: 16, fontWeight: '500', color: '#000', marginEnd: 8 }}>{item.transaction_type == 'Expense' ? ('-$' + item.amount) :'+$'+ item.amount}</Text>
           <Image source={require('../../../../assets/Images/verticaldots.png')}
             style={{ height: 20, width: 20 }}
           />

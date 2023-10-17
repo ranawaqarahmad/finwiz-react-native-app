@@ -25,6 +25,13 @@ const HomeScreen = () => {
     getCategories()
     authUser()
     closeSheet()
+
+    console.log('selector.authToken', selector.authToken);
+    console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
+    console.log('selector.phoneVerified', selector.phoneVerified);
+    console.log('selector.syncAccountDone ', selector.syncAccountDone);
+    console.log('selector.accountId ', selector.accountId);
+    console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
   }, [isFocused])
 
 

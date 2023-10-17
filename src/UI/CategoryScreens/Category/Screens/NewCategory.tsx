@@ -11,13 +11,15 @@ import MultiSliderComponent from '../../../HomeScreens/Home/Components/MultiSlid
 const NewCategory = () => {
   const route = useRoute()
 
+  const [category, setCategory] = useState()
+
   const { editCategory, items } = route.params;
   const selector = useSelector(state => state.AppReducer);
   const authToken = selector.authToken;
   const navigation = useNavigation();
   const [spendingLimit, setSpendingLimit] = useState(items ? items.limitation : '50')
   const [loader, setLoader] = useState(false)
-  const [categoryName, setCategoryName] = useState('')
+  const [categoryName, setCategoryName] = useState(items ? items.category_name : '')
   const [errorText, setErrorText] = useState('')
   const [errorVisible, setErrorVisible] = useState(false)
   console.log('ITEM IS FUCKING THIS', items);
@@ -47,7 +49,6 @@ const NewCategory = () => {
     setIsEnabled(isEnabled => !isEnabled);
   };
   const [modalVisible, setModalVisible] = useState(false)
-  const [category, setCategory] = useState()
 
 
 
@@ -219,7 +220,8 @@ const NewCategory = () => {
                  borderRadius: 4,
                }}
                placeholder="Enter Category Label"
-             />
+             >
+             </TextInput>
            </View>
  
            {/* Set Spending Limit */}

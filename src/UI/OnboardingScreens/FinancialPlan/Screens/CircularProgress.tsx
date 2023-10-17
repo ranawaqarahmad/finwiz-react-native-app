@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, BackHandler } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAccountId } from '../../../../redux/AppReducer';
+import { setAccountId, setSetupBudgetPlanDone } from '../../../../redux/AppReducer';
 
-const CircularProgress = ({navigation}) => {
+const CircularProgress = ({ navigation }) => {
   const [progress, setProgress] = useState(0);
   const selector = useSelector(state => state.AppReducer);
   // const welcomeScreen = selector.WelcomeScreen;
@@ -19,7 +19,7 @@ const CircularProgress = ({navigation}) => {
 
     if (progress >= 100) {
       clearInterval(interval);
-      navigation.navigate('FurtherApp');
+      dispatch(setSetupBudgetPlanDone(true))
     }
     return () => {
       clearInterval(interval);
@@ -35,7 +35,7 @@ const CircularProgress = ({navigation}) => {
 
 
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const authUser = async () => {
 
 
@@ -61,10 +61,10 @@ const CircularProgress = ({navigation}) => {
         if (data.status == 'true') {
 
           console.log(data.data[0].auth[0]);
-          
-         
-          
-         
+
+
+
+
 
 
           if (data.data[0]?.auth[0]?.account_id) {
@@ -74,7 +74,7 @@ const CircularProgress = ({navigation}) => {
 
           }
 
-       
+
 
         }
 
@@ -91,9 +91,9 @@ const CircularProgress = ({navigation}) => {
 
   };
 
-  useEffect(()=>{
-authUser()
-  },[])
+  useEffect(() => {
+    authUser()
+  }, [])
   return (
     <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
       <View style={styles.progressbar}>
@@ -112,10 +112,10 @@ authUser()
         <View style={styles.progressTextContainer}>
           <Text style={styles.progressText}>{`${progress}%`}</Text>
         </View>
-        <Text style={{ fontSize: 18, textAlign: 'center', color: '#000',marginTop:20,fontWeight:'600'}}>
+        <Text style={{ fontSize: 18, textAlign: 'center', color: '#000', marginTop: 20, fontWeight: '600' }}>
           Generating Your Plan
         </Text>
-        <Text style={{ textAlign: 'center', fontSize: 14,marginTop:20}}>
+        <Text style={{ textAlign: 'center', fontSize: 14, marginTop: 20 }}>
           Getting Trends from your history, setting up budget and making sure
           you meet your financial goal
         </Text>
@@ -139,5 +139,6 @@ const styles = StyleSheet.create({
   progressText: {
     fontSize: 36,
     fontWeight: 'bold',
+    color:'black'
   },
 });

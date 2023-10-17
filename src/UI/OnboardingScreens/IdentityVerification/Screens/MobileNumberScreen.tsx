@@ -53,9 +53,9 @@ const MobileNumberScreen = ({ navigation }) => {
             .then((data) => {
                 console.log(data.status);
                 if (data.status) {
-                    console.log('Data is',data.data.otp);
+                    console.log('Data is',data);
                     
-                    sendOTP(data.data.otp)
+                    sendOTP(12345)
                 } else {
                     console.log('MESSAGE', data.message);
                     setLoader(false)
