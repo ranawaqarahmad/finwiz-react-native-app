@@ -49,8 +49,8 @@ const RecordExpense = () => {
     setLoader(true);
     console.log('AuthToken is ', authToken);
     const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
-    console.log(formattedDate);
+    const datetime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
+    const date = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
 
 
     if (amount == '' || category == null || merchantName == '' || value == 'null') {
@@ -80,7 +80,8 @@ const RecordExpense = () => {
           amount: amount,
           category_id: category.id,
           account_id: accountId,
-          datetime: formattedDate,
+          date: date,
+          datetime: datetime,
           merchant_name: merchantName,
           transaction_type: value,
           location: "default"
