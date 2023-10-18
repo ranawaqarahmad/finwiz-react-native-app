@@ -5,18 +5,18 @@ import DetailedCard from '../Components/DetailedCard';
 import { useDispatch, useSelector } from 'react-redux';
 import BottomSheet from "react-native-raw-bottom-sheet";
 import MenuComponent from '../Components/MenuComponent';
-import { setAccountId, setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSyncAccountDone, setTokenSaved, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import { setAccountId, setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSyncAccountDone, setTokenSaved, setTotalBalances, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const navigation = useNavigation()
   const selector = useSelector(state => state.AppReducer);
+  const dispatch = useDispatch()
   const authToken = selector.authToken;
   const accountId = selector.accountId;
-
   const [categoryLoader, setCategoryLoader] = useState(false)
-
   const isFocused = useIsFocused()
+
   useEffect(() => {
 
 
@@ -34,11 +34,10 @@ const HomeScreen = () => {
     console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
   }, [isFocused])
 
-
-
   const onClick = (item) => {
     navigation.navigate('CategoryDetails', { item: item });
   }
+
   const colors = ['#B39966', '#E499F9', '#ED8080', '#F09F4B', '#848C93'];
 
   const getRandomColor = () => {
@@ -46,145 +45,11 @@ const HomeScreen = () => {
     return colors[randomIndex];
   }
 
-
-
   const [menuItem, setMenuItem] = useState()
-  const [totalBalance, setTotalBalance] = useState(0)
+  const [totalBalance, setTotalBalance] = useState(selector.totalBalance)
   const [availableBalance, setAvailableBalance] = useState(0)
-
-
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const [budgets, setBudgets] = useState([
-    // {
-    //   icon: require('../../../../assets/Images/hammericon.png'),
-    //   title: 'Bills and Utilities',
-    //   budget: '2000',
-    //   spent: '1000',
-    //   opened: false,
-    //   dayLeft: '14',
-    //   subcategories: [
-    //     {
-    //       title: 'Mortage',
-    //       budget: '700',
-    //       spent: '680',
-    //       transactions: '3',
-    //     },
-    //     {
-    //       title: 'Rent',
-    //       budget: '700',
-    //       spent: '500',
-    //       transactions: '3',
-    //     },
-    //     {
-    //       title: 'Electricity',
-    //       budget: '600',
-    //       spent: '200',
-    //       transactions: '3',
-    //     },
-    //   ]
-
-
-    // },
-    // {
-    //   icon: require('../../../../assets/Images/healthplus.png'),
-    //   title: 'Health and Fitness',
-    //   budget: '1300',
-    //   spent: '200',
-    //   opened: false,
-
-    //   dayLeft: '11',
-    //   subcategories: [
-    //     {
-    //       title: 'Hospital',
-    //       budget: '700',
-    //       spent: '100',
-    //       transactions: '3',
-    //     },
-    //     {
-    //       title: 'Medicines',
-    //       budget: '700',
-    //       spent: '100',
-    //       transactions: '3',
-    //     },
-
-    //   ]
-
-
-    // },
-    // {
-    //   icon: require('../../../../assets/Images/pinkicon.png'),
-    //   title: 'Entertainment',
-    //   budget: '1000',
-    //   spent: '500',
-    //   opened: false,
-
-    //   dayLeft: '11',
-    //   subcategories: [
-    //     {
-    //       title: 'Cinema',
-    //       budget: '700',
-    //       spent: '300',
-    //       transactions: '1',
-    //     },
-    //     {
-    //       title: 'Sports',
-    //       budget: '300',
-    //       spent: '100',
-    //       transactions: '3',
-    //     },
-
-    //   ]
-
-
-    // },
-    // {
-    //   icon: require('../../../../assets/Images/foodicon.png'),
-    //   title: 'Food and Drinks',
-    //   budget: '500',
-    //   spent: '200',
-    //   opened: false,
-
-    //   dayLeft: '11',
-    //   subcategories: [
-    //     {
-    //       title: 'Lunch',
-    //       budget: '300',
-    //       spent: '100',
-    //       transactions: '1',
-    //     },
-    //     {
-    //       title: 'Cofee',
-    //       budget: '200',
-    //       spent: '50',
-    //       transactions: '3',
-    //     },
-
-    //   ]
-
-
-    // },
-    // {
-    //   icon: require('../../../../assets/Images/subscription.png'),
-    //   title: 'Subscription',
-    //   budget: '250',
-    //   spent: '100',
-    //   opened: false,
-
-    //   dayLeft: '11',
-    //   subcategories: [
-    //     {
-    //       title: 'Netflix',
-    //       budget: '250',
-    //       spent: '50',
-    //       transactions: '1',
-    //     },
-
-
-    //   ]
-
-
-    // },
-  ])
+  const [budgets, setBudgets] = useState([])
 
   const lockCategory = async (items) => {
     setCategoryLoader(true)
@@ -228,11 +93,7 @@ const HomeScreen = () => {
 
   const getCategories = async () => {
     setCategoryLoader(true)
-    // console.log('AuthToken is ', authToken);
-    // console.log('Account ID is ', accountId);
-
-
-    fetch(`https://api-finwiz.softsquare.io/api/user/user-all-categories/${selector.accountId}`, {
+    fetch(`https://api-finwiz.softsquare.io/api/user/user-all-categories`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -263,11 +124,13 @@ const HomeScreen = () => {
 
 
   };
+
   const convertStringToNumber = (str) => {
 
     // Use parseFloat() to convert to a floating-point number
     return parseFloat(str);
   };
+
   const authUser = async () => {
 
    
@@ -289,11 +152,17 @@ const HomeScreen = () => {
       .then((data) => {
         // console.log(data.data);
         // console.log(data.data[0].auth);
+        var amount=0
         data.data[0].auth.map((item, index) => {
 
 
+          
           if (item.balances_current) {
-            setTotalBalance((prevTotalBalance) => prevTotalBalance + convertStringToNumber(item.balances_current));
+            amount=amount+convertStringToNumber(item.balances_current)
+            setTotalBalance(amount);
+            console.log('TOTAL BALANCE IN HOME',amount);
+            
+            dispatch(setTotalBalances(amount))
 
           }
 
@@ -328,8 +197,6 @@ const HomeScreen = () => {
     // console.log(updatedArray);
   }
 
-
-
   const openSheet = (item) => {
 
     console.log('OPEN THE BOTTOM SHEET');
@@ -349,12 +216,11 @@ const HomeScreen = () => {
     }
   };
 
-
   const onEdit = (items) => {
     navigation.navigate('NewCategory', { editCategory: true, items: items })
   }
-  const onMerge = () => {
 
+  const onMerge = () => {
   }
 
   const onDelete = (id) => {
@@ -389,7 +255,7 @@ const HomeScreen = () => {
 
 
   }
-  const dispatch = useDispatch()
+
   const clearAllData = async () => {
     dispatch(setBasicinfoCompleted(false))
     dispatch(setPhoneVerified(false))
@@ -468,6 +334,7 @@ const HomeScreen = () => {
       >
         <MenuComponent lockCategory={lockCategory} menuItem={menuItem} onDelete={onDelete} onEdit={onEdit} onMerge={onMerge} />
       </BottomSheet>
+
       <ScrollView style={styles.mainview}>
 
 

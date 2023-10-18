@@ -14,9 +14,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useSelector } from 'react-redux';
 import { } from 'react-native-gesture-handler';
 import ChooseCategory from './ChooseCategory';
+import { launchImageLibrary } from 'react-native-image-picker';
 const RecordExpense = () => {
-  const route=useRoute()
-  const {type}=route.params
+  const route = useRoute()
+  const { type } = route.params
   const selector = useSelector(state => state.AppReducer);
   const accountId = selector.accountId;
   const authToken = selector.authToken;
@@ -25,6 +26,8 @@ const RecordExpense = () => {
   const handleClick = () => {
     addExpense()
   }
+
+  const [imageSource,setImageSource]=useState()
 
   const [errorText, setErrorText] = useState('')
   const [errorVisible, setErrorVisible] = useState(false)
@@ -50,7 +53,7 @@ const RecordExpense = () => {
     console.log(formattedDate);
 
 
-    if (amount == '' || category == null || merchantName == ''||value=='null') {
+    if (amount == '' || category == null || merchantName == '' || value == 'null') {
       setErrorText('Fill all the details to proceed')
       setErrorVisible(true)
       setLoader(false)
@@ -105,6 +108,30 @@ const RecordExpense = () => {
   const modleVisibiltyController = () => {
     setModalVisible(!modalVisible)
   }
+
+
+  const openGallery = () => {
+    const options = {
+      title: 'Select an Image',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled camera');
+      } else if (response.error) {
+        console.log('Camera Error: ', response.error);
+      } else {
+        console.log(response.assets[0].uri);
+        setImageSource(response.assets[0].uri)
+
+    
+      }
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       {loader ?
@@ -146,7 +173,7 @@ const RecordExpense = () => {
 
                 {/* TextInput */}
                 <TextInput
-                               placeholderTextColor={'grey'}
+                  placeholderTextColor={'grey'}
                   inputMode='numeric'
                   value={amount}
                   onChangeText={(text) => setAmount(text)}
@@ -160,7 +187,7 @@ const RecordExpense = () => {
                     borderWidth: 1,
                     borderColor: '#9CA3AF',
                     borderRadius: 4,
-                    color:'black'
+                    color: 'black'
 
                   }}
                   placeholder="$$$"
@@ -174,7 +201,7 @@ const RecordExpense = () => {
 
                 {/* TextInput */}
                 <TextInput
-                               placeholderTextColor={'grey'}
+                  placeholderTextColor={'grey'}
 
                   value={merchantName}
                   onChangeText={(text) => setMerchantName(text)}
@@ -188,7 +215,7 @@ const RecordExpense = () => {
                     borderWidth: 1,
                     borderColor: '#9CA3AF',
                     borderRadius: 4,
-                    color:'black'
+                    color: 'black'
                   }}
                   placeholder="Type Merchant Name Here"
                 />
@@ -212,7 +239,7 @@ const RecordExpense = () => {
                     borderWidth: 1,
                     borderColor: '#9CA3AF',
                   }}>
-                  <Text style={{color:category ? 'black' : 'grey'}}>{category ? category.name : 'Choose Category'}</Text>
+                  <Text style={{ color: category ? 'black' : 'grey' }}>{category ? category.name : 'Choose Category'}</Text>
                   <Image
                     source={require('../../../../assets/Images/downarrow.png')}
                     style={{ height: 20, width: 20, marginLeft: 30 }}
@@ -253,7 +280,8 @@ const RecordExpense = () => {
               <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
                 Attach Reciept (Optional)
               </Text>
-              <TouchableOpacity>
+              {imageSource&&(<Image resizeMode='stretch' source={{uri:imageSource}} style={{height:150,width:100}}/>)}
+              <TouchableOpacity onPress={openGallery}>
                 <View
                   style={{
                     height: 56,
@@ -274,7 +302,7 @@ const RecordExpense = () => {
               </TouchableOpacity>
 
               {/* ADD BUTTON START */}
-              {errorVisible && <Text style={{ color: 'red', fontWeight: '400', margin: 16,marginBottom:0 }}>{errorText}</Text>}
+              {errorVisible && <Text style={{ color: 'red', fontWeight: '400', margin: 16, marginBottom: 0 }}>{errorText}</Text>}
 
               <View style={{ height: 48, width: '100%' }}>
                 <TouchableOpacity onPress={handleClick}>

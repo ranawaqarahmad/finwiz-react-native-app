@@ -68,6 +68,7 @@ const initialState = {
     userId: 0,
 
     accountId: '',
+    totalBalances:0,
 
 
 
@@ -148,6 +149,9 @@ export const AppSlice = createSlice({
         setOTPScreen: (state, action) => {
             state.OTPScreen = action.payload
         },
+        setTotalBalances: (state, action) => {
+            state.totalBalances = action.payload
+        },
 
     },
 });
@@ -194,7 +198,8 @@ export const {
     setSyncAccountDone,
     setSetupBudgetPlanDone,
     setAnswers,
-    setAccountId
+    setAccountId,
+    setTotalBalances
 
 
 } = AppSlice.actions;

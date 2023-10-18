@@ -104,14 +104,14 @@ const CategoryDetails = () => {
 
                     <LineChart
                         data={{
-                            labels: ["1", "30","1", "30","1", "30","1", "30","1", "30","1", "30","1", "30"],
+                            labels: ["1", "30", "1", "30", "1", "30", "1", "30", "1", "30", "1", "30", "1", "30"],
                             datasets: [
                                 {
-                                    data: [0,  item.manual_spending]
+                                    data: [0, item.manual_spending]
                                 },
                                 {
                                     data: [item.limitation],
-                                    color: () =>item.backgroundColor ,
+                                    color: () => item.backgroundColor,
                                     strokeWidth: 1,
                                     withDots: false,
 
@@ -123,7 +123,7 @@ const CategoryDetails = () => {
                         width={Dimensions.get('window').width - 64}
                         height={200}
 
-                        style={{ marginHorizontal: 8, paddingRight:0,marginTop:25 }}
+                        style={{ marginHorizontal: 8, paddingRight: 0, marginTop: 25 }}
                         withOuterLines={false} // Hide outer lines
                         withHorizontalLabels={false} // Hide horizontal labels
                         withHorizontalLines={false} // Hide horizontal grid lines
@@ -202,7 +202,7 @@ const CategoryDetails = () => {
                                 </TouchableOpacity>
 
                             </View>
-                            <Text style={{ marginTop: 3, fontSize: 14, fontWeight: '400',color:'#1F2A37' }}>{items.count} Transactions</Text>
+                            <Text style={{ marginTop: 3, fontSize: 14, fontWeight: '400', color: '#1F2A37' }}>{items.count} Transactions</Text>
                         </TouchableOpacity>
 
                     )}

@@ -3,12 +3,16 @@ import { SafeAreaView, StyleSheet, Text, View, Platform, StatusBar, Dimensions }
 import Slider from '@react-native-community/slider';
 import CategoryDetails from '../Screens/CategoryDetails';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
+import { useSelector } from 'react-redux';
 
 
 const MultiSliderComponent = ({ onChangeSlider, item }) => {
   var maxvalue, value;
   console.log('=============================', item);
+
   const { width, height } = Dimensions.get('window');
+  const selector = useSelector(state => state.AppReducer);
+  console.log('=============================', selector.totalBalances);
 
 
   const convertStringToNumber = (str) => {
@@ -67,7 +71,8 @@ const MultiSliderComponent = ({ onChangeSlider, item }) => {
       trackStyle={{ alignItems: 'center' }}
       onValuesChange={onChangeSlider}
       values={[value ? value : convertStringToNumber(item.limitation)]}
-      max={maxvalue ? maxvalue : convertStringToNumber(item.limitation * 2)}
+      // max={maxvalue ? maxvalue : convertStringToNumber(item.limitation * 2)}
+      max={selector.totalBalances}
 
 
 

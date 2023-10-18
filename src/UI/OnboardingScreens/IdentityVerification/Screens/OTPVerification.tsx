@@ -22,7 +22,7 @@ const OTPVerification = ({ navigation }) => {
   const navigate = () => {
     navigation.navigate('FaceId');
   }
-  const { token, id, otpCodeCheck } = route.params;
+  const { token, id, otpCodeCheck,number } = route.params;
   const [isErrorVisible, setIsErrorVisible] = useState(false)
   const [errorText, setErrorText] = useState('')
   const isFocused = useIsFocused();
@@ -186,7 +186,7 @@ const OTPVerification = ({ navigation }) => {
 
             <View style={{ marginTop: 80 }}>
               <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>Verify Your Number</Text>
-              <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>A verification code has been sent to {'\n'} +123456789</Text>
+              <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>A verification code has been sent to {'\n'} +{number}</Text>
             </View>
 
 

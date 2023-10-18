@@ -88,7 +88,7 @@ const MobileNumberScreen = ({ navigation }) => {
                 console.log(data.status);
                 if (data.status) {
                     console.log('DATA IS THIS FUCKIGN',data);
-                    navigation.navigate('OTPVerification', { token: token, id: id,otpCodeCheck:otp });
+                    navigation.navigate('OTPVerification', { token: token, id: id,otpCodeCheck:otp,number:number });
 
                 } else {
                     console.log('MESSAGE', data.message);
