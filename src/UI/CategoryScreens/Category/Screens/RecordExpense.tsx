@@ -16,6 +16,8 @@ import { } from 'react-native-gesture-handler';
 import ChooseCategory from './ChooseCategory';
 import { launchImageLibrary } from 'react-native-image-picker';
 const RecordExpense = () => {
+
+  
   const route = useRoute()
   const { type } = route.params
   const selector = useSelector(state => state.AppReducer);

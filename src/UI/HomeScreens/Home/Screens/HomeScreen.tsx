@@ -91,6 +91,46 @@ const HomeScreen = () => {
     }
   };
 
+  const unlockCategory = async (items) => {
+    setCategoryLoader(true)
+
+
+
+    console.log(items);
+
+    try {
+      await fetch(`https://api-finwiz.softsquare.io/api/user/user-categories/${items.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          category_name: items.category_name,
+          limitation: convertStringToNumber(items.limitation),
+          fixed: 0
+
+
+        }),
+      }).then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          console.log(data);
+          getCategories()
+          closeSheet()
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+
+    }
+    catch (error) {
+      console.error(error);
+    }
+  };
+
   const getCategories = async () => {
     setCategoryLoader(true)
     fetch(`https://api-finwiz.softsquare.io/api/user/user-all-categories`, {
@@ -133,7 +173,7 @@ const HomeScreen = () => {
 
   const authUser = async () => {
 
-   
+
 
 
     setTotalBalance(0)
@@ -152,24 +192,26 @@ const HomeScreen = () => {
       .then((data) => {
         // console.log(data.data);
         // console.log(data.data[0].auth);
-        var amount=0
+        var amount = 0
+        var unassignedcash = 0
         data.data[0].auth.map((item, index) => {
 
 
-          
+
           if (item.balances_current) {
-            amount=amount+convertStringToNumber(item.balances_current)
+            amount = amount + convertStringToNumber(item.balances_current)
             setTotalBalance(amount);
-            console.log('TOTAL BALANCE IN HOME',amount);
-            
-            dispatch(setTotalBalances(amount))
+            console.log('TOTAL BALANCE IN HOME', amount);
+
+
 
           }
 
 
           if (item.balances_available) {
-            setAvailableBalance((prevTotalBalance) => prevTotalBalance + convertStringToNumber(item.balances_available));
-
+            unassignedcash = unassignedcash + convertStringToNumber(item.balances_available)
+            setAvailableBalance(unassignedcash);
+            dispatch(setTotalBalances(amount))
           }
 
         })
@@ -221,6 +263,7 @@ const HomeScreen = () => {
   }
 
   const onMerge = () => {
+    navigation.navigate('Merge')
   }
 
   const onDelete = (id) => {
@@ -292,7 +335,7 @@ const HomeScreen = () => {
           <Text onPress={() => {
             console.log('LOGOUT PRESSED');
             dispatch(setAuthToken(null))
-            
+
             dispatch(setstack('WelcomeNav'))
             dispatch(setWelcomeNavStatus(0))
             clearAllData()
@@ -332,7 +375,7 @@ const HomeScreen = () => {
           }
         }}
       >
-        <MenuComponent lockCategory={lockCategory} menuItem={menuItem} onDelete={onDelete} onEdit={onEdit} onMerge={onMerge} />
+        <MenuComponent unlockCategory={unlockCategory} lockCategory={lockCategory} menuItem={menuItem} onDelete={onDelete} onEdit={onEdit} onMerge={onMerge} />
       </BottomSheet>
 
       <ScrollView style={styles.mainview}>

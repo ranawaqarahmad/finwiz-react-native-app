@@ -13,6 +13,7 @@ import NewBudget from '../UI/CategoryScreens/Category/Screens/NewBudget';
 import NewCategory from '../UI/CategoryScreens/Category/Screens/NewCategory';
 import PlanPurchase from '../UI/CategoryScreens/Category/Screens/PlanPurchase';
 import RecordExpense from '../UI/CategoryScreens/Category/Screens/RecordExpense';
+import Merge from '../UI/CategoryScreens/Category/Screens/Merge';
 
 const MainNav = () => {
   const Stack = createStackNavigator();
@@ -39,6 +40,8 @@ const MainNav = () => {
         <Stack.Screen name="NewCategory" component={NewCategory} />
         <Stack.Screen name="PlanPurchase" component={PlanPurchase} />
         <Stack.Screen name="RecordExpense" component={RecordExpense} />
+        <Stack.Screen name="Merge" component={Merge} />
+
 
 
 

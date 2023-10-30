@@ -6,7 +6,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { useSelector } from 'react-redux';
 
 
-const MultiSliderComponent = ({ onChangeSlider, item }) => {
+const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
   var maxvalue, value;
   console.log('=============================', item);
 
@@ -70,6 +70,7 @@ const MultiSliderComponent = ({ onChangeSlider, item }) => {
       markerStyle={{ backgroundColor: 'red', marginTop: 2 }}
       trackStyle={{ alignItems: 'center' }}
       onValuesChange={onChangeSlider}
+      enabledOne={!isEnabled}
       values={[value ? value : convertStringToNumber(item.limitation)]}
       // max={maxvalue ? maxvalue : convertStringToNumber(item.limitation * 2)}
       max={selector.totalBalances}

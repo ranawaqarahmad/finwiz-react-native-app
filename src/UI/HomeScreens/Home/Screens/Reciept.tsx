@@ -22,17 +22,17 @@ const Reciept = () => {
     function base64ToBinary(base64) {
         const binaryString = atob(base64);
         const bytes = new Uint8Array(binaryString.length);
-      
+
         for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
+            bytes[i] = binaryString.charCodeAt(i);
         }
-      
+
         return bytes;
-      }
+    }
     function isBase64(str) {
         const base64RegExp = /^[A-Za-z0-9+/]+[=]{0,3}$/;
         return base64RegExp.test(str);
-      }
+    }
 
     const formatDate = (dateStr: any) => {
         const originalDate = moment(dateStr, 'YYYY-MM-DD HH:mm:ss').format('MMMM D');
@@ -84,17 +84,17 @@ const Reciept = () => {
                     .then((imageBinaryData) => {
                         if (isBase64(imageBinaryData)) {
                             console.log("The data is in base64 format.");
-                          } else {
+                        } else {
                             console.log("The data is not in base64 format.");
-                          }
+                        }
 
-                          const binaryData = base64ToBinary(imageBinaryData);
+                        const binaryData = base64ToBinary(imageBinaryData);
 
-                          if (isBase64(binaryData)) {
+                        if (isBase64(binaryData)) {
                             console.log("The data is in base64 format.");
-                          } else {
+                        } else {
                             console.log("The data is not in base64 format.");
-                          }
+                        }
 
                         // console.log('Image Binary Data is',imageBinaryData);
                         addReceipt(binaryData);
@@ -110,7 +110,7 @@ const Reciept = () => {
 
         try {
             // Create a FormData object to send binary data
-          
+
 
             const response = await fetch(`https://api-finwiz.softsquare.io/api/user/transaction-receipt/${recieptDetails.id}/upload`, {
                 method: 'POST',
@@ -119,9 +119,9 @@ const Reciept = () => {
                     'Content-Type': 'multipart/form-data',
                 },
                 body: JSON.stringify({
-                    account_id:recieptDetails.account_id,
+                    account_id: recieptDetails.account_id,
                     receipt: `data:image/jpeg;base64,${imageBinaryData}`
-                    
+
                 }),
             });
 
@@ -178,7 +178,9 @@ const Reciept = () => {
                     </View> */}
                 </View>
                 {recieptDetails.receipt ?
-                    <Image resizeMode='stretch' source={{ uri: recieptDetails.receipt }} style={{ height: 200, width: 100, marginTop: 70, alignSelf: 'center' }}></Image>
+                    <View style={{width:'100%',height:'100%',flex:1,marginTop: 16,}}>
+                        <Image resizeMode='cover' source={{ uri: recieptDetails.receipt }} style={{ height:'100%',width:'100%',  alignSelf: 'center' }}></Image>
+                    </View>
                     :
                     <View style={{ marginTop: 16 }}>
                         {imageSource ?
@@ -221,7 +223,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     mainview: {
-        padding: 16
+        padding: 16,
+        flex:1
     }
 
 

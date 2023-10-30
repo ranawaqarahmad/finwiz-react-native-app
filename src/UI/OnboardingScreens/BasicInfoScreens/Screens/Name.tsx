@@ -1,35 +1,35 @@
-import { View, Text,TouchableWithoutFeedback, TouchableOpacity, Image, TextInput, StatusBar, ActivityIndicator, Keyboard, KeyboardAvoidingView } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, TouchableOpacity, Image, TextInput, StatusBar, ActivityIndicator, Keyboard, KeyboardAvoidingView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import TextInputCom from '../Components/TextInputCom'
 import RoundButtonComp from '../Components/RoundButtonComp'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
-import { setBasicinfoCompleted, setFinancialPlanScreen, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
+import { setAccountId, setAuthToken, setBasicinfoCompleted, setFinancialPlanScreen, setPhoneVerified, setSyncAccountDone, setTokenSaved, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Name = ({ navigation }) => {
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const isFocused = useIsFocused();
     const [isErrorVisible, setIsErrorVisible] = useState(false)
     const [errorText, setErrorText] = useState('')
     useEffect(() => {
-        if(isFocused){
+        if (isFocused) {
             setLoader(false)
 
         }
-    
+
 
         return () => {
-          
+
         };
-      }, [isFocused]);
+    }, [isFocused]);
     const [firstName, setFirstName] = useState('Tamoor')
     const [secondName, setSecondName] = useState('Malik')
     const [loader, setLoader] = useState(false)
     const selector = useSelector(state => state.AppReducer);
     const authToken = selector.authToken;
     console.log('===============================');
-    
+
     console.log('selector.authToken', selector.authToken);
     console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
     console.log('selector.phoneVerified', selector.phoneVerified);
@@ -52,7 +52,7 @@ const Name = ({ navigation }) => {
 
     const handleApiCall = async () => {
 
-        if(!firstName||!secondName){
+        if (!firstName || !secondName) {
             setErrorText('Name cannot be empty')
             setIsErrorVisible(true)
             return
@@ -101,67 +101,94 @@ const Name = ({ navigation }) => {
         }
     };
 
-    const errorInvisible=()=>{
+    const errorInvisible = () => {
         setErrorText('')
         setIsErrorVisible(false)
     }
+
+    const clearAllData = async () => {
+        dispatch(setBasicinfoCompleted(false))
+        dispatch(setPhoneVerified(false))
+        dispatch(setSyncAccountDone(false))
+        dispatch(setAuthToken(null))
+        dispatch(setTokenSaved(false))
+        dispatch(setAccountId(''))
+    
+        try {
+          await AsyncStorage.clear();
+          console.log('All AsyncStorage data has been cleared.');
+        } catch (error) {
+          console.error('Error clearing AsyncStorage data:', error);
+        }
+      }
     return (
 
 
-        <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}} style={{ backgroundColor: 'white',flex:1 ,justifyContent: 'center',
-        alignItems: 'center', }}>
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{
+            backgroundColor: 'white', flex: 1, justifyContent: 'center',
+            alignItems: 'center',
+        }}>
 
-            {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor:'white' }}>
+            {loader ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
                 <ActivityIndicator size={'large'} color={'#7C56FE'}></ActivityIndicator>
-            </View>:
+            </View> :
 
-<View style={{ width: '100%',flex:1,paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }} onPress={()=>{Keyboard.dismiss()}} >
-           
+                <View style={{ width: '100%', flex: 1, paddingHorizontal: 16, backgroundColor: 'white', justifyContent: 'space-between' }} onPress={() => { Keyboard.dismiss() }} >
 
-                <View style={{}}>
-                    <TouchableOpacity style={{ width: 32, height: 32,alignItems:'center',justifyContent:'center' }}>
-                        <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
 
-                    </TouchableOpacity>
+                    <View style={{}}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log('LOGOUT PRESSED');
+                                dispatch(setAuthToken(null))
 
-                    <View style={{ marginTop: 29 }}>
-                        <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', }}>Basic Information</Text>
-                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>What's Your Name</Text>
+                                dispatch(setstack('WelcomeNav'))
+                                dispatch(setWelcomeNavStatus(0))
+                                clearAllData()
+                            }}
+                            style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center' }}>
+                            <Image style={{ width: 24, height: 24, }} source={require('../../../../assets/Images/crossblack.png')} />
+
+                        </TouchableOpacity>
+
+                        <View style={{ marginTop: 29 }}>
+                            <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', }}>Basic Information</Text>
+                            <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 22 }}>What's Your Name</Text>
+                        </View>
+
+                        <View style={{ marginTop: 35 }}>
+                            <TextInputCom errorInvisible={errorInvisible} placeholder={'Legal First Name'} text={firstName} setText={setFirstName} startImageSrc={null} />
+                            <TextInputCom errorInvisible={errorInvisible} placeholder={'Legal Second Name'} text={secondName} setText={setSecondName} startImageSrc={null} />
+                        </View>
+
+                        {isErrorVisible && (<Text style={{ color: 'red', fontWeight: '400', marginTop: 8 }}>{errorText}</Text>)}
+
+
                     </View>
 
-                    <View style={{ marginTop: 35 }}>
-                        <TextInputCom errorInvisible={errorInvisible} placeholder={'Legal First Name'} text={firstName} setText={setFirstName} startImageSrc={null} />
-                        <TextInputCom errorInvisible={errorInvisible}  placeholder={'Legal Second Name'} text={secondName} setText={setSecondName} startImageSrc={null} />
-                    </View>
-
-                    {isErrorVisible && (<Text style={{ color: 'red', fontWeight: '400', marginTop: 8 }}>{errorText}</Text>)}
-
-
-                </View>
 
 
 
-
-
-
-
-                <View style={{ marginBottom: 16}}>
 
 
 
                     <View style={{ marginBottom: 16 }}>
 
-                        <RoundButtonComp onpress={navigate} />
+
+
+                        <View style={{ marginBottom: 16 }}>
+
+                            <RoundButtonComp onpress={navigate} />
+
+
+                        </View>
 
 
                     </View>
 
 
+
                 </View>
-
-
-
-           </View>
             }
         </TouchableWithoutFeedback>
 

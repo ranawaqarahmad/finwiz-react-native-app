@@ -30,7 +30,7 @@ const ChooseCategory = ({ modleVisibiltyController, category, setCategory, onlyC
 
         console.log('AuthToken is ', authToken);
 
-        fetch(`https://api-finwiz.softsquare.io/api/user/main-categories/${per_page}?page=${page}`, {
+        fetch(`https://api-finwiz.softsquare.io/api/user/main-categories-with-user-category-id`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`,
@@ -44,7 +44,7 @@ const ChooseCategory = ({ modleVisibiltyController, category, setCategory, onlyC
                 // data.data.data.map((item) => {
                 //     array.push(item)
                 // })
-                setCategories(data.data.data)
+                setCategories(data.data)
                 lastpage = data.data.last_page
                 setLoader(false)
 

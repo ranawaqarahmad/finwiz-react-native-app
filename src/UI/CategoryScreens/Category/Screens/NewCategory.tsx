@@ -77,9 +77,9 @@ const NewCategory = () => {
     }
 
 
-    console.log(editCategory?items:category);
+    console.log('ITEM LOG',editCategory?items:category);
     
-    const id=editCategory?items.id:category.user_category_pivots[0].category.id;
+    const id=editCategory?items.id:category.user_category_id;
 
     console.log('Category Name',categoryName);
     console.log('Spending Limit',convertStringToNumber(spendingLimit));
@@ -251,7 +251,7 @@ const NewCategory = () => {
            </View>
  
            <View style={{ flexDirection: 'row',alignSelf:'center',width:'100%',justifyContent:'center'}}>
-             <MultiSliderComponent onChangeSlider={onChangeSlider} item={item} />
+             <MultiSliderComponent isEnabled={isEnabled} onChangeSlider={onChangeSlider} item={item} />
  
            </View>
  

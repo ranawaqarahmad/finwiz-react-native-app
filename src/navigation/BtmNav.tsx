@@ -9,6 +9,7 @@ import { Image, Modal, View, StyleSheet } from 'react-native';
 import InsightScreen from '../UI/InsightScreens/Screens/InsightScreen';
 import CustomBottomTabBar from './CustomBottomTabBar';
 import { useState } from 'react';
+import AccountNav from './AccountNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +32,7 @@ const BtmNav = () => {
         }}
       >
         <Tab.Screen name="Home" component={MainNav} />
-        <Tab.Screen name="Accounts" component={AccountsScreen} />
+        <Tab.Screen name="Accounts" component={AccountNav} />
         <Tab.Screen name="Plus" component={AddIncomeA} />
         <Tab.Screen name="Insights" component={InsightScreen} />
         <Tab.Screen name="More" component={MoreScreen} />

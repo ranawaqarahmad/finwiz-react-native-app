@@ -39,69 +39,69 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
             <View style={styles.mainview}>
 
                 <TouchableOpacity onPress={() => onClick(item)} activeOpacity={0.8}>
-                <View style={styles.upperview}>
-                    <View style={{ justifyContent: 'center' }}>
-                        <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: item.backgroundColor, borderRadius: 5 }}>
-                            <Text style={{ fontWeight: 'bold', color: 'white' }}>{getFirstCharacterOfFirstWord(item.category_name)}</Text>
+                    <View style={styles.upperview}>
+                        <View style={{ justifyContent: 'center' }}>
+                            <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: item.backgroundColor, borderRadius: 5 }}>
+                                <Text style={{ fontWeight: 'bold', color: 'white' }}>{getFirstCharacterOfFirstWord(item.category_name)}</Text>
+                            </View>
+
                         </View>
 
-                    </View>
+                        <View style={{ justifyContent: 'center', flex: 1 }}>
+                            <Text style={{ fontSize: 16, fontWeight: '600', color: 'black', paddingLeft: 12 }}>{item.category_name}</Text>
+                        </View>
 
-                    <View style={{ justifyContent: 'center', flex: 1 }}>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: 'black', paddingLeft: 12 }}>{item.category_name}</Text>
-                    </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            {item.fixed == 1 && (
+                                <TouchableOpacity onPress={() => {
+                                    console.log('PRESSED');
 
-                    <View style={{ flexDirection: 'row' }}>
-                        {item.fixed == 1 && (
+                                    openSheet(item)
+                                }} style={{ padding: 2, justifyContent: 'center', flexDirection: 'row', alignSelf: 'center', }}>
+
+                                    <Image source={require('../../../../assets/Images/lock.png')}
+                                        style={{ height: 20, width: 20, }}
+                                        resizeMode='contain'
+                                    />
+
+                                </TouchableOpacity>
+                            )}
+
                             <TouchableOpacity onPress={() => {
                                 console.log('PRESSED');
 
                                 openSheet(item)
-                            }} style={{ padding:2,justifyContent: 'center', flexDirection: 'row', alignSelf: 'center', }}>
+                            }} style={{ justifyContent: 'center', padding: 2, flexDirection: 'row', alignSelf: 'center', }}>
 
-                                <Image source={require('../../../../assets/Images/lock.png')}
+                                <Image source={require('../../../../assets/Images/verticaldots.png')}
                                     style={{ height: 20, width: 20, }}
                                     resizeMode='contain'
                                 />
 
                             </TouchableOpacity>
-                        )}
-
-                        <TouchableOpacity  onPress={() => {
-                            console.log('PRESSED');
-
-                            openSheet(item)
-                        }} style={{ justifyContent: 'center',padding:2, flexDirection: 'row', alignSelf: 'center', }}>
-
-                            <Image source={require('../../../../assets/Images/verticaldots.png')}
-                                style={{ height: 20, width: 20, }}
-                                resizeMode='contain'
-                            />
-
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-
-                <View style={styles.view2}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#000' }}>Balance</Text>
-                        <Text style={{ fontSize: 12, fontWeight: '400', color: '#000' }}>{percent(item.manual_spending, item.limitation)}{'%'}</Text>
-                    </View>
-
-                    <Progress.Bar borderRadius={10} unfilledColor='#F9FAFB' style={{ borderRadius: 10, borderWidth: 0, marginVertical: 6 }} progress={item.manual_spending / item.limitation} height={5} width={null} color="#000000" />
-
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 16, fontWeight: '600', color: '#1F2A37' }}>{'$'}{item.manual_spending}</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#1F2A37' }}>{' of '}{'$'}{item.limitation}</Text>
                         </View>
-                        <View>
-                            <Text style={{ color: '#1F2A37', alignItems: 'center' }}>{item.dayLeft}{' days left'}</Text>
+
+                    </View>
+
+                    <View style={styles.view2}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#000' }}>Balance</Text>
+                            <Text style={{ fontSize: 12, fontWeight: '400', color: '#000' }}>{percent(item.manual_spending, item.limitation)}{'%'}</Text>
+                        </View>
+
+                        <Progress.Bar borderRadius={10} unfilledColor='#F9FAFB' style={{ borderRadius: 10, borderWidth: 0, marginVertical: 6 }} progress={item.manual_spending / item.limitation} height={5} width={null} color="#000000" />
+
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 16, fontWeight: '600', color: '#1F2A37' }}>{'$'}{item.manual_spending}</Text>
+                                <Text style={{ fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#1F2A37' }}>{' of '}{'$'}{item.limitation}</Text>
+                            </View>
+                            <View>
+                                <Text style={{ color: '#1F2A37', alignItems: 'center' }}>{item.dayLeft}{' days left'}</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => openView(index)} style={{
@@ -118,18 +118,17 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
                 </TouchableOpacity>
 
 
-                {item.opened && <View style={{ width: '100%', }}>
+                {item.opened && <View style={{ width: '100%', marginTop:8}}>
 
 
-                    {item.user_category_pivots.map((item, index) => <View style={{ marginTop: 16, rowGap: 8 }} key={index}>
+                    {item.user_category_pivots.map((item, index) => <View style={{marginTop:8, rowGap: 8 }} key={index}>
                         {item.category.sub_category.map((items, index) =>
                             <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
-                                <View style={{ alignSelf: 'center' }}>
+                                <View style={{flexDirection:'row',flex:1}}>
                                     <Text style={styles.mortgagerentelectricitytext}>{items.category}</Text>
+                                    <Text style={{...styles.transactiontext}}>{items.count}{' Transactions'}</Text>
+
                                 </View>
-                                <Text style={styles.transactiontext}>{items.count}{' Transactions'}</Text>
-
-
                             </View>
 
                         )}
@@ -185,7 +184,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         color: '#000',
-        marginBottom: 4
+        marginBottom: 4,
+        flex:1
     },
     transactiontext: {
         fontSize: 14,

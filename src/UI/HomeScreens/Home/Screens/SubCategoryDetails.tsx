@@ -77,11 +77,16 @@ const SubCategoryDetails = () => {
 
     useEffect(() => {
         setPageNumber(1)
-        getTransactions()
         transactionData = []
         console.log("USE EFFECT--------------------------");
 
     }, [isFocused])
+
+    useEffect(() => {
+        getTransactions()
+      
+
+    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor={'#FFFFFF'} barStyle={'dark-content'} />
@@ -139,35 +144,7 @@ const SubCategoryDetails = () => {
 
 
 
-                        {/* edit category ends */}
-
-
-
-                        {/* Spending Limit Text */}
-
-                        {/* Edit Category Starts */}
-                        {/* <View style={{ height: 232, width: '100%', marginTop: 15, padding: 13, borderColor: '#D1D1D1', borderWidth: 1, borderRadius: 8 }}>
-                    <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginBottom: 7 }}>Spending Summary</Text>
-                    <View style={{ height: 180, width: '100%' }}>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928', marginBottom: 20 }}>{'$'}{details.basicDetails.spent}</Text>
-                        <View style={{ borderWidth: 1, borderStyle: 'dashed', position: 'relative', borderColor: '#9CA3AF' }}></View>
-                        <Image source={require('../../../../assets/Images/blackgraphline.png')}
-                            resizeMode='contain'
-                            style={{ height: 130, width: 315, position: 'absolute' }}
-                        />
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: -15 }}>
-                        <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 1</Text>
-                        <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>30</Text>
-
-                    </View>
-                </View>
-                <View style={{ justifyContent: 'center', width: '100%', marginTop: 8 }}>
-                    <Image source={require('../../../../assets/Images/horizontaldotsblack.png')}
-                        style={{ height: 6, width: 25, alignSelf: 'center' }}
-                    />
-                </View> */}
-                        {/* Edit Category ends */}
+                 
 
                         <View style={{ marginTop: 25, marginHorizontal: 16 }}>
                             <Text style={{ fontSize: 14, fontWeight: '600', color: '#000', marginBottom: 10 }}>Transactions</Text>
