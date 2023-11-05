@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useRoute } from '@react-navigation/native'
+import { useIsFocused, useRoute } from '@react-navigation/native'
 import TransactionComponent from '../../HomeScreens/Home/Components/TransactionComponent'
 import { useSelector } from 'react-redux';
 var transactionData = [];
@@ -10,6 +10,7 @@ const AccountDetails = () => {
     const { item } = route.params
     const selector = useSelector(state => state.AppReducer);
     const authToken = selector.authToken;
+    const isFocused=useIsFocused()
 
 
 
@@ -25,13 +26,15 @@ const AccountDetails = () => {
 
     }
 
-   
+    const [loader, setLoader] = useState(true)
+
     const [transactionDetails, setTransactionDetails] = useState()
     const [subcategoryLoader, setSubcategoryLoader] = useState(true)
     const [pageNumber, setPageNumber] = useState(1)
     const [nextPage, setNextPage] = useState()
 
     const getTransactions = async () => {
+
         setPageNumber(pageNumber + 1);
         console.log('Page Number Is ', pageNumber);
 
@@ -43,9 +46,9 @@ const AccountDetails = () => {
             },
             body: JSON.stringify({
                 account_id: item.account_id,
-                filter:'none'
+                filter: 'none'
 
-                
+
             }),
 
         })
@@ -54,9 +57,10 @@ const AccountDetails = () => {
                 // console.log('Categories', data.data.transaction);
                 // const categories = { transactionDetails: data.data.data,}
                 // console.log('NEXT PAGE URL', categories.transactionDetails.next_page_url);
+
                 setNextPage(data.data.next_page_url)
                 console.log(data.data);
-                
+
                 data.data.data.map((item) => {
                     transactionData.push(item)
                 })
@@ -65,12 +69,15 @@ const AccountDetails = () => {
 
 
                 setSubcategoryLoader(false)
+                setLoader(false)
 
 
 
             })
             .catch((error) => {
                 console.log(error);
+                setLoader(false)
+
                 // setLoader(false)
             });
 
@@ -80,9 +87,14 @@ const AccountDetails = () => {
 
     useEffect(() => {
         getTransactions()
-      
+
 
     }, [])
+
+    useEffect(() => {
+
+        transactionData=[]
+    }, [isFocused])
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <View style={{ flexDirection: 'row', marginHorizontal: 16 }}>
@@ -156,35 +168,39 @@ const AccountDetails = () => {
                 <Text style={{ fontSize: 14, fontWeight: '600', color: '#000', marginBottom: 10 }}>Transactions</Text>
             </View>
 
+            {loader ?
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <ActivityIndicator color={'#722ED1'} size={'large'}></ActivityIndicator>
+                </View>
+                :
+                <FlatList
+                    data={transactionDetails}
+                    scrollEnabled={true}
+                    style={{ paddingHorizontal: 16 }}
+                    keyExtractor={(item) => {
+                        const key = item.id.toString()
+                        return key
+                    }}
+                    onEndReached={({ distanceFromEnd }) => {
 
-            <FlatList
-                data={transactionDetails}
-                scrollEnabled={true}
-                style={{ paddingHorizontal: 16 }}
-                keyExtractor={(item) => {
-                    const key = item.id.toString()
-                    return key
-                }}
-                onEndReached={({ distanceFromEnd }) => {
+                        console.log('END REACHED');
 
-                    console.log('END REACHED');
-
-                    if (distanceFromEnd > 0 && nextPage) {
-                        getTransactions();
-                    }
-                }}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={() => {
-                    if (nextPage) {
-                        return <ActivityIndicator size={'large'} />;
-                    } else {
-                        return null; // Return null to hide the footer when there's no next page.
-                    }
-                }} renderItem={({ item, index }) => <TransactionComponent navigationClick={navigationClick} key={index} item={item} />}
+                        if (distanceFromEnd > 0 && nextPage) {
+                            getTransactions();
+                        }
+                    }}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={() => {
+                        if (nextPage) {
+                            return <ActivityIndicator color={'#722ED1'} size={'large'} />;
+                        } else {
+                            return null; // Return null to hide the footer when there's no next page.
+                        }
+                    }} renderItem={({ item, index }) => <TransactionComponent navigationClick={navigationClick} key={index} item={item} />}
 
 
 
-            />
+                />}
 
 
         </View>
