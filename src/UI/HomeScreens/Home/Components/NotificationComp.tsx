@@ -3,7 +3,7 @@ import React from 'react'
 
 const NotificationComp = ({ item }) => {
 
-   const calculateTimeDifference = (time1, time2) => {
+    const calculateTimeDifference = (time1, time2) => {
         const date1 = new Date(time1);
         const date2 = new Date(time2);
 
@@ -26,10 +26,12 @@ const NotificationComp = ({ item }) => {
         return result || '0m'; // Return '0m' if no significant time difference
     };
 
-    const endTime = new Date(); 
+    const endTime = new Date();
 
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 16 ,backgroundColor:item.read==0?'#65BD4410':'white'}}>
+
+          
             <View style={{ width: 40, height: 40, backgroundColor: '#ECECEC', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Image source={require('../../../../assets/Images/stack.png')} style={{ width: 16, height: 16 }} />
             </View>
@@ -37,7 +39,7 @@ const NotificationComp = ({ item }) => {
                 <Text style={{ marginEnd: 16, fontSize: 16, fontWeight: 'bold', color: 'black', flex: 1 }}>{item.title}</Text>
                 <Text style={{ marginEnd: 16, fontSize: 14, fontWeight: 'normal', color: 'black', flex: 1, }}>{item.message}</Text>
             </View>
-            <Text style={{ marginEnd: 0, fontSize: 14, fontWeight: 'normal', color: 'black', }}>{calculateTimeDifference(item.updated_at,endTime)}</Text>
+            <Text style={{ marginEnd: 0, fontSize: 14, fontWeight: 'normal', color: 'black', }}>{calculateTimeDifference(item.updated_at, endTime)}</Text>
 
         </View>
     )

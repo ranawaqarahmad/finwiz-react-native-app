@@ -163,9 +163,9 @@ const Notifications = ({ navigation }) => {
               return null; // Return null to hide the footer when there's no next page.
             }
           }}
-          ItemSeparatorComponent={() => <View style={{ margin: 8 }}></View>}
+          // ItemSeparatorComponent={() => <View style={{ margin: 8 }}></View>}
 
-          contentContainerStyle={{ paddingBottom: 32, padding: 16 }}
+          contentContainerStyle={{ paddingBottom: 32, padding: 16,paddingHorizontal:0 }}
           renderItem={({ item, index }) => <NotificationComp item={item} />
           }
           keyExtractor={(item) => {

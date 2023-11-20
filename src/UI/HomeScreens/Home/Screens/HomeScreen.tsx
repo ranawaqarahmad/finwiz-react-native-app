@@ -343,8 +343,12 @@ const HomeScreen = () => {
 
   useEffect(() => {
     createInsights()
-    readAll()
   }, [])
+
+  useEffect(()=>{
+    readAll()
+
+  },[isFocused])
 
 
   const readAll = async () => {
@@ -420,7 +424,7 @@ const HomeScreen = () => {
           <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
             <View style={{ height: 33, width: 33, borderRadius: 20, backgroundColor: '#E5E7EB', alignSelf: 'center', justifyContent: 'center' }}>
               {selector.notifications == 'true' && (
-                <View style={{ width: 8, height: 8, backgroundColor: '#65BD44', borderRadius: 100, position: 'absolute', right: 0, top: 0 }}></View>
+                <View style={{ width: 8, height: 8, backgroundColor: 'red', borderRadius: 100, position: 'absolute', right: 0, top: 0 }}></View>
               )}
               <Image source={require('../../../../assets/Images/bellicon.png')}
                 style={{ height: 24, width: 24, alignSelf: 'center' }}
