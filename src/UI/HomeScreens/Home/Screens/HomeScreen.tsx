@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StatusBar, View, TouchableOpacity, Text, StyleSheet, SafeAreaView, ScrollView, Image, ImageBackground, FlatList, ActivityIndicator } from 'react-native';
+import { StatusBar, View, TouchableOpacity, Text, StyleSheet, SafeAreaView, ScrollView, Image, ImageBackground, FlatList, ActivityIndicator, Modal } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import DetailedCard from '../Components/DetailedCard';
 import { useDispatch, useSelector } from 'react-redux';
 import BottomSheet from "react-native-raw-bottom-sheet";
 import MenuComponent from '../Components/MenuComponent';
-import { setAccountId, setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSyncAccountDone, setTokenSaved, setTotalBalances, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
+import { setAccountId, setNotificationsCount, setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSyncAccountDone, setTokenSaved, setTotalBalances, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
@@ -37,6 +37,32 @@ const HomeScreen = () => {
   const onClick = (item) => {
     navigation.navigate('CategoryDetails', { item: item });
   }
+
+
+  const createInsights = async () => {
+
+    fetch(`https://api-finwiz.softsquare.io/api/user/generate-insight`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+
+
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+
+  };
 
   const colors = ['#B39966', '#E499F9', '#ED8080', '#F09F4B', '#848C93'];
 
@@ -315,6 +341,56 @@ const HomeScreen = () => {
     }
   }
 
+  useEffect(() => {
+    createInsights()
+    readAll()
+  }, [])
+
+
+  const readAll = async () => {
+
+
+    fetch(`https://api-finwiz.softsquare.io/api/user/unseen-notifications`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+
+
+        if (data.status == 'true') {
+
+
+
+          if (data.data.data.length == 0) {
+            setNotifications(false)
+            dispatch(setNotificationsCount('false'))
+          } else {
+            setNotifications(true)
+            dispatch(setNotificationsCount('true'))
+
+
+          }
+
+
+        }
+
+      })
+      .catch((error) => {
+
+
+      });
+
+
+
+  };
+
+
+  const [notifications, setNotifications] = useState(false)
   return (
     <SafeAreaView style={styles.container}>
       {/* mainview starts */}
@@ -330,20 +406,22 @@ const HomeScreen = () => {
           />
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', columnGap: 8 }}>
 
           <Text onPress={() => {
             console.log('LOGOUT PRESSED');
             dispatch(setAuthToken(null))
-
             dispatch(setstack('WelcomeNav'))
             dispatch(setWelcomeNavStatus(0))
             clearAllData()
           }
           } style={{ marginEnd: 16, fontWeight: 'bold', color: 'red' }}>logout</Text>
           {/* BELLICON STARTS */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
             <View style={{ height: 33, width: 33, borderRadius: 20, backgroundColor: '#E5E7EB', alignSelf: 'center', justifyContent: 'center' }}>
+              {selector.notifications == 'true' && (
+                <View style={{ width: 8, height: 8, backgroundColor: '#65BD44', borderRadius: 100, position: 'absolute', right: 0, top: 0 }}></View>
+              )}
               <Image source={require('../../../../assets/Images/bellicon.png')}
                 style={{ height: 24, width: 24, alignSelf: 'center' }}
               />
@@ -473,6 +551,8 @@ const HomeScreen = () => {
 
       </ScrollView>
       {/* mainview ends */}
+
+
 
 
 

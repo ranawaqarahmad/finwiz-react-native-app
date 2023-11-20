@@ -19,6 +19,7 @@ import AccountDetails from '../UI/AccountsScreens/Screens/AccountDetails';
 import AssetsDetail from '../UI/AccountsScreens/Screens/AssetsDetail';
 import AddNewAsset from '../UI/AccountsScreens/Screens/AddNewAsset';
 import InvestmentDetail from '../UI/AccountsScreens/Screens/InvestmentDetail';
+import Notifications from '../UI/HomeScreens/Home/Screens/Notifications';
 
 const AccountNav = () => {
   const Stack = createStackNavigator();
@@ -36,6 +37,8 @@ const AccountNav = () => {
         <Stack.Screen name="AssetsDetail" component={AssetsDetail} />
         <Stack.Screen name="AddNewAsset" component={AddNewAsset} />
         <Stack.Screen name="InvestmentDetail" component={InvestmentDetail} />
+        <Stack.Screen name="Notifications" component={Notifications} />
+
 
 
 

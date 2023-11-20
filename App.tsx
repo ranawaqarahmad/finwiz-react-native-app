@@ -386,18 +386,6 @@ function App() {
 
   }, [selector.authToken])
 
-  // const isFocused=useIsFocused()
-  // useEffect(() => {
-
-  //   // console.log('selector.authToken',selector.authToken);
-  //   // console.log('selector.basicInfoCompleted',selector.basicInfoCompleted);
-  //   // console.log('selector.phoneVerified',selector.phoneVerified);
-  //   // console.log('selector.setupBudgetPlanDone ',selector.setupBudgetPlanDone );
-
-
-  //  setFlag(false)
-  // }, [isFocused])
-
 
 
 

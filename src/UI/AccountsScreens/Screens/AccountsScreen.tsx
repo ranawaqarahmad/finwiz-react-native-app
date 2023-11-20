@@ -15,6 +15,9 @@ const AccountsScreen = ({ navigation }) => {
 
   ])
 
+
+
+
   const authUser = async () => {
 
 
@@ -35,6 +38,8 @@ const AccountsScreen = ({ navigation }) => {
       .then((data) => {
         // console.log(data.data);
         // console.log(data.data[0].auth);
+
+
 
         if (data.status == 'true') {
           setAccounts(data.data[0].auth)
@@ -93,8 +98,11 @@ const AccountsScreen = ({ navigation }) => {
 
 
           {/* BELLICON STARTS */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
             <View style={{ height: 33, width: 33, borderRadius: 20, backgroundColor: '#E5E7EB', alignSelf: 'center', justifyContent: 'center' }}>
+              {selector.notifications == 'true' && (
+                <View style={{ width: 8, height: 8, backgroundColor: '#65BD44', borderRadius: 100, position: 'absolute', right: 0, top: 0 }}></View>
+              )}
               <Image source={require('../../../assets/Images/bellicon.png')}
                 style={{ height: 24, width: 24, alignSelf: 'center' }}
               />
@@ -111,8 +119,8 @@ const AccountsScreen = ({ navigation }) => {
         </View>
       </View>
       {loader ?
-      <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-        <ActivityIndicator color={'#722ED1'} size={'large'}></ActivityIndicator>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <ActivityIndicator color={'#722ED1'} size={'large'}></ActivityIndicator>
         </View>
         :
         <FlatList

@@ -171,7 +171,7 @@ const CustomBottomTabBar = ({ state, descriptors, navigation,controlModalVisibil
 
                                 </TouchableOpacity>
                             )}
-                            {route.name === "Insights" && (
+                            {route.name === "InsightsNav" && (
                                 <TouchableOpacity
                                     accessibilityRole="button"
                                     accessibilityStates={isFocused ? ["selected"] : []}

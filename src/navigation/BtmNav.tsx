@@ -10,6 +10,7 @@ import InsightScreen from '../UI/InsightScreens/Screens/InsightScreen';
 import CustomBottomTabBar from './CustomBottomTabBar';
 import { useState } from 'react';
 import AccountNav from './AccountNav';
+import InsightsNav from './InsightsNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +35,7 @@ const BtmNav = () => {
         <Tab.Screen name="Home" component={MainNav} />
         <Tab.Screen name="Accounts" component={AccountNav} />
         <Tab.Screen name="Plus" component={AddIncomeA} />
-        <Tab.Screen name="Insights" component={InsightScreen} />
+        <Tab.Screen name="InsightsNav" component={InsightsNav} />
         <Tab.Screen name="More" component={MoreScreen} />
       </Tab.Navigator>
       <Modal  visible={modalVisible} transparent={true} animationType="slide">

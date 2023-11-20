@@ -69,6 +69,7 @@ const initialState = {
 
     accountId: '',
     totalBalances:0,
+    notifications:'false'
 
 
 
@@ -152,6 +153,10 @@ export const AppSlice = createSlice({
         setTotalBalances: (state, action) => {
             state.totalBalances = action.payload
         },
+        setNotificationsCount: (state, action) => {
+            state.notifications = action.payload
+        },
+
 
     },
 });
@@ -199,7 +204,8 @@ export const {
     setSetupBudgetPlanDone,
     setAnswers,
     setAccountId,
-    setTotalBalances
+    setTotalBalances,
+    setNotificationsCount,
 
 
 } = AppSlice.actions;

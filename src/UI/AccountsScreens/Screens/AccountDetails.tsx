@@ -196,7 +196,8 @@ const AccountDetails = () => {
                         } else {
                             return null; // Return null to hide the footer when there's no next page.
                         }
-                    }} renderItem={({ item, index }) => <TransactionComponent navigationClick={navigationClick} key={index} item={item} />}
+                    }}
+                     renderItem={({ item, index }) => <TransactionComponent navigationClick={navigationClick} key={index} item={item} />}
 
 
 
