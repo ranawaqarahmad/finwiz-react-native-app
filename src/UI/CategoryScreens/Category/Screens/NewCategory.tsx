@@ -48,7 +48,6 @@ const NewCategory = () => {
 
     setIsEnabled(isEnabled => !isEnabled);
   };
-  const [modalVisible, setModalVisible] = useState(false)
 
 
 
@@ -57,6 +56,7 @@ const NewCategory = () => {
   }
   console.log('THIS IS LIMITATION', item.limitation);
 
+  const [modalVisible, setModalVisible] = useState(false)
 
   const modleVisibiltyController = () => {
     setModalVisible(!modalVisible)

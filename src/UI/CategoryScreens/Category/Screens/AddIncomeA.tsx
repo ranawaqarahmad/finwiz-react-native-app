@@ -28,6 +28,12 @@ const AddIncomeA = ({ controlModalVisibility }) => {
 
     navigation.navigate('PlanPurchase')
   };
+
+  const ChatNav = () => {
+    controlModalVisibility()
+
+    navigation.navigate('ChatNav')
+  };
   return (
     <TouchableWithoutFeedback onPress={() => {
       console.log('ONPRESS');
@@ -40,7 +46,6 @@ const AddIncomeA = ({ controlModalVisibility }) => {
 
         <View
           style={{
-            height: 220,
             paddingLeft: 17,
             backgroundColor: '#FFF',
             borderRadius: 10,
@@ -81,11 +86,22 @@ const AddIncomeA = ({ controlModalVisibility }) => {
               text={'Add New Category'}
             />
           </TouchableOpacity>
-
+          
           <TouchableOpacity onPress={handlePressPlanPurchase}>
             <IncomeComponent
+              borderStyle={{
+                borderBottomWidth: 1,
+                borderBottomColor: '#D3D3D3'
+              }}
               image1={require('../../../../assets/Images/calendar.png')}
               text={'Plan Purchase'}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={ChatNav}>
+            <IncomeComponent
+              image1={require('../../../../assets/Images/chatbot.png')}
+              text={'Chat Bot'}
             />
           </TouchableOpacity>
 

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { setAuthToken, setUserId } from '../../../../redux/AppReducer';
 import { useDispatch } from 'react-redux';
 import { registerApi } from '../../../../Services/ApiList';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 

@@ -72,6 +72,7 @@ const HomeScreen = () => {
   }
 
   const [menuItem, setMenuItem] = useState()
+  const [month,setMonth]=useState('July')
   const [totalBalance, setTotalBalance] = useState(selector.totalBalance)
   const [availableBalance, setAvailableBalance] = useState(0)
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -172,6 +173,7 @@ const HomeScreen = () => {
         // console.log('Categories', data.data);
         // const array=data.data
         const array = []
+        setMonth(data.data[0].month.toUpperCase())
         data.data.map((item) => {
           // console.log(item);
           array.push({ ...item, backgroundColor: getRandomColor() })
@@ -468,19 +470,16 @@ const HomeScreen = () => {
           <ImageBackground source={require('../../../../assets/Images/balanceview.png')} resizeMode='stretch' style={styles.balanceview}>
             <View style={{ flexDirection: 'row', paddingHorizontal: 16 }}>
               <View style={{ justifyContent: 'center' }}>
-                <TouchableOpacity>
-                  <View style={{ height: 31, width: 100, backgroundColor: '#FFFFFF10', borderRadius: 20, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+                <View>
+                  <View style={{ height: 31, columnGap:8,paddingHorizontal:8, backgroundColor: '#FFFFFF10', borderRadius: 20, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
                     <Image
                       source={require('../../../../assets/Images/calendarwhite.png')}
                       style={{ height: 20, width: 20 }}
                     />
-                    <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: '500' }}>July</Text>
-                    <Image
-                      source={require('../../../../assets/Images/downarrowwhite.png')}
-                      style={{ height: 20, width: 20 }}
-                    />
+                    <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: '500' }}>{month}</Text>
+                    
                   </View>
-                </TouchableOpacity>
+                </View>
               </View>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 12, paddingHorizontal: 16, }}>
@@ -499,12 +498,10 @@ const HomeScreen = () => {
 
         {/* BUDGETVIEW STARTS */}
         <View style={{ height: 30, marginHorizontal: 16, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center',alignItems:'center'}}>
             <Text style={{ fontSize: 18, fontWeight: '600', color: 'black', marginRight: 12, alignItems: 'center' }}>Budget </Text>
-            <Text style={{ fontSize: 16, fontWeight: '400', color: '#4B5563', textAlign: 'center', }}>July</Text>
-            <Image source={require('../../../../assets/Images/downarrow.png')}
-              style={{ height: 20, width: 20, alignSelf: 'center', marginLeft: 10 }}
-            />
+            <Text style={{ fontSize: 16, fontWeight: '400', color: '#4B5563', textAlign: 'center', }}>{month}</Text>
+          
           </View>
           <View style={{ justifyContent: 'center' }}>
             <TouchableOpacity>
