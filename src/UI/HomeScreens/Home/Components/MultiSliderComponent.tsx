@@ -25,7 +25,7 @@ const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
 
 
   useEffect(() => {
-    maxvalue = convertStringToNumber(item.limitation * 2);
+    maxvalue = convertStringToNumber(item.max_limit);
     value = convertStringToNumber(item.limitation);
     console.log(maxvalue, value);
 
@@ -49,18 +49,6 @@ const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
   return (
 
 
-    // <Slider
-    //   style={{ flex: 1, height: 40,width:'100%' }}
-    //   minimumValue={0}
-    //   maximumValue={maxvalue?maxvalue:convertStringToNumber(item.limitation * 2)}
-    //   value={value?value:convertStringToNumber(item.limitation)}
-    //   minimumTrackTintColor='transparent'
-    //   maximumTrackTintColor="grey"
-    //   thumbTintColor='black'
-    //   onValueChange={onChangeSlider}
-
-
-    // />
 
     <MultiSlider
     
@@ -73,7 +61,7 @@ const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
       enabledOne={!isEnabled}
       values={[value ? value : convertStringToNumber(item.limitation)]}
       // max={maxvalue ? maxvalue : convertStringToNumber(item.limitation * 2)}
-      max={selector.totalBalances}
+      max={item.max_limit}
 
 
 

@@ -53,6 +53,7 @@ const NewCategory = () => {
 
   const item = {
     limitation: editCategory ? Math.round(convertStringToNumber(items.limitation)) : 50,
+    max_limit:editCategory?Math.round(convertStringToNumber(items.max_limit)):100,
   }
   console.log('THIS IS LIMITATION', item.limitation);
 
@@ -60,6 +61,8 @@ const NewCategory = () => {
 
   const modleVisibiltyController = () => {
     setModalVisible(!modalVisible)
+    console.log('category is equal to this',category);
+    
   }
 
 
@@ -153,47 +156,7 @@ const NewCategory = () => {
  
          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 32 }}>
  
-           {/* add image */}
-           {/* <View style={{
-             height: 70, flexDirection: 'row', marginHorizontal: 16
-           }}>
-             <View
-               style={{
-                 width: 70,
-                 justifyContent: 'center',
-                 alignItems: 'center',
-                 backgroundColor: '#F0F0F0',
-                 borderRadius: 4,
-               }}>
-               <TouchableOpacity>
-                 <View
-                   style={{
-                     backgroundColor: '#7C56FE',
-                     height: 29,
-                     width: 29,
-                     borderRadius: 20,
-                     justifyContent: 'center',
-                     alignItems: 'center',
-                   }}>
-                   <Image
-                     source={require('../../../../assets/Images/plusicon.png')}
-                     style={{ height: 14, width: 15 }}
-                   />
-                 </View>
-               </TouchableOpacity>
-             </View>
-             <View
-               style={{
-                 justifyContent: 'space-evenly',
-                 marginLeft: 19,
-               }}>
-               <Text style={{ color: 'black', fontFamily: 'normal', fontSize: 14 }}>Chose an Avatar</Text>
-               <Text style={{ color: 'black', fontFamily: 'normal', fontSize: 14 }}>Or</Text>
-               <TouchableOpacity>
-                 <Text style={{ color: '#5145CD', fontFamily: 'normal', fontSize: 14 }}>Upload Image</Text>
-               </TouchableOpacity>
-             </View>
-           </View> */}
+         
  
            <View style={{
              marginTop: 20, marginHorizontal: 16

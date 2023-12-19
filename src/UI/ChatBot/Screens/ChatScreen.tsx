@@ -1,11 +1,14 @@
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TopBar from '../Components/TopBar'
 import TextInputComp from '../Components/TextInputComp'
 import Question from '../Components/Question'
 import Answer from '../Components/Answer'
+import { useSelector } from 'react-redux'
 
 const ChatScreen = ({ navigation }) => {
+  const selector = useSelector(state => state.AppReducer);
+  const authToken = selector.authToken;
   const goBack = () => {
     navigation.goBack()
   }
@@ -15,37 +18,103 @@ const ChatScreen = ({ navigation }) => {
   }
 
   const [chat, setChat] = useState([
-   
-    {
-      user: false,
-      message:
-        'Certainly! Budgeting is a crucial aspect of financial management. Here are some tips to help you get started:\n\n' +
-        '- Track your expenses: Record all your income and expenses to understand your spending habits.\n' +
-        '- Set financial goals: Define short-term and long-term financial goals to guide your budgeting decisions.\n' +
-        '- Create a budget: Allocate your income into categories like housing, transportation, savings, etc., to control spending.\n' +
-        '- Prioritize needs over wants: Focus on essential expenses and cut back on non-essential ones to save more.\n' +
-        '- Build an emergency fund: Save a portion of your income for unexpected expenses or emergencies.\n' +
-        '- Review and adjust regularly: Keep track of your budget and make necessary adjustments to stay on track.'
-    },
-    {
-      user: true,
-      message: 'Hello! Can you give me tips on budgeting? Hello! Can you give me tips on budgeting?',
 
 
-    },
 
 
   ])
+  const [pageNumber, setPageNumber] = useState(1)
 
-  const addMessage = ( message) => {
+  const [details, setDetails] = useState(
+
+  )
+
+  const [transactionDetails, setTransactionDetails] = useState()
+
+  const [nextPage, setNextPage] = useState()
+
+
+  useEffect(() => {
+    getChat()
+  }, [])
+  const getChat = async () => {
+
+
+    fetch(`https://api-finwiz.softsquare.io/api/user/user-ai-chat`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.data.data);
+
+        // console.log('Categories', data.data.transaction);
+        setChat(data.data.data)
+
+
+
+      })
+      .catch((error) => {
+        console.log(error);
+        // setLoader(false)
+      });
+
+
+
+  };
+
+
+
+  const addMessage = async (message) => {
+
+
     const newMessage = {
-      user: true,
+      type: 'user',
       message: message,
     };
-  
+
     setChat((prevChat) => [newMessage, ...prevChat]);
+
+
+    fetch('https://api-finwiz.softsquare.io/api/user/send-ai-message', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: message,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('chat response ', data);
+
+        const newMessage = {
+          type: 'ai',
+          message: data.data,
+        };
+
+        setChat((prevChat) => [newMessage, ...prevChat]);
+
+
+
+      })
+      .catch((error) => {
+
+      });
+
+
+
   };
-  
+
+
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -54,9 +123,13 @@ const ChatScreen = ({ navigation }) => {
       <FlatList
         contentContainerStyle={{ padding: 16 }}
         data={chat}
+        keyExtractor={(item) => {
+          const key = item.id.toString()
+          return key;
+        }}
         inverted
         renderItem={({ item, index }) => {
-          return item.user ? <Question item={item} /> : <Answer item={item} />;
+          return item.type == 'user' ? <Question item={item} /> : <Answer item={item} />;
         }}
       />
 
@@ -64,7 +137,7 @@ const ChatScreen = ({ navigation }) => {
       <TextInputComp addQuestion={addMessage} />
 
     </View>
-  ) 
+  )
 }
 
 export default ChatScreen
