@@ -240,6 +240,7 @@ const NewCategory = () => {
                />
              </View>
            </View>
+
            <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#6B7280', marginBottom: 25, marginHorizontal: 16 }}>
              Fixed Category means when you edit your budget we wont change the
              limit or balance for this category
@@ -248,6 +249,7 @@ const NewCategory = () => {
            <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '600', marginHorizontal: 16 }}>
              {editCategory ? 'Category' : 'Choose Category Type'}
            </Text>
+
            <TouchableOpacity
              disabled={editCategory}
  
@@ -280,6 +282,7 @@ const NewCategory = () => {
              </View>
              {errorVisible && <Text style={{ color: 'red', fontWeight: '400', margin: 16 }}>{errorText}</Text>}
            </TouchableOpacity>
+           
            <View style={{ marginHorizontal: 16, marginTop: 16 }}>
              <TouchableOpacity style={{ backgroundColor: '#7C56FE', borderRadius: 8, paddingVertical: 16, alignItems: 'center' }} onPress={addCategory}>
                <Text style={{ fontSize: 16, fontWeight: '600', color: 'white' }}>{editCategory?'Save':'Add'}</Text>
@@ -289,6 +292,8 @@ const NewCategory = () => {
  
  
          </ScrollView>
+
+         
        </View>}
    
 
@@ -296,6 +301,7 @@ const NewCategory = () => {
         <ChooseCategory category={category} setCategory={setCategory} modleVisibiltyController={modleVisibiltyController} onlyCategory={true} />
       </Modal>
     </SafeAreaView>
+
   );
 };
 

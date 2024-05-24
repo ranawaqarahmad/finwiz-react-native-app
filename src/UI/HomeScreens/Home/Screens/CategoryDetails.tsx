@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView, StatusBar, Modal, Dimensions } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import EditCategory from './EditCategory'
 import { LineChart } from 'react-native-chart-kit'
+import { log } from 'console'
 
 const CategoryDetails = () => {
     const navigation = useNavigation()
@@ -11,11 +12,33 @@ const CategoryDetails = () => {
     }
     const route = useRoute()
     const { item } = route.params
-    console.log(item);
+    console.log('THIS IS ITEM',item);
 
 
     const [categoryDetails, setcategoryDetails] = useState(
         item)
+
+   
+
+        const [totalCount,setTotalCount]=useState()
+
+    useEffect(()=>{
+
+        var total=0;
+        item?.user_category_pivots?.map((items) => {
+            {items?.category?.sub_category?.map((aitem)=>{
+                total = total + aitem.count
+                console.log(total);
+            })}
+            
+            
+        })
+
+        setTotalCount(total)
+
+    },[])
+
+    
     return (
         <SafeAreaView style={styles.container}>
 
@@ -28,22 +51,20 @@ const CategoryDetails = () => {
                 {/* BACK ARROW AND MONTH STARTS*/}
                 <View style={{ height: 33, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View style={{ height: 33, width: '28%', flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <TouchableOpacity  style={{ height: 30, width: 30,justifyContent:'center' }} onPress={() => navigation.goBack()}>
                             <Image source={require('../../../../assets/Images/backarrow.png')}
                                 style={{ height: 20, width: 20 }} />
                         </TouchableOpacity>
 
                     </View>
 
-                    <View style={{ height: 33, width: '30%', flexDirection: 'row', justifyContent: 'space-between', }}>
-                        {/* BELLICON STARTS */}
+                    {/* <View style={{ height: 33, width: '30%', flexDirection: 'row', justifyContent: 'space-between', }}>
 
                         <View style={{ height: 33, borderRadius: 20, alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ fontSize: 16, fontWeight: '400', color: '#4B5563' }}>
                                 This Month
                             </Text>
                         </View>
-                        {/* down arrow */}
                         <TouchableOpacity>
                             <View style={{ height: 33, width: 33, borderRadius: 20, alignItems: 'center', justifyContent: 'center' }}>
                                 <Image source={require('../../../../assets/Images/downarrow.png')}
@@ -51,7 +72,7 @@ const CategoryDetails = () => {
                                 />
                             </View>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </View>
                 {/* back arrow and month ends */}
 
@@ -64,7 +85,7 @@ const CategoryDetails = () => {
                         </View>
                         <View style={{ marginLeft: 12, }}>
                             <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928', }}>{categoryDetails.category_name}</Text>
-                            <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>12 Transactions</Text>
+                            <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280' }}>{totalCount} Transactions</Text>
                         </View>
 
                     </View>
@@ -157,11 +178,11 @@ const CategoryDetails = () => {
                         </View>
                     </View>
                 </View>
-                <View style={{ justifyContent: 'center', width: '100%', marginTop: 8 }}>
+                {/* <View style={{ justifyContent: 'center', width: '100%', marginTop: 8 }}>
                     <Image source={require('../../../../assets/Images/horizontaldots.png')}
                         style={{ height: 6, width: 25, alignSelf: 'center' }}
                     />
-                </View>
+                </View> */}
                 {/* Edit Category ends */}
 
                 <View style={{ marginTop: 25 }}>
@@ -186,8 +207,8 @@ const CategoryDetails = () => {
                     )
                 } */}
 
-                {categoryDetails.user_category_pivots.map((item, index) => <View style={{ marginTop: 16, rowGap: 8 }} key={index}>
-                    {item.category.sub_category.map((items, index) =>
+                {categoryDetails?.user_category_pivots?.map((item, index) => <View style={{ marginTop: 16, rowGap: 8 }} key={index}>
+                    {item.category?.sub_category?.map((items, index) =>
                         <TouchableOpacity
                             onPress={() => navigation.navigate('SubCategoryDetails', { basicDetails: items })}
                             key={index}>

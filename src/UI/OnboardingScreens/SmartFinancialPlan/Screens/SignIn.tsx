@@ -8,8 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignIn = ({ navigation }) => {
     const selector = useSelector(state => state.AppReducer);
-    const [password, setPassword] = useState('11221122')
-    const [email, setEmail] = useState('izhan@gmail.com')
+    const [email, setEmail] = useState('tamoormalik088@gmail.com')
+    const [password, setPassword] = useState('Profe$$ional789')
     const [loader, setLoader] = useState(false)
     const basicInfoCompleted = selector.basicInfoCompleted;
     const phoneVerified = selector.phoneVerified;
@@ -239,7 +239,7 @@ const SignIn = ({ navigation }) => {
     const dispatch = useDispatch()
     return (
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }} style={{ backgroundColor: 'white', flex: 1 }}>
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1,backgroundColor:'white' }}>
 
                 {loader ? (
                     <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>

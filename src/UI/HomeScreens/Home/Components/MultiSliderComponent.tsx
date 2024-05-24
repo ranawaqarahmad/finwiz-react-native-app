@@ -43,7 +43,7 @@ const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
   };
 
 
-  console.log('OUTSIDE   ', maxvalue + value);
+  console.log('OUTSIDE   ',item.max_limit);
 
 
   return (
@@ -61,7 +61,7 @@ const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
       enabledOne={!isEnabled}
       values={[value ? value : convertStringToNumber(item.limitation)]}
       // max={maxvalue ? maxvalue : convertStringToNumber(item.limitation * 2)}
-      max={item.max_limit}
+      max={item.max_limit?item.max_limit:1000}
 
 
 

@@ -5,7 +5,6 @@ import HomeScreen from '../UI/HomeScreens/Home/Screens/HomeScreen';
 import CategoryDetails from '../UI/HomeScreens/Home/Screens/CategoryDetails';
 import SubCategoryDetails from '../UI/HomeScreens/Home/Screens/SubCategoryDetails';
 import Reciept from '../UI/HomeScreens/Home/Screens/Reciept';
-import EditCategory from '../UI/HomeScreens/Home/Screens/EditCategory';
 import AddIncomeA from '../UI/CategoryScreens/Category/Screens/AddIncomeA';
 import AddIncomeB from '../UI/CategoryScreens/Category/Screens/AddIncomeB';
 import GeneratingPlan from '../UI/CategoryScreens/Category/Screens/GeneratingPlan';
@@ -21,7 +20,7 @@ const MainNav = () => {
   const Stack = createStackNavigator();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingVertical: 16 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white', }}>
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'}></StatusBar>
       <Stack.Navigator initialRouteName='HomeScreen'
         // {faceIdVerified ? (notificationEnabled ? ("") : "EnableNotifications") : ("FaceId")} 
@@ -32,7 +31,6 @@ const MainNav = () => {
         <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
         <Stack.Screen name="SubCategoryDetails" component={SubCategoryDetails} />
         <Stack.Screen name="Reciept" component={Reciept} />
-        <Stack.Screen name="EditCategory" component={EditCategory} />
 
         <Stack.Screen name="Notifications" component={Notifications} />
 

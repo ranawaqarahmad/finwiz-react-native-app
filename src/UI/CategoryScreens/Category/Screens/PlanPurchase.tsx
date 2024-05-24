@@ -21,8 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const PlanPurchase = () => {
-  const navigation = useNavigation();
+const PlanPurchase = ({navigation}) => {
   const handleClick = () => {
     navigation.navigate('GeneratingPlan')
   }
@@ -161,8 +160,8 @@ const PlanPurchase = () => {
             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black' }}>
               Plan Purchase
             </Text>
-            <TouchableOpacity>
-              <Text onPress={() => navigation.goBack()} style={{ fontSize: 16, color: '#5145CD', alignSelf: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text  style={{ fontSize: 16, color: '#5145CD', alignSelf: 'center' }}>
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -221,6 +220,7 @@ const PlanPurchase = () => {
                 paddingHorizontal: 16,
                 fontSize: 14,
                 borderWidth: 1,
+                color: 'black',
                 borderColor: '#9CA3AF',
                 borderRadius: 4,
               }}
@@ -233,7 +233,7 @@ const PlanPurchase = () => {
 
           <View style={{ marginTop: 20 }}>
             <Text style={{ fontSize: 14, color: 'black', marginBottom: 10, fontWeight: '500' }}>
-              How much you need?
+              How much do you need?
             </Text>
 
             {/* TextInput */}
@@ -249,6 +249,7 @@ const PlanPurchase = () => {
                 backgroundColor: 'white',
                 paddingHorizontal: 16,
                 fontSize: 14,
+                color: 'black',
                 borderWidth: 1,
                 borderColor: '#9CA3AF',
                 borderRadius: 4,
@@ -258,7 +259,7 @@ const PlanPurchase = () => {
           </View>
 
           <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
-            When are you planning to have it?
+          When do you plan to purchase?
           </Text>
           <TouchableOpacity onPress={() => showDatePicker()}>
             <View
@@ -288,7 +289,7 @@ const PlanPurchase = () => {
 
           {/* CHOOSE CATEGORY TYPE */}
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
               Choose Priority
             </Text>
@@ -344,7 +345,7 @@ const PlanPurchase = () => {
               </View>
 
             </View>
-          </View>
+          </View> */}
 
           {errorVisible && <Text style={{ color: 'red', fontWeight: '400', marginVertical: 16, marginBottom: 0 }}>{errorText}</Text>}
 
@@ -367,6 +368,7 @@ const PlanPurchase = () => {
         <DateTimePicker
           value={datePickerDate}
           mode="date"
+          textColor='black'
           is24Hour={true}
           display="spinner" // or 'spinner' or 'calendar' (Android-specific)
           onChange={handleDateChange}

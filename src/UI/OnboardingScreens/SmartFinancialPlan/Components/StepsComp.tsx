@@ -5,7 +5,7 @@ import RoundButton from './RoundButton'
 import MyPlaidComponent from '../../../../utils/PlaidFunction'
 import { useSelector } from 'react-redux'
 
-const StepsComp = ({publicTokenApiCall, item, onpress, linkToken, navigate2, errorShow,errorShow2, error, comp, index }) => {
+const StepsComp = ({publicTokenApiCall, item, onpress, linkToken, navigate2, errorShow,errorShow2, error, comp, index,errorShow3 }) => {
     const selector = useSelector(state => state.AppReducer);
 
     return (
@@ -27,7 +27,7 @@ const StepsComp = ({publicTokenApiCall, item, onpress, linkToken, navigate2, err
                         <Text style={{ marginEnd: 16, flex: 1, textAlignVertical: 'center',color:'#6B7280' }}>
                             {item.description}
                         </Text>
-                        {item.auto ? !item.selected?<MyPlaidComponent publicTokenApiCall={publicTokenApiCall} linkToken={linkToken} onpress={onpress}/>:<RoundButton onpress={errorShow2} /> : <RoundButton  onpress={selector.syncAccountDone ? navigate2 : errorShow} />}
+                        {item.auto ? !item.selected?<MyPlaidComponent errorShow3={errorShow3} publicTokenApiCall={publicTokenApiCall} linkToken={linkToken} onpress={onpress}/>:<RoundButton onpress={errorShow2} /> : <RoundButton  onpress={selector.syncAccountDone ? navigate2 : errorShow} />}
 
 
 

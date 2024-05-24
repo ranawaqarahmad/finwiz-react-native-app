@@ -5,12 +5,14 @@ import TransactionComponent from '../../HomeScreens/Home/Components/TransactionC
 import { useSelector } from 'react-redux';
 var transactionData = [];
 
-const AccountDetails = () => {
+const AccountDetails = ({ navigation }) => {
     const route = useRoute()
     const { item } = route.params
+    console.log('ACCOUNT DETAILS',item);
+    
     const selector = useSelector(state => state.AppReducer);
     const authToken = selector.authToken;
-    const isFocused=useIsFocused()
+    const isFocused = useIsFocused()
 
 
 
@@ -93,12 +95,16 @@ const AccountDetails = () => {
 
     useEffect(() => {
 
-        transactionData=[]
+        transactionData = []
     }, [isFocused])
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <View style={{ flexDirection: 'row', marginHorizontal: 16 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1,  }}>
+                <TouchableOpacity  style={{ height: 30, width: 30,justifyContent:'center' }} onPress={() => navigation.goBack()}>
+                            <Image source={require('../../../assets/Images/backarrow.png')}
+                                style={{ height: 20, width: 20 }} />
+                        </TouchableOpacity>
                     <Text style={{ color: 'black', fontSize: 18, fontWeight: '600' }}>Accounts</Text>
 
                 </View>
@@ -107,8 +113,11 @@ const AccountDetails = () => {
 
 
                     {/* BELLICON STARTS */}
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
                         <View style={{ height: 33, width: 33, borderRadius: 20, backgroundColor: '#E5E7EB', alignSelf: 'center', justifyContent: 'center' }}>
+                            {selector.notifications == 'true' && (
+                                <View style={{ width: 8, height: 8, backgroundColor: '#65BD44', borderRadius: 100, position: 'absolute', right: 0, top: 0 }}></View>
+                            )}
                             <Image source={require('../../../assets/Images/bellicon.png')}
                                 style={{ height: 24, width: 24, alignSelf: 'center' }}
                             />
@@ -141,16 +150,16 @@ const AccountDetails = () => {
                 <View style={styles.view2}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                         <View>
-                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>{'USD ' + Math.round(item.balances_current)}</Text>
-                            <Text style={{ color: '#9CA3AF', fontSize: 14, fontWeight: '600' }}>{'Available'}</Text>
+                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>{'USD ' + Math.round(item.balances_available?item.balances_available:item.balances_current)}</Text>
+                            <Text style={{ color: '#9CA3AF', fontSize: 14, fontWeight: '600' }}>{'Balance Available'}</Text>
 
                         </View>
-                        {item.balances_available && (
+                        {/* {item.balances_available && (
                             <View>
                                 <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>{'USD ' + Math.round(item.balances_available)}</Text>
-                                <Text style={{ color: '#9CA3AF', fontSize: 14, fontWeight: '600' }}>{'Amount in Debt'}</Text>
+                                <Text style={{ color: '#9CA3AF', fontSize: 14, fontWeight: '600' }}>{'Balance Current'}</Text>
                             </View>
-                        )}
+                        )} */}
 
 
                     </View>
@@ -197,7 +206,7 @@ const AccountDetails = () => {
                             return null; // Return null to hide the footer when there's no next page.
                         }
                     }}
-                     renderItem={({ item, index }) => <TransactionComponent navigationClick={navigationClick} key={index} item={item} />}
+                    renderItem={({ item, index }) => <TransactionComponent navigationClick={navigationClick} key={index} item={item} />}
 
 
 

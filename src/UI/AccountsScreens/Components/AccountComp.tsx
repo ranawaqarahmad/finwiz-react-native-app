@@ -29,7 +29,7 @@ const AccountComp = ({ item,navigate }) => {
 
                 <View style={styles.view2}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>{'USD ' + item.balances_current}</Text>
+                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>{item.balances_available?'USD '+item.balances_available:'USD '+item.balances_current}</Text>
                         {item.isInvestment &&
                             <Text style={{ color: '#31C48D', fontSize: 20, fontWeight: '600' }}>{item.increase}</Text>
 
@@ -69,6 +69,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         padding: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
 
         elevation: 10,
         marginHorizontal: 16,

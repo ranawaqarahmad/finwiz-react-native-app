@@ -17,7 +17,7 @@ import ChooseCategory from './ChooseCategory';
 import { launchImageLibrary } from 'react-native-image-picker';
 const RecordExpense = () => {
 
-  
+
   const route = useRoute()
   const { type } = route.params
   const selector = useSelector(state => state.AppReducer);
@@ -29,7 +29,7 @@ const RecordExpense = () => {
     addExpense()
   }
 
-  const [imageSource,setImageSource]=useState()
+  const [imageSource, setImageSource] = useState()
 
   const [errorText, setErrorText] = useState('')
   const [errorVisible, setErrorVisible] = useState(false)
@@ -131,7 +131,7 @@ const RecordExpense = () => {
         console.log(response.assets[0].uri);
         setImageSource(response.assets[0].uri)
 
-    
+
       }
     });
   };
@@ -156,7 +156,7 @@ const RecordExpense = () => {
                   marginBottom: 20,
                 }}>
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black' }}>
-                  Record Expense
+                  Record Income / Record Expense
                 </Text>
                 <TouchableOpacity>
                   <Text onPress={() => navigation.goBack()} style={{ fontSize: 16, color: '#5145CD', alignSelf: 'center' }}>
@@ -228,33 +228,12 @@ const RecordExpense = () => {
 
               {/* CHOOSE CATEGORY TYPE */}
 
-              <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
-                Choose Category Type
-              </Text>
-              <TouchableOpacity onPress={() => modleVisibiltyController()}>
-                <View
-                  style={{
-                    height: 56,
-                    padding: 18,
-                    borderRadius: 4,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    borderWidth: 1,
-                    borderColor: '#9CA3AF',
-                  }}>
-                  <Text style={{ color: category ? 'black' : 'grey' }}>{category ? category.name : 'Choose Category'}</Text>
-                  <Image
-                    source={require('../../../../assets/Images/downarrow.png')}
-                    style={{ height: 20, width: 20, marginLeft: 30 }}
-                    resizeMode="contain"
-                  />
-                </View>
-              </TouchableOpacity>
+
 
               <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
                 Choose Transaction Type
               </Text>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: 'row', zIndex: 100 }}>
                 <DropDownPicker
                   open={open}
                   value={value}
@@ -278,31 +257,62 @@ const RecordExpense = () => {
                 />
               </View>
 
-
-              {/* ATTACH RECIEPT OPTIONAL START */}
               <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
-                Attach Reciept (Optional)
+                Choose Category Type
               </Text>
-              {imageSource&&(<Image resizeMode='stretch' source={{uri:imageSource}} style={{height:150,width:100}}/>)}
-              <TouchableOpacity onPress={openGallery}>
+              <TouchableOpacity onPress={() => modleVisibiltyController()}>
                 <View
                   style={{
                     height: 56,
                     padding: 18,
                     borderRadius: 4,
                     flexDirection: 'row',
+                    justifyContent: 'space-between',
                     borderWidth: 1,
-                    backgroundColor: '#F3F4F6',
-                    borderColor: 'transparent',
+                    borderColor: '#9CA3AF',
                   }}>
+                  <Text style={{ color: category ? 'black' : 'grey' }}>{category ? category.name : 'Choose Category'}</Text>
                   <Image
-                    source={require('../../../../assets/Images/attachfile.png')}
-                    style={{ height: 20, width: 20, marginLeft: 10 }}
+                    source={require('../../../../assets/Images/downarrow.png')}
+                    style={{ height: 20, width: 20, marginLeft: 30 }}
                     resizeMode="contain"
                   />
-                  <Text style={{ marginLeft: 15, color: '#5145CD', fontWeight: '400' }}>Attach Reciept</Text>
                 </View>
               </TouchableOpacity>
+
+
+              {/* ATTACH RECIEPT OPTIONAL START */}
+
+              {
+                value!= 'Income' && (
+                  <View>
+                    <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
+                      Attach Reciept (Optional)
+                    </Text>
+                    {imageSource && (<Image resizeMode='stretch' source={{ uri: imageSource }} style={{ height: 150, width: 100 }} />)}
+                    <TouchableOpacity onPress={openGallery}>
+                      <View
+                        style={{
+                          height: 56,
+                          padding: 18,
+                          borderRadius: 4,
+                          flexDirection: 'row',
+                          borderWidth: 1,
+                          backgroundColor: '#F3F4F6',
+                          borderColor: 'transparent',
+                        }}>
+                        <Image
+                          source={require('../../../../assets/Images/attachfile.png')}
+                          style={{ height: 20, width: 20, marginLeft: 10 }}
+                          resizeMode="contain"
+                        />
+                        <Text style={{ marginLeft: 15, color: '#5145CD', fontWeight: '400' }}>Attach Reciept</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )
+              }
+
 
               {/* ADD BUTTON START */}
               {errorVisible && <Text style={{ color: 'red', fontWeight: '400', margin: 16, marginBottom: 0 }}>{errorText}</Text>}

@@ -1,4 +1,4 @@
-import { FlatList, View, TouchableOpacity, Text, Image, ActivityIndicator, Modal } from 'react-native'
+import { FlatList, View, TouchableOpacity, Text, Image, ActivityIndicator, Modal, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 var page = 0
@@ -117,8 +117,9 @@ const ChooseCategory = ({ modleVisibiltyController, category, setCategory, onlyC
 
     }
     return (
+        <SafeAreaView style={{flex:1,backgroundColor:'white'}}>
         <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <View style={{ marginTop: 24, marginHorizontal: 16, flexDirection: 'row', alignItems: 'center', }}>
+            <View style={{ marginTop: 16, marginHorizontal: 16, flexDirection: 'row', alignItems: 'center', }}>
                 <Text style={{ flex: 1, textAlign: 'center', fontSize: 24, fontWeight: 'bold', color: 'black' }}>{isCategory ? 'Choose Category' : 'Choose Sub-Category'}</Text>
                 <TouchableOpacity onPress={modleVisibiltyController} style={{ position: 'absolute', right: 0 }}>
                     <Image style={{ width: 32, height: 32 }} source={require('../../../../assets/Images/crossblack.png')} />
@@ -142,6 +143,7 @@ const ChooseCategory = ({ modleVisibiltyController, category, setCategory, onlyC
                     </TouchableOpacity>}
                 />}
         </View>
+        </SafeAreaView>
     )
 }
 

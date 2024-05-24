@@ -11,6 +11,8 @@ import CustomBottomTabBar from './CustomBottomTabBar';
 import { useState } from 'react';
 import AccountNav from './AccountNav';
 import InsightsNav from './InsightsNav';
+import ChatScreen from '../UI/ChatBot/Screens/ChatScreen';
+import ChatNav from './ChatNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,11 +23,12 @@ const BtmNav = () => {
     setModalVisible(!modalVisible)
   }
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,backgroundColor:'white' }}>
       <Tab.Navigator
         tabBar={props => <CustomBottomTabBar {...props} controlModalVisibility={controlModalVisibility} />}
         sceneContainerStyle={{ backgroundColor: 'white' }}
         initialRouteName="Home"
+        
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -36,7 +39,7 @@ const BtmNav = () => {
         <Tab.Screen name="Accounts" component={AccountNav} />
         <Tab.Screen name="Plus" component={AddIncomeA} />
         <Tab.Screen name="InsightsNav" component={InsightsNav} />
-        <Tab.Screen name="More" component={MoreScreen} />
+        <Tab.Screen name="More" component={ChatNav} />
       </Tab.Navigator>
       <Modal  visible={modalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>

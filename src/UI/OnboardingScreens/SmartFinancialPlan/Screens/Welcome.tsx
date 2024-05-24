@@ -129,7 +129,7 @@ const Welcome = ({ navigation }) => {
     };
     return (
         <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}} style={{ backgroundColor: 'white', flex: 1 }}>
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1,backgroundColor:'white' }}>
 
                 {loader ? (
 

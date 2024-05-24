@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity, Image, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, Image, FlatList, ActivityIndicator, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import CategoryComp from '../Components/CategoryComp'
 import { useSelector } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler'
+import DashedLine from 'react-native-dashed-line';
 
 const InsightScreen = () => {
   const [categories, setCategories] = useState([
@@ -231,18 +232,20 @@ const InsightScreen = () => {
 
               )}
 
-              <View style={{ height: 300, position: 'absolute', width: '100%', flexDirection: 'row',alignItems:'center' }}>
-                <View style={{ backgroundColor: 'white', borderRadius: 100, alignItems: 'center', justifyContent: 'center',height:25,paddingHorizontal:16 }}>
-                  <Text style={{color:'black',fontSize:10,fontWeight:'500'}}>Avg</Text>
+              <View style={{ height: 300, position: 'absolute', width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ backgroundColor: 'white', borderRadius: 100, alignItems: 'center', justifyContent: 'center', height: 25, paddingHorizontal: 16 }}>
+                  <Text style={{ color: 'black', fontSize: 10, fontWeight: '500' }}>Avg</Text>
 
                 </View>
-                <View style={{
-                  flex:1,
-                  height: 0,
-                  borderBottomWidth: 2,
-                  borderBottomColor: '#9CA3AF',
-                  borderStyle: 'dotted',
-                }} />
+
+
+                  <View style={{flex:1}}>
+                  <DashedLine dashColor='#9CA3AF' dashLength={5} />
+
+                </View>
+                
+
+
 
               </View>
 
@@ -250,7 +253,12 @@ const InsightScreen = () => {
             </View>
 
 
-            <View style={{ borderRadius: 9, marginTop: 16, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', elevation: 10, marginHorizontal: 16, padding: 16 }}>
+            <View style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 4, borderRadius: 9, marginTop: 16, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', elevation: 10, marginHorizontal: 16, padding: 16
+            }}>
               <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
                 <Text style={{ color: 'black', fontSize: 16, fontWeight: 'bold' }}>$4500</Text>
                 <Text style={{ color: '#6B7280', fontSize: 14, fontWeight: '600' }}>Total Income</Text>
@@ -270,7 +278,12 @@ const InsightScreen = () => {
             <FlatList
               data={categories}
               ItemSeparatorComponent={() => <View style={{ margin: 8 }}></View>}
-              style={{ backgroundColor: 'white', elevation: 10 }}
+              style={{
+                backgroundColor: 'white', elevation: 10, shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 4,
+              }}
               contentContainerStyle={{ padding: 16 }}
               scrollEnabled={false}
               keyExtractor={(item) => {

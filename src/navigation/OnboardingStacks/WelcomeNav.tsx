@@ -36,7 +36,7 @@ const WelcomeNav = () => {
     const navigation = useNavigation()
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 ,}}>
             <Stack.Navigator
                 screenOptions={{ headerShown: false }}>
 

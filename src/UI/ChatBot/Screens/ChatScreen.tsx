@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, Image, TouchableOpacity, FlatList, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import TopBar from '../Components/TopBar'
 import TextInputComp from '../Components/TextInputComp'
@@ -97,6 +97,7 @@ const ChatScreen = ({ navigation }) => {
         const newMessage = {
           type: 'ai',
           message: data.data,
+          id: Math.random()
         };
 
         setChat((prevChat) => [newMessage, ...prevChat]);
@@ -115,27 +116,53 @@ const ChatScreen = ({ navigation }) => {
 
 
 
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardOpen(true);
+    });
+
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardOpen(false);
+    });
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  const keyboardVerticalOffset = keyboardOpen ? 0 : 100; // Set different offsets based on keyboard state
+
+
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <TopBar goBack={goBack} more={more} />
-      {/* <FlatList/> */}
-      <FlatList
-        contentContainerStyle={{ padding: 16 }}
-        data={chat}
-        keyExtractor={(item) => {
-          const key = item.id.toString()
-          return key;
-        }}
-        inverted
-        renderItem={({ item, index }) => {
-          return item.type == 'user' ? <Question item={item} /> : <Answer item={item} />;
-        }}
-      />
+    <View style={{ flex: 1 ,backgroundColor:'white'}}>
+      <KeyboardAvoidingView
+        enabled={true}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={keyboardVerticalOffset} style={{flex:1}}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+          <TopBar goBack={goBack} more={more} />
+          {/* <FlatList/> */}
+          <FlatList
+            contentContainerStyle={{ padding: 16 }}
+            data={chat}
 
+            inverted
+            renderItem={({ item, index }) => {
+              return item.type == 'user' ? <Question item={item} /> : <Answer item={item} />;
+            }}
+          />
 
-      <TextInputComp addQuestion={addMessage} />
+          <View style={{marginBottom:16}}>
+            <TextInputComp addQuestion={addMessage} />
 
+          </View>
+
+        </View>
+      </KeyboardAvoidingView>
     </View>
   )
 }

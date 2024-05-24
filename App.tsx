@@ -269,13 +269,22 @@ function App() {
         if (data.status == 'true') {
           if (data.data[0].name) {
             dispatch(setBasicinfoCompleted(true))
+          }else{
+            console.log('BASIC INFO INCOMPLETE');
+            
           }
           if (data.data[0].verified == 1) {
             dispatch(setPhoneVerified(true))
             dispatch(setOTPScreen(true))
+          }else{
+            console.log('PHONE INFO INCOMPLETE');
+            
           }
           if (data.data[0].plaid_access_token) {
             dispatch(setSyncAccountDone(true))
+          }else{
+            console.log('SYNC INFO INCOMPLETE');
+            
           }
 
 

@@ -89,6 +89,8 @@ const MobileNumberScreen = ({ navigation }) => {
                 if (data.status) {
                     console.log('DATA IS THIS FUCKIGN',data);
                     navigation.navigate('OTPVerification', { token: token, id: id,otpCodeCheck:otp,number:number });
+                    // navigation.navigate('FaceId', { token: token, id: id,otpCodeCheck:otp,number:number });
+
 
                 } else {
                     console.log('MESSAGE', data.message);
@@ -124,7 +126,7 @@ const MobileNumberScreen = ({ navigation }) => {
                             <Text style={{ fontSize: 16, fontWeight: 'normal', color: '#4B5563', marginTop: 4 }}>A verification code will be sent to your Phone number</Text>
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#E5E7EB', marginTop: 35, backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, paddingHorizontal: 10 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#E5E7EB', marginTop: 35, backgroundColor: '#F9FAFB', borderRadius: 8, marginBottom: 9, padding: 16 }}>
                             <Image style={{ width: 30, height: 20, }} source={require('../../../../assets/Images/usa.png')} />
                             <Text style={{ fontSize: 16, fontWeight: '500', color: '#6B7280', marginHorizontal: 5 }}>+1</Text>
                             <TextInput value={number} onChangeText={(text) => {
@@ -133,7 +135,7 @@ const MobileNumberScreen = ({ navigation }) => {
 
 
                                 setnumber(text)
-                            }} maxLength={12} placeholderTextColor={'grey'} keyboardType='numeric' placeholder='' style={{ fontSize: 16, fontWeight: 'normal', color: '#6B7280', marginTop: 2, flex: 1 }}></TextInput>
+                            }} maxLength={12} placeholderTextColor={'grey'} keyboardType='numeric' placeholder='' style={{ fontSize: 16, fontWeight: 'normal', color: '#6B7280', marginTop: 2, flex: 1,padding:0 }}></TextInput>
                             <TouchableOpacity onPress={() => { setnumber('') }}><Image style={{ width: 25, height: 25, }} source={require('../../../../assets/Images/cross.png')} />
                             </TouchableOpacity>
 

@@ -5,8 +5,8 @@ const TextInputComp = ({addQuestion}) => {
   const [message,setMessage]=useState('')
   return (
     <View style={{ flexDirection: 'row', marginHorizontal: 16, columnGap: 12 ,alignItems:'center'}}>
-      <View style={{ flex: 1, borderWidth: 1, borderRadius: 12, borderColor: '#9CA3AF', flexDirection: 'row', padding: 8 ,paddingVertical:6}}>
-        <TextInput onChangeText={(text)=>setMessage(text)} placeholder='Message' style={{ flex: 1, padding: 0 }}>{message}</TextInput>
+      <View style={{ flex: 1, borderWidth: 1, borderRadius: 12, borderColor: '#9CA3AF', flexDirection: 'row', padding: 8 ,paddingVertical:12}}>
+        <TextInput onChangeText={(text)=>setMessage(text)} placeholderTextColor={'#00000060'} placeholder='Message' style={{ flex: 1, padding: 0,color:'black' }}>{message}</TextInput>
       </View>
 
       <TouchableOpacity onPress={()=>{addQuestion(message),

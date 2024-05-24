@@ -1,4 +1,4 @@
-import { View, Text, StatusBar } from 'react-native'
+import { View, Text, StatusBar, SafeAreaView } from 'react-native'
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import MobileNumberScreen from '../../UI/OnboardingScreens/IdentityVerification/Screens/MobileNumberScreen';
@@ -38,6 +38,7 @@ const OnBoardNav = ({ }) => {
 
 
     return (
+        <SafeAreaView style={{flex:1,backgroundColor:'white'}}>
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
 
@@ -61,6 +62,7 @@ const OnBoardNav = ({ }) => {
 
 
         </View>
+        </SafeAreaView>
     )
 }
 

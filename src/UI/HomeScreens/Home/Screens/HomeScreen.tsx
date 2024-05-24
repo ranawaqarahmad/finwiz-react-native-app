@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StatusBar, View, TouchableOpacity, Text, StyleSheet, SafeAreaView, ScrollView, Image, ImageBackground, FlatList, ActivityIndicator, Modal } from 'react-native';
+import { StatusBar, View, TouchableOpacity, Text, StyleSheet, SafeAreaView, ScrollView, Image, ImageBackground, FlatList, ActivityIndicator, Modal, TouchableOpacityBase, Animated } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import DetailedCard from '../Components/DetailedCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,22 +7,31 @@ import BottomSheet from "react-native-raw-bottom-sheet";
 import MenuComponent from '../Components/MenuComponent';
 import { setAccountId, setNotificationsCount, setAuthToken, setBasicinfoCompleted, setPhoneVerified, setSyncAccountDone, setTokenSaved, setTotalBalances, setWelcomeNavStatus, setstack } from '../../../../redux/AppReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ScrollViewDropDown from '../Components/ScrollViewDropDown';
+
+
 
 const HomeScreen = () => {
   const navigation = useNavigation()
   const selector = useSelector(state => state.AppReducer);
   const dispatch = useDispatch()
   const authToken = selector.authToken;
-  const accountId = selector.accountId;
   const [categoryLoader, setCategoryLoader] = useState(false)
   const isFocused = useIsFocused()
+  const [type, setType] = useState(null)
+  const [nextMonth1, setNextMonth1] = useState('')
+  const [nextMonth2, setNextMonth2] = useState('')
+
+  const [apiCallDOne, setApiCallDone] = useState(false)
+
+
 
   useEffect(() => {
 
 
     setTotalBalance(0)
     setAvailableBalance(0)
-    getCategories()
+    getCategories(type)
     authUser()
     closeSheet()
 
@@ -72,11 +81,15 @@ const HomeScreen = () => {
   }
 
   const [menuItem, setMenuItem] = useState()
-  const [month,setMonth]=useState('July')
+  const [month, setMonth] = useState('')
   const [totalBalance, setTotalBalance] = useState(selector.totalBalance)
   const [availableBalance, setAvailableBalance] = useState(0)
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [budgets, setBudgets] = useState([])
+
+  const [budgets2, setBudgets2] = useState([])
+  const [budgets3, setBudgets3] = useState([])
+
 
   const lockCategory = async (items) => {
     setCategoryLoader(true)
@@ -158,9 +171,9 @@ const HomeScreen = () => {
     }
   };
 
-  const getCategories = async () => {
+  const getCategories = async (type) => {
     setCategoryLoader(true)
-    fetch(`https://api-finwiz.softsquare.io/api/user/user-all-categories`, {
+    fetch(`https://api-finwiz.softsquare.io/api/user/user-all-categories/${type}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -173,14 +186,53 @@ const HomeScreen = () => {
         // console.log('Categories', data.data);
         // const array=data.data
         const array = []
-        setMonth(data.data[0].month.toUpperCase())
-        data.data.map((item) => {
+        const array1 = []
+        const array2 = []
+
+        console.log('MONTH IS THIS',data);
+        console.log('Future 1st Month IS THIS',data?.data.futureMonth[0][0]?.month);
+        console.log('Future 2nd MONTH IS THIS',data?.data.futureMonth[1][0]?.month);
+
+        
+        const month = data?.data.currentMonth[0]?.month;
+        setNextMonth1(data?.data.futureMonth[0][0]?.month)
+        setNextMonth2(data?.data.futureMonth[1][0]?.month)
+
+
+
+        if (month) {
+          const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+          setMonth(capitalizedMonth);
+        } else {
+          // Handle the case where month is null or undefined
+          setMonth(''); // or setMonth(null) or any default value as needed
+        }
+
+        // setMonth(data.data[0].month.toUpperCase())
+        data.data.currentMonth.map((item) => {
           // console.log(item);
           array.push({ ...item, backgroundColor: getRandomColor() })
         });
-        setBudgets(array)
-        setCategoryLoader(false)
 
+        data.data.futureMonth[0].map((item) => {
+          // console.log(item);
+          array1.push({ ...item, backgroundColor: getRandomColor() })
+        });
+        data.data.futureMonth[0].map((item) => {
+          // console.log(item);
+          array2.push({ ...item, backgroundColor: getRandomColor() })
+        });
+        console.log('ARRaY', data);
+        console.log(array);
+
+
+        setBudgets(array)
+        setBudgets2(array1)
+        setBudgets3(array2)
+
+        setApiCallDone(true)
+
+        setCategoryLoader(false)
 
 
       })
@@ -347,10 +399,11 @@ const HomeScreen = () => {
     createInsights()
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     readAll()
+    setOpen(false)
 
-  },[isFocused])
+  }, [isFocused])
 
 
   const readAll = async () => {
@@ -395,8 +448,93 @@ const HomeScreen = () => {
 
   };
 
+  const ChatNav = () => {
+
+    navigation.navigate('ChatNav')
+  };
+
+
+  const [isFloatingButtonVisible, setisFloatingButtonVisible] = useState(true);
+  const floatingButtonOpacity = useRef(new Animated.Value(1)).current;
+  const floatingButtonScale = useRef(new Animated.Value(1)).current;
+
+  const animateFloatingButton = () => {
+    // Hide the button with spring animation
+    Animated.parallel([
+      Animated.timing(floatingButtonOpacity, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(floatingButtonScale, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      // After 2 seconds, show the button with spring animation
+      setTimeout(() => {
+        Animated.parallel([
+          Animated.spring(floatingButtonOpacity, {
+            toValue: 1,
+            useNativeDriver: true,
+          }),
+          Animated.spring(floatingButtonScale, {
+            toValue: 1,
+            useNativeDriver: true,
+          }),
+        ]).start(() => {
+          setisFloatingButtonVisible(true);
+        });
+      }, 1000);
+    });
+  };
+
+  const handleScroll = () => {
+    // Trigger the animation when scrolling occurs
+    animateFloatingButton();
+  };
+
 
   const [notifications, setNotifications] = useState(false)
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    if (apiCallDOne) {
+      setItems([
+        { label: month, value: 'month' },
+        { label: nextMonth1, value: 'nextMonth1' },
+        { label: nextMonth2, value: 'nextMonth2' },
+      ]);
+    }
+  }, [apiCallDOne]); // This useEffect will run whenever apiCallDone changes
+
+
+
+  const onDropDownChange=(value)=>{
+
+    setCategoryLoader(true)
+    
+
+    if(value=='month'){
+      setBudgets(budgets)
+    }
+    if(value=='nextMonth1'){
+      setBudgets(budgets2)
+    }
+    if(value=='nextMonth2'){
+      setBudgets(budgets3)
+    }
+
+    setTimeout(() => {
+      setCategoryLoader(false)
+      
+    }, 2000);
+
+  }
   return (
     <SafeAreaView style={styles.container}>
       {/* mainview starts */}
@@ -462,7 +600,7 @@ const HomeScreen = () => {
         <MenuComponent unlockCategory={unlockCategory} lockCategory={lockCategory} menuItem={menuItem} onDelete={onDelete} onEdit={onEdit} onMerge={onMerge} />
       </BottomSheet>
 
-      <ScrollView style={styles.mainview}>
+      <ScrollView onScroll={handleScroll} showsVerticalScrollIndicator={false} style={styles.mainview}>
 
 
         {/* BALANCE VIEW STARTS */}
@@ -471,13 +609,13 @@ const HomeScreen = () => {
             <View style={{ flexDirection: 'row', paddingHorizontal: 16 }}>
               <View style={{ justifyContent: 'center' }}>
                 <View>
-                  <View style={{ height: 31, columnGap:8,paddingHorizontal:8, backgroundColor: '#FFFFFF10', borderRadius: 20, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+                  <View style={{ height: 31, columnGap: 8, paddingHorizontal: 8, backgroundColor: '#FFFFFF10', borderRadius: 20, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
                     <Image
                       source={require('../../../../assets/Images/calendarwhite.png')}
                       style={{ height: 20, width: 20 }}
                     />
                     <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: '500' }}>{month}</Text>
-                    
+
                   </View>
                 </View>
               </View>
@@ -496,13 +634,31 @@ const HomeScreen = () => {
         </View>
         {/* balance view ends */}
 
-        {/* BUDGETVIEW STARTS */}
-        <View style={{ height: 30, marginHorizontal: 16, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row', alignSelf: 'center',alignItems:'center'}}>
+        {/* 0-VIEW STARTS */}
+        <View style={{ height: 30, marginHorizontal: 16, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', zIndex: 1000 }}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
             <Text style={{ fontSize: 18, fontWeight: '600', color: 'black', marginRight: 12, alignItems: 'center' }}>Budget </Text>
-            <Text style={{ fontSize: 16, fontWeight: '400', color: '#4B5563', textAlign: 'center', }}>{month}</Text>
-          
+            {categoryLoader == false && apiCallDOne == true && (
+              <View style={{ zIndex: 1000 }}>
+                <ScrollViewDropDown
+
+
+onDropDownChange={onDropDownChange}
+
+                  open={open}
+                  value={value}
+                  items={items}
+                  setOpen={setOpen}
+                  modalTitle={month}
+                  setValue={setValue}
+                  setItems={setItems}
+                />
+              </View>
+            )}
+
           </View>
+
+
           <View style={{ justifyContent: 'center' }}>
             <TouchableOpacity>
               <Text style={{ fontSize: 16, fontWeight: '400', color: '#000' }}>Edit</Text>
@@ -516,19 +672,41 @@ const HomeScreen = () => {
         {/* BUDGET VIEW BOTTOM */}
 
         <View style={{ height: 50, width: '66%', marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
-          <TouchableOpacity>
-            <View style={{ backgroundColor: '#1F2A37', borderRadius: 15, height: 29, justifyContent: 'center', width: 49, alignItems: 'center' }}><Text style={{ fontSize: 14, fontWeight: '500', color: '#FFFFFF', borderRadius: 20, justifyContent: 'center' }}>All</Text></View>
+          <TouchableOpacity
+            onPress={() => {
+              if (type != null) {
+                setType(null)
+                getCategories(null)
+              }
+
+            }}
+          >
+            <View style={{ backgroundColor: type == null ? '#1F2A37' : '#E5E7EB', borderRadius: 15, height: 29, justifyContent: 'center', paddingHorizontal: 16, alignItems: 'center' }}><Text style={{ fontSize: 14, fontWeight: '500', color: type == null ? '#FFFFFF' : '#000000', borderRadius: 20, justifyContent: 'center' }}>All</Text></View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={{ backgroundColor: '#E5E7EB', borderRadius: 15, height: 29, justifyContent: 'center', width: 84, alignItems: 'center' }}><Text style={{ fontSize: 14, fontWeight: '500', color: '#000', borderRadius: 20, justifyContent: 'center' }}>Flexible</Text></View>
+          <TouchableOpacity
+            onPress={() => {
+              if (type != 0) {
+                setType(0)
+                getCategories(0)
+              }
+            }}
+          >
+            <View style={{ backgroundColor: type == 0 ? '#1F2A37' : '#E5E7EB', borderRadius: 15, height: 29, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16, }}><Text style={{ fontSize: 14, fontWeight: '500', color: type == 0 ? '#FFFFFF' : '#000000', borderRadius: 20, justifyContent: 'center' }}>Flexible</Text></View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={{ backgroundColor: '#E5E7EB', borderRadius: 15, height: 29, justifyContent: 'center', width: 69, alignItems: 'center' }}><Text style={{ fontSize: 14, fontWeight: '500', color: '#000', borderRadius: 20, justifyContent: 'center' }}>Fixed</Text></View>
+          <TouchableOpacity
+            onPress={() => {
+              if (type != 1) {
+                setType(1)
+                getCategories(1)
+              }
+            }}
+          >
+            <View style={{ backgroundColor: type == 1 ? '#1F2A37' : '#E5E7EB', borderRadius: 15, height: 29, justifyContent: 'center', paddingHorizontal: 16, alignItems: 'center' }}><Text style={{ fontSize: 14, fontWeight: '500', color: type == 1 ? '#FFFFFF' : '#000000', borderRadius: 20, justifyContent: 'center' }}>Fixed</Text></View>
           </TouchableOpacity>
         </View>
         {/* BUDGET BOTTOM */}
         {categoryLoader ?
-          <ActivityIndicator style={{ height: 250, justifyContent: 'center', alignItems: 'center', }} size={'large'} color={'black'}></ActivityIndicator>
+          <ActivityIndicator style={{ height: 250, justifyContent: 'center', alignItems: 'center', }} size={'large'} color={'#7C56FE'}></ActivityIndicator>
           :
           <FlatList
             data={budgets}
@@ -546,13 +724,37 @@ const HomeScreen = () => {
           />
         }
 
+        {budgets.length == 0 && categoryLoader === false && (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Image style={{ width: 200, height: 200, alignSelf: 'center', marginTop: 32, marginEnd: 32 }} source={require('../../../../assets/Images/page.png')} />
+            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#347BFA' }}>The list is Empty</Text>
+          </View>
+
+        )}
+
 
 
 
 
       </ScrollView>
       {/* mainview ends */}
-
+      {
+        isFloatingButtonVisible && (
+          <Animated.View
+            style={{
+              opacity: floatingButtonOpacity,
+              transform: [{ scale: floatingButtonScale }],
+              position: 'absolute',
+              right: 16,
+              bottom: 16,
+            }}
+          >
+            <TouchableOpacity onPress={ChatNav} activeOpacity={0.8} style={{ backgroundColor: '#7C56FE', alignItems: 'center', justifyContent: 'center', borderRadius: 1000, width: 75, height: 75 }}>
+              <Image style={{ width: 50, height: 50 }} source={require('../../../../assets/Images/chatbot.png')} />
+            </TouchableOpacity>
+          </Animated.View>
+        )
+      }
 
 
 

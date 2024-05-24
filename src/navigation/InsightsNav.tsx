@@ -5,7 +5,6 @@ import HomeScreen from '../UI/HomeScreens/Home/Screens/HomeScreen';
 import CategoryDetails from '../UI/HomeScreens/Home/Screens/CategoryDetails';
 import SubCategoryDetails from '../UI/HomeScreens/Home/Screens/SubCategoryDetails';
 import Reciept from '../UI/HomeScreens/Home/Screens/Reciept';
-import EditCategory from '../UI/HomeScreens/Home/Screens/EditCategory';
 import AddIncomeA from '../UI/CategoryScreens/Category/Screens/AddIncomeA';
 import AddIncomeB from '../UI/CategoryScreens/Category/Screens/AddIncomeB';
 import GeneratingPlan from '../UI/CategoryScreens/Category/Screens/GeneratingPlan';

@@ -1,7 +1,7 @@
 // CustomBottomTabBar.js
 
 import React from "react";
-import {Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {Text, View, TouchableOpacity, StyleSheet, Image, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 
@@ -14,9 +14,9 @@ const CustomBottomTabBar = ({ state, descriptors, navigation,controlModalVisibil
     const styles = StyleSheet.create({
         tabBar: {
             flexDirection: "row",
-            backgroundColor: "white",
             alignItems:'center',
-            height:  selector.btmNavVisibility?70:0,
+            height:  Platform.OS=='ios'?85:70,
+            backgroundColor:'white'
         },
         customBackground: {
             flex: 1,
@@ -30,9 +30,10 @@ const CustomBottomTabBar = ({ state, descriptors, navigation,controlModalVisibil
             flex: 1,
             alignSelf: "center",
             alignItems: "center",
+            justifyContent:'center',
             rowGap:5,
             marginBottom:5,
-            width:60
+            width:60,
         },
     });
 
@@ -48,26 +49,7 @@ const CustomBottomTabBar = ({ state, descriptors, navigation,controlModalVisibil
 
                     const imageSize = selector.btmNavVisibility?24:0;
 
-                    // Map the route name to the corresponding image sources
-                    // switch (route.name) {
-                    //   case "Homes":
-                    //     imageInactive = require("../Assets/Icons/compass.png");
-                    //     imageActive = require("../Assets/Icons/compass.png");
-                    //     break;
-                    //   case "Share":
-                    //     imageInactive = require("../Assets/Icons/homeicon2.png");
-                    //     imageActive = require("../Assets/Icons/homeicon2.png");
-                    //     break;
-                    //   case "Shop":
-                    //     imageInactive = require("../Assets/Icons/Union.png");
-                    //     imageActive = require("../Assets/Icons/Union.png");
-                    //     break;
-
-                    //   default:
-                    //     imageInactive = null;
-                    //     imageActive = null;
-                    //     break;
-                    // }
+                   
 
                     const onPress = () => {
                         const event = navigation.emit({
@@ -96,6 +78,7 @@ const CustomBottomTabBar = ({ state, descriptors, navigation,controlModalVisibil
                                     onPress={controlModalVisibility}
                                     style={{
                                        flex:1,
+                                       alignSelf:'center',justifyContent:'center',marginBottom:16
                                     }}
                                 >
                                     {/* Custom Image component */}

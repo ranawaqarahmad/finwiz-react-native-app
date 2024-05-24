@@ -1,15 +1,16 @@
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { PlaidLink, LinkSuccess, LinkExit, LinkLogLevel, LinkIOSPresentationStyle } from 'react-native-plaid-link-sdk';
 
-const MyPlaidComponent = ({ linkToken, onpress, publicTokenApiCall }) => {
+const MyPlaidComponent = ({ linkToken, onpress, publicTokenApiCall,errorShow3 }) => {
+  console.log(linkToken,'LINKTOKEN');
+  
   return (
-
+<View>
+  {linkToken?
     <PlaidLink
       tokenConfig={{
         token: linkToken,
-        // OPTIONAL - log level.
         logLevel: LinkLogLevel.ERROR,
-        // OPTIONAL - Hides native activity indicator if true.
         noLoadingState: false,
       }}
       onSuccess={(success: LinkSuccess) => {
@@ -39,7 +40,15 @@ const MyPlaidComponent = ({ linkToken, onpress, publicTokenApiCall }) => {
         <Image style={{ width: 16, height: 16 }} source={require('../assets/Images/whitearrow.png')} />
 
       </View>
-    </PlaidLink>
+    </PlaidLink>:
+       <TouchableOpacity onPress={()=>{
+        errorShow3()
+       }}
+       style={{ width: 36, height: 36, backgroundColor: 'black', alignSelf: 'flex-end', borderRadius: 400, alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 25, }}>
+       <Image style={{ width: 16, height: 16 }} source={require('../assets/Images/whitearrow.png')} />
+
+     </TouchableOpacity>}
+    </View>
   );
 };
 

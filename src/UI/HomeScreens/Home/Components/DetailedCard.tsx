@@ -3,7 +3,7 @@ import * as Progress from 'react-native-progress';
 
 import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Image } from 'react-native'
 const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
-    // console.log('=============================', item);
+    console.log('=============================', item);
 
     const convertStringToNumber = (str) => {
 
@@ -39,12 +39,14 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
             <View style={styles.mainview}>
 
                 <TouchableOpacity onPress={() => onClick(item)} activeOpacity={0.8}>
+                  
+                  
+                  
                     <View style={styles.upperview}>
                         <View style={{ justifyContent: 'center' }}>
                             <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: item.backgroundColor, borderRadius: 5 }}>
                                 <Text style={{ fontWeight: 'bold', color: 'white' }}>{getFirstCharacterOfFirstWord(item.category_name)}</Text>
                             </View>
-
                         </View>
 
                         <View style={{ justifyContent: 'center', flex: 1 }}>
@@ -83,13 +85,22 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
 
                     </View>
 
+
+
+
+
+
+
+
+
                     <View style={styles.view2}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                             <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#000' }}>Balance</Text>
                             <Text style={{ fontSize: 12, fontWeight: '400', color: '#000' }}>{percent(item.manual_spending, item.limitation)}{'%'}</Text>
                         </View>
 
-                        <Progress.Bar borderRadius={10} unfilledColor='#F9FAFB' style={{ borderRadius: 10, borderWidth: 0, marginVertical: 6 }} progress={item.manual_spending / item.limitation} height={5} width={null} color="#000000" />
+                        <Progress.Bar borderRadius={10} unfilledColor='#F9FAFB' style={{ borderRadius: 10, borderWidth: 0, marginVertical: 6 }}     progress={item.manual_spending==0|| item.limitation==0? 0 : item.manual_spending / item.limitation} 
+height={5} width={null} color="#000000" />
 
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
@@ -103,6 +114,18 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
                         </View>
                     </View>
                 </TouchableOpacity>
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <TouchableOpacity onPress={() => openView(index)} style={{
                     flexDirection: 'row', borderBottomLeftRadius: 8,
@@ -133,18 +156,7 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
 
                         )}
                     </View>)}
-                    {/* {
-                        item.subcategories.map((item, index) => <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 24, alignItems: 'center' }}>
-                            <View style={{ alignSelf: 'center' }}>
-                                <Text style={styles.mortgagerentelectricitytext}>{item.title}</Text>
-                            </View>
-                            <Text style={styles.transactiontext}>{item.transactions}{' Transactions'}</Text>
-
-
-                        </View>
-
-                        )
-                    } */}
+                
 
                     <View style={{ justifyContent: 'center', alignSelf: 'center', marginTop: 24 }}>
                         <TouchableOpacity onPress={() => onClick(item)}>
@@ -166,6 +178,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         padding: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
 
         elevation: 10,
         marginHorizontal: 16,

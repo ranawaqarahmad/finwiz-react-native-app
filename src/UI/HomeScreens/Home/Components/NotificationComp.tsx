@@ -6,26 +6,29 @@ const NotificationComp = ({ item }) => {
     const calculateTimeDifference = (time1, time2) => {
         const date1 = new Date(time1);
         const date2 = new Date(time2);
-
+      
         // Calculate the time difference in milliseconds
         const timeDifference = date2 - date1;
-
-        // Calculate the difference in hours and minutes
-        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+      
+        // Calculate the difference in days, hours, and minutes
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-
+      
         // Format the result
         let result = '';
+        if (days > 0) {
+          result += `${days}d `;
+        }
         if (hours > 0) {
-            result += `${hours}h `;
+          result += `${hours}h `;
         }
         if (minutes > 0) {
-            result += `${minutes}m`;
+          result += `${minutes}m`;
         }
-
+      
         return result || '0m'; // Return '0m' if no significant time difference
-    };
-
+      };
     const endTime = new Date();
 
     return (
