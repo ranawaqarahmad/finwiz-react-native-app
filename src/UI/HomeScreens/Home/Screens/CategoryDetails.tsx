@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView, StatusBar, Modal, Dimensions } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import EditCategory from './EditCategory'
 import { LineChart } from 'react-native-chart-kit'
 import { log } from 'console'
+import LiabilityComp from '../../../CategoryScreens/Category/Components/LiabilityComp'
+import { useSelector, useDispatch } from 'react-redux'
+import RetirementComp from '../../../CategoryScreens/Category/Components/RetirementComp'
+import PlannedPurchaseComp from '../../../CategoryScreens/Category/Components/PlannedPurchaseComp'
+import Swiper from 'react-native-swiper'
 
 const CategoryDetails = () => {
     const navigation = useNavigation()
@@ -12,33 +17,78 @@ const CategoryDetails = () => {
     }
     const route = useRoute()
     const { item } = route.params
-    console.log('THIS IS ITEM',item);
+    console.log('THIS IS ITEM', item.user_category_pivots[0].category
+    );
+    const selector = useSelector(state => state.AppReducer);
+    const dispatch = useDispatch()
+    const authToken = selector.authToken;
+
+    const [categoryDetails, setcategoryDetails] = useState(item)
 
 
-    const [categoryDetails, setcategoryDetails] = useState(
-        item)
 
-   
+    const [totalCount, setTotalCount] = useState()
 
-        const [totalCount,setTotalCount]=useState()
 
-    useEffect(()=>{
+    const [LiabilityItem, setLiabilityItem] = useState()
+    const [RetirementItem, setRetirementItem] = useState()
+    const [plannedpurchaseItem, setplannedpurchaseItem] = useState()
 
-        var total=0;
+    useEffect(() => {
+
+        var total = 0;
         item?.user_category_pivots?.map((items) => {
-            {items?.category?.sub_category?.map((aitem)=>{
-                total = total + aitem.count
-                console.log(total);
-            })}
-            
-            
+            {
+                items?.category?.sub_category?.map((aitem) => {
+                    total = total + aitem.count
+                    console.log(total);
+                })
+            }
+
+
         })
 
         setTotalCount(total)
 
-    },[])
+    }, [])
 
-    
+
+    useEffect(() => {
+
+        fetch(`https://api-finwiz.softsquare.io/api/user/category-graph-data/${item.user_category_pivots[0]?.category?.id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+
+        })
+            .then((response) => response.json())
+            .then((data) => {
+
+
+
+
+                if (item.user_category_pivots[0]?.category?.name == 'Liabilities') {
+                    setLiabilityItem(data.data)
+                }
+
+                if (item.user_category_pivots[0]?.category?.name == 'Retirement') {
+                    setRetirementItem(data.data)
+                }
+
+                if (item.user_category_pivots[0]?.category?.name == 'Planned Purchase') {
+                    setplannedpurchaseItem(data.data)
+                }
+
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [])
+    const swiperRef = useRef(null);
+
     return (
         <SafeAreaView style={styles.container}>
 
@@ -51,7 +101,7 @@ const CategoryDetails = () => {
                 {/* BACK ARROW AND MONTH STARTS*/}
                 <View style={{ height: 33, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View style={{ height: 33, width: '28%', flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity  style={{ height: 30, width: 30,justifyContent:'center' }} onPress={() => navigation.goBack()}>
+                        <TouchableOpacity style={{ height: 30, width: 30, justifyContent: 'center' }} onPress={() => navigation.goBack()}>
                             <Image source={require('../../../../assets/Images/backarrow.png')}
                                 style={{ height: 20, width: 20 }} />
                         </TouchableOpacity>
@@ -102,7 +152,7 @@ const CategoryDetails = () => {
                     <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#111928' }}>Spending Limit</Text>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#111928' }}>{'$'}{categoryDetails.limitation}</Text>
                 </View>
-                {/* spending limit starts */}
+                {/* s imit starts */}
 
 
                 {/* Spending Limit Text */}
@@ -119,65 +169,88 @@ const CategoryDetails = () => {
                 </TouchableOpacity>
                 {/* Spending Limit Text */}
 
-                {/* Edit Category Starts */}
-                <View style={{ height: 280, paddingVertical: 8, width: '100%', marginTop: 15, borderColor: '#D1D1D1', borderWidth: 1, borderRadius: 8 }}>
-                    <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginBottom: 7, marginHorizontal: 16 }}>Spending Summary</Text>
-
-                    <LineChart
-                        data={{
-                            labels: ["1", "30", "1", "30", "1", "30", "1", "30", "1", "30", "1", "30", "1", "30"],
-                            datasets: [
-                                {
-                                    data: [0, item.manual_spending]
-                                },
-                                {
-                                    data: [item.limitation],
-                                    color: () => item.backgroundColor,
-                                    strokeWidth: 1,
-                                    withDots: false,
+                {/* Chart */}
 
 
-                                },
-
-                            ]
-                        }}
-                        width={Dimensions.get('window').width - 64}
-                        height={200}
-
-                        style={{ marginHorizontal: 8, paddingRight: 0, marginTop: 25 }}
-                        withOuterLines={false} // Hide outer lines
-                        withHorizontalLabels={false} // Hide horizontal labels
-                        withHorizontalLines={false} // Hide horizontal grid lines
-                        withVerticalLines={false} // Show vertical grid lines
-                        withVerticalLabels={false} // Hide vertical labels
-                        withDots={false} // Hide data points dots
-                        withShadow={false}
 
 
-                        bezier={true}
-                        chartConfig={{
-                            backgroundGradientFrom: 'white',
-                            backgroundGradientTo: 'white',
 
-                            fillShadowGradient: 'white',
-                            backgroundColor: 'white',
-                            color: (opacity = 1) => item.backgroundColor, // Change color here
-                        }}
-                    />
+                <Swiper
+                    ref={swiperRef}
+                    contentContainerStyle={{ alignItems: 'center', justifyContent: 'center',columnGap:8 }}
+                    loop={false}
+                    showsPagination={true}
+                    height={340} // Adjust the height as needed
+                    activeDotStyle={styles.activeDot}
+                    containerStyle={{ marginTop: 32 }}
+                    dotStyle={styles.dot}
 
-                    <View style={{ position: 'absolute', width: '90%' }}>
-                        <View style={{ width: '100%', marginTop: 32, flex: 1, height: 180, marginHorizontal: 16 }}>
-                            <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928', marginBottom: 20 }}>{'$'}{categoryDetails.limitation}</Text>
-                            <View style={{ borderWidth: 1, borderStyle: 'dashed', borderColor: '#9CA3AF', width: '100%' }}></View>
+                >
 
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 24, marginHorizontal: 16 }}>
-                            <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 1</Text>
-                            <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 30</Text>
+                    <View style={{ height: 280, paddingVertical: 8,elevation:1,backgroundColor:'white',margin:2,marginEnd:8}}>
+                        <Text style={{ fontSize: 14, fontWeight: '400', color: '#6B7280', marginBottom: 7, marginHorizontal: 16 }}>Spending Summary</Text>
 
+                        <LineChart
+                            data={{
+                                labels: ["1", "30", "1", "30", "1", "30", "1", "30", "1", "30", "1", "30", "1", "30"],
+                                datasets: [
+                                    {
+                                        data: [0, item.manual_spending]
+                                    },
+                                    {
+                                        data: [item.limitation],
+                                        color: () => item.backgroundColor,
+                                        strokeWidth: 1,
+                                        withDots: false,
+
+
+                                    },
+
+                                ]
+                            }}
+                            width={Dimensions.get('window').width - 64}
+                            height={200}
+
+                            style={{ marginHorizontal: 8, paddingRight: 0, marginTop: 25 }}
+                            withOuterLines={false} // Hide outer lines
+                            withHorizontalLabels={false} // Hide horizontal labels
+                            withHorizontalLines={false} // Hide horizontal grid lines
+                            withVerticalLines={false} // Show vertical grid lines
+                            withVerticalLabels={false} // Hide vertical labels
+                            withDots={false} // Hide data points dots
+                            withShadow={false}
+
+
+                            bezier={true}
+                            chartConfig={{
+                                backgroundGradientFrom: 'white',
+                                backgroundGradientTo: 'white',
+
+                                fillShadowGradient: 'white',
+                                backgroundColor: 'white',
+                                color: (opacity = 1) => item.backgroundColor, // Change color here
+                            }}
+                        />
+
+                        <View style={{ position: 'absolute', width: '90%' }}>
+                            <View style={{ width: '100%', marginTop: 32, flex: 1, height: 180, marginHorizontal: 16 }}>
+                                <Text style={{ fontSize: 16, fontWeight: '600', color: '#111928', marginBottom: 20 }}>{'$'}{categoryDetails.limitation}</Text>
+                                <View style={{ borderWidth: 1, borderStyle: 'dashed', borderColor: '#9CA3AF', width: '100%' }}></View>
+
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 24, marginHorizontal: 16 }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 1</Text>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: '#000' }}>Day 30</Text>
+
+                            </View>
                         </View>
                     </View>
-                </View>
+                    {LiabilityItem ? (<LiabilityComp item={LiabilityItem} />) : null}
+                    {RetirementItem ? (<RetirementComp item={RetirementItem} />) : null}
+                    {plannedpurchaseItem ? (<PlannedPurchaseComp item={plannedpurchaseItem} />) : null}
+
+                </Swiper>
+
                 {/* <View style={{ justifyContent: 'center', width: '100%', marginTop: 8 }}>
                     <Image source={require('../../../../assets/Images/horizontaldots.png')}
                         style={{ height: 6, width: 25, alignSelf: 'center' }}
@@ -258,6 +331,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '600',
         color: '#6B7280',
+    },
+    activeDot: {
+        backgroundColor: '#9747FF',
+        width: 8, height: 8, borderRadius: 100
+    },
+    dot: {
+        backgroundColor: '#D6D6D6', width: 8, height: 8, borderRadius: 100
+    },
+    slide: {
+        flex: 1,
     },
 })
 export default CategoryDetails

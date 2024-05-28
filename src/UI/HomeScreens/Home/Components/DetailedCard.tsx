@@ -3,7 +3,7 @@ import * as Progress from 'react-native-progress';
 
 import { TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Image } from 'react-native'
 const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
-    console.log('=============================', item);
+    // console.log('=============================', item);
 
     const convertStringToNumber = (str) => {
 

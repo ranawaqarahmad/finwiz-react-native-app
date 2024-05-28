@@ -35,12 +35,12 @@ const HomeScreen = () => {
     authUser()
     closeSheet()
 
-    console.log('selector.authToken', selector.authToken);
-    console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
-    console.log('selector.phoneVerified', selector.phoneVerified);
-    console.log('selector.syncAccountDone ', selector.syncAccountDone);
-    console.log('selector.accountId ', selector.accountId);
-    console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
+    // console.log('selector.authToken', selector.authToken);
+    // console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
+    // console.log('selector.phoneVerified', selector.phoneVerified);
+    // console.log('selector.syncAccountDone ', selector.syncAccountDone);
+    // console.log('selector.accountId ', selector.accountId);
+    // console.log('selector.setupBudgetPlanDone ', selector.setupBudgetPlanDone);
   }, [isFocused])
 
   const onClick = (item) => {
@@ -114,8 +114,8 @@ const HomeScreen = () => {
         }),
       }).then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          console.log(data);
+          // console.log(data);
+          // console.log(data);
           getCategories()
           closeSheet()
 
@@ -136,7 +136,7 @@ const HomeScreen = () => {
 
 
 
-    console.log(items);
+    // console.log(items);
 
     try {
       await fetch(`https://api-finwiz.softsquare.io/api/user/user-categories/${items.id}`, {
@@ -154,8 +154,8 @@ const HomeScreen = () => {
         }),
       }).then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          console.log(data);
+          // console.log(data);
+          // console.log(data);
           getCategories()
           closeSheet()
 
@@ -189,11 +189,11 @@ const HomeScreen = () => {
         const array1 = []
         const array2 = []
 
-        console.log('MONTH IS THIS',data);
-        console.log('Future 1st Month IS THIS',data?.data.futureMonth[0][0]?.month);
-        console.log('Future 2nd MONTH IS THIS',data?.data.futureMonth[1][0]?.month);
+        // console.log('MONTH IS THIS', data);
+        // console.log('Future 1st Month IS THIS', data?.data.futureMonth[0][0]?.month);
+        // console.log('Future 2nd MONTH IS THIS', data?.data.futureMonth[1][0]?.month);
 
-        
+
         const month = data?.data.currentMonth[0]?.month;
         setNextMonth1(data?.data.futureMonth[0][0]?.month)
         setNextMonth2(data?.data.futureMonth[1][0]?.month)
@@ -222,8 +222,8 @@ const HomeScreen = () => {
           // console.log(item);
           array2.push({ ...item, backgroundColor: getRandomColor() })
         });
-        console.log('ARRaY', data);
-        console.log(array);
+        // console.log('ARRaY', data);
+        // console.log(array);
 
 
         setBudgets(array)
@@ -281,7 +281,7 @@ const HomeScreen = () => {
           if (item.balances_current) {
             amount = amount + convertStringToNumber(item.balances_current)
             setTotalBalance(amount);
-            console.log('TOTAL BALANCE IN HOME', amount);
+            // console.log('TOTAL BALANCE IN HOME', amount);
 
 
 
@@ -362,7 +362,7 @@ const HomeScreen = () => {
       .then((data) => {
         // console.log('Categories', data.data);
         // const array=data.data
-        console.log(data);
+        // console.log(data);
         getCategories()
         closeSheet()
 
@@ -514,24 +514,24 @@ const HomeScreen = () => {
 
 
 
-  const onDropDownChange=(value)=>{
+  const onDropDownChange = (value) => {
 
     setCategoryLoader(true)
-    
 
-    if(value=='month'){
+
+    if (value == 'month') {
       setBudgets(budgets)
     }
-    if(value=='nextMonth1'){
+    if (value == 'nextMonth1') {
       setBudgets(budgets2)
     }
-    if(value=='nextMonth2'){
+    if (value == 'nextMonth2') {
       setBudgets(budgets3)
     }
 
     setTimeout(() => {
       setCategoryLoader(false)
-      
+
     }, 2000);
 
   }
@@ -641,10 +641,7 @@ const HomeScreen = () => {
             {categoryLoader == false && apiCallDOne == true && (
               <View style={{ zIndex: 1000 }}>
                 <ScrollViewDropDown
-
-
-onDropDownChange={onDropDownChange}
-
+                  onDropDownChange={onDropDownChange}
                   open={open}
                   value={value}
                   items={items}
