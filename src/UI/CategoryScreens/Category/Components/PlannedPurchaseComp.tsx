@@ -5,15 +5,12 @@ const PlannedPurchaseComp = ({ item }) => {
 
     return (
         <View style={{ backgroundColor: 'white',  rowGap: 16,margin:2,elevation:1,height:280, }}>
-        <View style={{ backgroundColor: 'white', flexDirection: 'row', paddingHorizontal: 16,flex:1,alignItems:'center' }}>
+        <View style={{ backgroundColor: 'white', flexDirection: 'row', paddingHorizontal: 16,flex:1, }}>
             <View style={{ flex: 1, padding: 16 }}>
                 <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{'$'+item.goal}</Text>
                 <Text style={{ fontSize: 14, fontWeight: '400', color: '#4B5563' }}>Your Purchase Goal</Text>
             </View>
-            <View style={{ flex: 1, padding: 16 }}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{'$'+item.goal}</Text>
-                <Text style={{ fontSize: 14, fontWeight: '400', color: '#4B5563' }}>Total Saved</Text>
-            </View>
+         
 
         </View>
     
