@@ -26,7 +26,7 @@ const AddIncomeA = ({ controlModalVisibility }) => {
   const handlePressPlanPurchase = () => {
     controlModalVisibility()
 
-    navigation.navigate('PlanPurchase')
+    navigation.navigate('PlanPurchase',{type:'Income'})
   };
 
   const ChatNav = () => {

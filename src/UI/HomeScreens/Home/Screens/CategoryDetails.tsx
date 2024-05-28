@@ -139,7 +139,13 @@ const CategoryDetails = () => {
                         </View>
 
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('RecordExpense', { type: 'null' })}>
+                    <TouchableOpacity onPress={() =>{
+                        if(item.user_category_pivots[0]?.category?.name == 'Planned Purchase'){
+                            navigation.navigate('PlanPurchase', { type: 'null' })
+                        }else{
+                            navigation.navigate('RecordExpense', { type: 'null' })
+                        }
+                        }}>
                         <View style={{ borderWidth: 1, borderRadius: 33, width: 81, justifyContent: 'center', borderColor: '#F09F4B', height: 33, }}>
                             <Text style={{ textAlign: 'center', color: '#F09F4B', fontSize: 16, fontWeight: '500' }}>+Add</Text>
                         </View>

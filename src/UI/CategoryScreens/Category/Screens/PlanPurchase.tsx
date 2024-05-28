@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import ChooseCategory from './ChooseCategory';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -21,19 +21,20 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const PlanPurchase = ({navigation}) => {
+const PlanPurchase = ({ navigation }) => {
   const handleClick = () => {
     navigation.navigate('GeneratingPlan')
   }
 
-
+  const route = useRoute()
+  const { type } = route.params
   const selector = useSelector(state => state.AppReducer);
   const dispatch = useDispatch()
   const authToken = selector.authToken;
 
-  const [name,setName]=useState('')
-  const [amount,setAmount]=useState()
-  
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState()
+
   const [errorText, setErrorText] = useState('')
   const [errorVisible, setErrorVisible] = useState(false)
   const [loader, setLoader] = useState(false)
@@ -50,7 +51,7 @@ const PlanPurchase = ({navigation}) => {
     }
 
 
-    console.log(items);
+    console.log('category.user_category_id====',category.user_category_id);
 
     try {
       await fetch(`https://api-finwiz.softsquare.io/api/user/future-goal`, {
@@ -62,6 +63,7 @@ const PlanPurchase = ({navigation}) => {
         body: JSON.stringify({
           category_id: category.user_category_id,
           purchase_name: name,
+          transaction_type:value2,
           amount: amount,
           priority: priority,
           date: dob
@@ -72,10 +74,10 @@ const PlanPurchase = ({navigation}) => {
         .then((data) => {
           console.log(data);
 
-          if(data.status){
+          if (data.status) {
             navigation.navigate('GeneratingPlan')
           }
-      
+
 
         })
         .catch((error) => {
@@ -114,6 +116,14 @@ const PlanPurchase = ({navigation}) => {
 
   ]);
 
+  const [open2, setOpen2] = useState(false);
+  const [value2, setValue2] = useState(type);
+  const [items2, setItems2] = useState([
+    { label: 'Expense', value: 'Expense' },
+    { label: 'Income', value: 'Income' }
+
+  ]);
+
   const [dob, setDob] = useState('')
 
 
@@ -123,12 +133,12 @@ const PlanPurchase = ({navigation}) => {
 
       // Parse the input date using the Date object
       const inputDate = new Date(selectedDate);
-    
+
       // Format the date into Y-m-d
       const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
         .toString()
         .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-    
+
       // setSelectedDate(formattedDate);
       setDob(formattedDate);
       // setDatePickerDate(selectedDate);
@@ -146,6 +156,8 @@ const PlanPurchase = ({navigation}) => {
     setDatePickerVisible(false);
   };
 
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 32 }}>
@@ -161,7 +173,7 @@ const PlanPurchase = ({navigation}) => {
               Plan Purchase
             </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text  style={{ fontSize: 16, color: '#5145CD', alignSelf: 'center' }}>
+              <Text style={{ fontSize: 16, color: '#5145CD', alignSelf: 'center' }}>
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -202,6 +214,33 @@ const PlanPurchase = ({navigation}) => {
             {/* {errorVisible && <Text style={{ color: 'red', fontWeight: '400', margin: 16 }}>{errorText}</Text>} */}
           </TouchableOpacity>
 
+          <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
+            Choose Transaction Type
+          </Text>
+          <View style={{ flexDirection: 'row', zIndex: 100 }}>
+            <DropDownPicker
+              open={open2}
+              value={value2}
+              items={items2}
+              setOpen={setOpen2}
+              setValue={setValue2}
+              setItems={setItems2}
+              scrollViewProps={{ scrollEnabled: false, nestedScrollEnabled: true }}
+              listMode='SCROLLVIEW'
+              placeholder='Select Transaction Type'
+              style={{
+                height: 56,
+                padding: 18,
+                borderRadius: 4,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                borderWidth: 1,
+                borderColor: '#9CA3AF',
+              }}
+
+            />
+          </View>
+
           {/* SET NAME START */}
           <View style={{ marginTop: 20 }}>
             <Text style={{ fontSize: 14, color: 'black', marginBottom: 15, fontWeight: '500' }}>
@@ -212,7 +251,7 @@ const PlanPurchase = ({navigation}) => {
             <TextInput
               placeholderTextColor={'grey'}
 
-              onChangeText={(text)=>{setName(text)}}
+              onChangeText={(text) => { setName(text) }}
               style={{
                 width: '100%',
                 height: 58,
@@ -240,7 +279,7 @@ const PlanPurchase = ({navigation}) => {
             <TextInput
               placeholderTextColor={'grey'}
               keyboardType='numeric'
-              onChangeText={(text)=>{setAmount(text)}}
+              onChangeText={(text) => { setAmount(text) }}
 
 
               style={{
@@ -259,7 +298,7 @@ const PlanPurchase = ({navigation}) => {
           </View>
 
           <Text style={{ fontSize: 14, marginBottom: 20, color: 'black', fontWeight: '500', marginTop: 20 }}>
-          When do you plan to purchase?
+            When do you plan to purchase?
           </Text>
           <TouchableOpacity onPress={() => showDatePicker()}>
             <View
@@ -351,10 +390,10 @@ const PlanPurchase = ({navigation}) => {
 
 
           {/* ADD BUTTON START */}
-          <TouchableOpacity style={{ borderRadius: 8, backgroundColor: '#7C56FE', height: 48,width:'100%',alignSelf: 'center', alignItems: 'center', justifyContent: 'center',marginTop:40  }} onPress={() => { GeneratePlan() }}>
-          <Text style={{ fontSize: 16, color: 'white' }}>{`Set Goal `}</Text>
+          <TouchableOpacity style={{ borderRadius: 8, backgroundColor: '#7C56FE', height: 48, width: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 40 }} onPress={() => { GeneratePlan() }}>
+            <Text style={{ fontSize: 16, color: 'white' }}>{`Set Goal `}</Text>
 
-        </TouchableOpacity>
+          </TouchableOpacity>
           {/* ADD BUTTON END */}
         </View>
 
