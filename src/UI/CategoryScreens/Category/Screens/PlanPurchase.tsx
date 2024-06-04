@@ -51,7 +51,7 @@ const PlanPurchase = ({ navigation }) => {
     }
 
 
-    console.log('category.user_category_id====',category.user_category_id);
+    console.log('category.user_category_id====', category.user_category_id);
 
     try {
       await fetch(`https://api-finwiz.softsquare.io/api/user/future-goal`, {
@@ -63,7 +63,7 @@ const PlanPurchase = ({ navigation }) => {
         body: JSON.stringify({
           category_id: category.user_category_id,
           purchase_name: name,
-          transaction_type:value2,
+          transaction_type: value2,
           amount: amount,
           priority: priority,
           date: dob

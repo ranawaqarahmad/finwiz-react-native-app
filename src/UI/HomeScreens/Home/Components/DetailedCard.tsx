@@ -39,9 +39,9 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
             <View style={styles.mainview}>
 
                 <TouchableOpacity onPress={() => onClick(item)} activeOpacity={0.8}>
-                  
-                  
-                  
+
+
+
                     <View style={styles.upperview}>
                         <View style={{ justifyContent: 'center' }}>
                             <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: item.backgroundColor, borderRadius: 5 }}>
@@ -99,8 +99,8 @@ const DetailedCard = ({ openSheet, item, openView, index, onClick }) => {
                             <Text style={{ fontSize: 12, fontWeight: '400', color: '#000' }}>{percent(item.manual_spending, item.limitation)}{'%'}</Text>
                         </View>
 
-                        <Progress.Bar borderRadius={10} unfilledColor='#F9FAFB' style={{ borderRadius: 10, borderWidth: 0, marginVertical: 6 }}     progress={item.manual_spending==0|| item.limitation==0? 0 : item.manual_spending / item.limitation} 
-height={5} width={null} color="#000000" />
+                        <Progress.Bar borderRadius={10} unfilledColor='#F9FAFB' style={{ borderRadius: 10, borderWidth: 0, marginVertical: 6 }} progress={item.manual_spending == 0 || item.limitation == 0 ? 0 : item.manual_spending / item.limitation}
+                            height={5} width={null} color="#000000" />
 
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
@@ -141,22 +141,22 @@ height={5} width={null} color="#000000" />
                 </TouchableOpacity>
 
 
-                {item.opened && <View style={{ width: '100%', marginTop:8}}>
+                {item.opened && <View style={{ width: '100%', marginTop: 8 }}>
 
 
-                    {item.user_category_pivots.map((item, index) => <View style={{marginTop:8, rowGap: 8 }} key={index}>
+                    {item.user_category_pivots.map((item, index) => <View style={{ marginTop: 8, rowGap: 8 }} key={index}>
                         {item.category.sub_category.map((items, index) =>
                             <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
-                                <View style={{flexDirection:'row',flex:1}}>
+                                <View style={{ flexDirection: 'row', flex: 1 }}>
                                     <Text style={styles.mortgagerentelectricitytext}>{items.category}</Text>
-                                    <Text style={{...styles.transactiontext}}>{items.count}{' Transactions'}</Text>
+                                    <Text style={{ ...styles.transactiontext }}>{items.count}{' Transactions'}</Text>
 
                                 </View>
                             </View>
 
                         )}
                     </View>)}
-                
+
 
                     <View style={{ justifyContent: 'center', alignSelf: 'center', marginTop: 24 }}>
                         <TouchableOpacity onPress={() => onClick(item)}>
@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
-
         elevation: 10,
         marginHorizontal: 16,
     },
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#000',
         marginBottom: 4,
-        flex:1
+        flex: 1
     },
     transactiontext: {
         fontSize: 14,

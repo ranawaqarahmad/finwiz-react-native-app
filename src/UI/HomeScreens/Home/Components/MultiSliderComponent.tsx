@@ -8,15 +8,15 @@ import { useSelector } from 'react-redux';
 
 const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
   var maxvalue, value;
-  console.log('=============================', item);
+  // console.log('=============================', item);
 
   const { width, height } = Dimensions.get('window');
   const selector = useSelector(state => state.AppReducer);
-  console.log('=============================', selector.totalBalances);
+  // console.log('=============================', selector.totalBalances);
 
 
   const convertStringToNumber = (str) => {
-    console.log('=============================', item);
+    // console.log('=============================', item);
 
     return parseFloat(str);
   };
@@ -43,7 +43,7 @@ const MultiSliderComponent = ({ onChangeSlider, item,isEnabled }) => {
   };
 
 
-  console.log('OUTSIDE   ',item.max_limit);
+  // console.log('OUTSIDE   ',item.max_limit);
 
 
   return (

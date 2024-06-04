@@ -657,7 +657,7 @@ const HomeScreen = () => {
 
 
           <View style={{ justifyContent: 'center' }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{navigation.navigate('EditAllCategories',{budgets:budgets})}}>
               <Text style={{ fontSize: 16, fontWeight: '400', color: '#000' }}>Edit</Text>
             </TouchableOpacity>
           </View>

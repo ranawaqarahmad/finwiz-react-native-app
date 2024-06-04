@@ -15,6 +15,7 @@ import RecordExpense from '../UI/CategoryScreens/Category/Screens/RecordExpense'
 import Merge from '../UI/CategoryScreens/Category/Screens/Merge';
 import Notifications from '../UI/HomeScreens/Home/Screens/Notifications';
 import ChatNav from './ChatNav';
+import EditAllCategories from '../UI/CategoryScreens/Category/Screens/EditAllCategories';
 
 const MainNav = () => {
   const Stack = createStackNavigator();
@@ -35,6 +36,7 @@ const MainNav = () => {
         <Stack.Screen name="Notifications" component={Notifications} />
 
 
+        <Stack.Screen name="EditAllCategories" component={EditAllCategories} />
 
         <Stack.Screen name="AddIncomeA" component={AddIncomeA} />
         <Stack.Screen name="AddIncomeB" component={AddIncomeB} />
