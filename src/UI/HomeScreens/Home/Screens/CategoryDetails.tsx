@@ -251,9 +251,9 @@ const CategoryDetails = () => {
                             </View>
                         </View>
                     </View>
-                    {LiabilityItem ? (<LiabilityComp item={LiabilityItem} />) : null}
-                    {RetirementItem ? (<RetirementComp item={RetirementItem} />) : null}
-                    {plannedpurchaseItem ? (<PlannedPurchaseComp item={plannedpurchaseItem} />) : null}
+                    {LiabilityItem ? (<LiabilityComp key={2} item={LiabilityItem} />) : null}
+                    {RetirementItem ? (<RetirementComp key={2} item={RetirementItem} />) : null}
+                    {plannedpurchaseItem ? (<PlannedPurchaseComp key={2} item={plannedpurchaseItem} />) : null}
 
                 </Swiper>
 
