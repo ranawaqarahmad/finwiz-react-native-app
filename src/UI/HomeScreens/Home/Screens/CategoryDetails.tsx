@@ -52,6 +52,16 @@ const CategoryDetails = () => {
 
     }, [])
 
+    function getCurrentMonth() {
+        const monthNames = [
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+      
+        const currentMonthIndex = new Date().getMonth(); // getMonth() returns 0-11
+        return monthNames[currentMonthIndex];
+      }
+
 
     useEffect(() => {
 
@@ -108,11 +118,11 @@ const CategoryDetails = () => {
 
                     </View>
 
-                    {/* <View style={{ height: 33, width: '30%', flexDirection: 'row', justifyContent: 'space-between', }}>
+                    <View style={{ height: 33, flexDirection: 'row', justifyContent: 'space-between', }}>
 
                         <View style={{ height: 33, borderRadius: 20, alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ fontSize: 16, fontWeight: '400', color: '#4B5563' }}>
-                                This Month
+                                {getCurrentMonth()}
                             </Text>
                         </View>
                         <TouchableOpacity>
@@ -122,7 +132,7 @@ const CategoryDetails = () => {
                                 />
                             </View>
                         </TouchableOpacity>
-                    </View> */}
+                    </View>
                 </View>
                 {/* back arrow and month ends */}
 

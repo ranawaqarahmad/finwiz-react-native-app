@@ -13,7 +13,7 @@ const LiabilityComp = ({ item }) => {
                     </View>
                     <View style={{ flex: 1, padding: 16 }}>
                         <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{'$' + item.paid_total}</Text>
-                        <Text style={{ fontSize: 14, fontWeight: '400', color: '#4B5563' }}>Paid this month</Text>
+                        <Text style={{ fontSize: 14, fontWeight: '400', color: '#4B5563' }}>Paid this Period</Text>
                     </View>
 
                 </View>

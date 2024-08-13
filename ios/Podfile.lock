@@ -77,7 +77,7 @@ PODS:
   - hermes-engine/Pre-built (0.72.4)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
-  - Plaid (4.7.0)
+  - Plaid (4.7.5)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -378,15 +378,15 @@ PODS:
   - React-jsinspector (0.72.4)
   - React-logger (0.72.4):
     - glog
-  - react-native-image-picker (7.1.0):
+  - react-native-image-picker (7.1.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-plaid-link-sdk (10.9.1):
-    - Plaid (~> 4.7.0)
+  - react-native-plaid-link-sdk (10.13.1):
+    - Plaid (~> 4.7.2)
     - React-Core
-  - react-native-safe-area-context (4.8.2):
+  - react-native-safe-area-context (4.10.1):
     - React-Core
-  - react-native-slider (4.5.0):
+  - react-native-slider (4.5.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-NativeModulesApple (0.72.4):
@@ -499,23 +499,24 @@ PODS:
     - React-jsi (= 0.72.4)
     - React-logger (= 0.72.4)
     - React-perflogger (= 0.72.4)
-  - RNCAsyncStorage (1.21.0):
+  - RNCAsyncStorage (1.23.1):
     - React-Core
-  - RNDateTimePicker (7.6.2):
+  - RNDateTimePicker (7.7.0):
     - React-Core
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.14.0):
+  - RNGestureHandler (2.16.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNReanimated (3.6.1):
+  - RNReanimated (3.11.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.29.0):
+  - RNScreens (3.31.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNSVG (13.14.0):
+    - React-RCTImage
+  - RNSVG (13.14.1):
     - React-Core
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
@@ -742,7 +743,7 @@ SPEC CHECKSUMS:
   hermes-engine: 81191603c4eaa01f5e4ae5737a9efcf64756c7b2
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
-  Plaid: 431ef9be5314a1345efb451bc5e6b067bfb3b4c6
+  Plaid: d21cffc0f3d56a51c86d76541c529f06df006cd4
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: c0569ecc035894e4a68baecb30fe6a7ea6e399f9
   RCTTypeSafety: e90354072c21236e0bcf1699011e39acd25fea2f
@@ -758,10 +759,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: c7f826e40fa9cab5d37cab6130b1af237332b594
   React-jsinspector: aaed4cf551c4a1c98092436518c2d267b13a673f
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
-  react-native-image-picker: 5e076db26cd81660cfb6db5bcf517cfa12054d45
-  react-native-plaid-link-sdk: 808764c0ce5fff54361c4252381d62551eb0a3ea
-  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
-  react-native-slider: cc89964e1432fa31aa9db7a0fa9b21e26b5d5152
+  react-native-image-picker: 51fdb07f7ef722988c8a219e1416153760a25e4d
+  react-native-plaid-link-sdk: ffd2649fe8b9bde33edab517792959b9b17a1e29
+  react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
+  react-native-slider: 593253eb5fbc6ea519290e812bd477fc6abafd5a
   React-NativeModulesApple: edb5ace14f73f4969df6e7b1f3e41bef0012740f
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
   React-RCTActionSheet: 02904b932b50e680f4e26e7a686b33ebf7ef3c00
@@ -779,13 +780,13 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 4941cc1b3cf08b792fbf666342c9fc95f1969035
   React-utils: b79f2411931f9d3ea5781404dcbb2fa8a837e13a
   ReactCommon: 4b2bdcb50a3543e1c2b2849ad44533686610826d
-  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
-  RNDateTimePicker: fc2e4f2795877d45e84d85659bebe627eba5c931
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
+  RNDateTimePicker: 4f3c4dbd4f908be32ec8c93f086e8924bd4a2e07
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
-  RNReanimated: fdbaa9c964bbab7fac50c90862b6cc5f041679b9
-  RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
-  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  RNGestureHandler: d678f94a8f74de70ce3d9f5d23eb0f97b686e943
+  RNReanimated: 9d4971e437f38c11fd2c43344ac9d40c330058b1
+  RNScreens: 93ae3be2f119d955620f9bbb39ad372adb53b7a9
+  RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
