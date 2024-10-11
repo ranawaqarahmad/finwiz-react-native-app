@@ -27,7 +27,6 @@ const FinancialParentScreen = ({navigation}) => {
   const [answerIndex, setAnswerIndex] = useState(10);
   const [question, setQuestion] = useState();
   const questionlength = questions.length;
-  console.log('length of array is', questionlength);
   const [progress, setprogree] = useState(0);
   const progressfactor = 1 / questionlength;
   const [isErrorVisible, setIsErrorVisible] = useState(false);
@@ -58,6 +57,14 @@ const FinancialParentScreen = ({navigation}) => {
   const [answer, setanswer] = useState('');
   const authToken = selector.authToken;
 
+  const [openDropDown, setOpenDropDown] = useState(false);
+  const [dropDownValue, setDropDownValue] = useState('25');
+  const [dropDownItems, setDropDownItems] = useState([
+    {label: '25', value: '25'},
+    {label: '30', value: '30'},
+    {label: '35', value: '35'},
+  ]);
+
   const nextQuestion = () => {
     questionCount++;
 
@@ -75,12 +82,11 @@ const FinancialParentScreen = ({navigation}) => {
     const answers = selector.answers;
     if (Array.isArray(answers)) {
       const answerIndex = answers.map(item => {
-        console.log('ITEM FOR THIS ANSWER IS THIS,', item.question_id);
-        console.log('ITEM FOR THIS ANSWER IS THIS,', question.id);
         if (item.question_id == question.id) {
           console.log('ANSWER AVAILABLE', item.answer);
           const index = question.options.indexOf(item.answer);
           setanswer(item.answer);
+
           console.log(index);
           setAnswerIndex(index);
           return index;
@@ -97,8 +103,11 @@ const FinancialParentScreen = ({navigation}) => {
     setErrorText('');
     setanswer(text);
   };
+
   const handleApiCall = async () => {
     if (questionCount < questionlength) {
+      console.log('QUESTION ID', question.id);
+
       console.log('ANSWER IS THIS', answer);
 
       if (answer == '') {
@@ -107,8 +116,8 @@ const FinancialParentScreen = ({navigation}) => {
         return;
       }
 
-      console.log('QUESTION COUNT IS', questionCount);
-      console.log('User Id', userId);
+      // console.log('QUESTION COUNT IS', questionCount);
+      // console.log('User Id', userId);
 
       setLoader(true);
       fetch(
@@ -130,6 +139,8 @@ const FinancialParentScreen = ({navigation}) => {
         .then(data => {
           console.log(data);
           if (data.status == 'true') {
+            setDropDownValue('');
+            setOpenDropDown(false);
             setanswer('');
             console.log('Question Answered');
             setQuestion(null);
@@ -172,7 +183,10 @@ const FinancialParentScreen = ({navigation}) => {
       });
   };
 
-  console.log('QUESTION ##############', {question});
+  const handleDropDownChange = value => {
+    setDropDownValue(value);
+    setanswer(value);
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -216,6 +230,13 @@ const FinancialParentScreen = ({navigation}) => {
             setAnswerQuestion={setAnswerQuestion}
             nextQuestion={handleApiCall}
             question={question}
+            openDropDown={openDropDown}
+            setOpenDropDown={setOpenDropDown}
+            dropDownValue={dropDownValue}
+            setDropDownValue={setDropDownValue}
+            dropDownItems={dropDownItems}
+            setDropDownItems={setDropDownItems}
+            handleDropDownChange={handleDropDownChange}
           />
         </View>
       ) : (

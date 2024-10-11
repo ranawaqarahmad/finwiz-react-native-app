@@ -107,8 +107,15 @@ const CategoryDetails = () => {
       });
   }, []);
 
-  console.log('HELLO ITEM', item);
   const swiperRef = useRef(null);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleSlideChange = index => {
+    // Update the state with the new index
+    setCurrentIndex(index);
+  };
+  console.log('##############', currentIndex);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -320,18 +327,20 @@ const CategoryDetails = () => {
         {/* Chart */}
 
         <Swiper
+          index={currentIndex}
           ref={swiperRef}
           contentContainerStyle={{
             alignItems: 'center',
             justifyContent: 'center',
             columnGap: 8,
           }}
+          onIndexChanged={handleSlideChange}
           loop={false}
           showsPagination={true}
           height={340} // Adjust the height as needed
-          activeDotStyle={styles.activeDot}
+          activeDotColor="#9747FF"
           containerStyle={{marginTop: 32}}
-          dotStyle={styles.dot}>
+          dotColor="#D6D6D6">
           <View
             style={{
               height: 280,
@@ -457,6 +466,136 @@ const CategoryDetails = () => {
           ) : null}
         </Swiper>
 
+        <Swiper
+          showsPagination={true}
+          loop={false}
+          height={340}
+          activeDotColor="#9747FF"
+          dotColor="#D6D6D6">
+          <View
+            style={{
+              height: 280,
+              paddingVertical: 8,
+              elevation: 1,
+              backgroundColor: 'white',
+              margin: 2,
+              marginEnd: 8,
+            }}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: '400',
+                color: '#6B7280',
+                marginBottom: 7,
+                marginHorizontal: 16,
+              }}>
+              Spending Summary
+            </Text>
+
+            <LineChart
+              data={{
+                labels: [
+                  '1',
+                  '30',
+                  '1',
+                  '30',
+                  '1',
+                  '30',
+                  '1',
+                  '30',
+                  '1',
+                  '30',
+                  '1',
+                  '30',
+                  '1',
+                  '30',
+                ],
+                datasets: [
+                  {
+                    data: [0, item.manual_spending],
+                  },
+                  {
+                    data: [item.limitation],
+                    color: () => item.backgroundColor,
+                    strokeWidth: 1,
+                    withDots: false,
+                  },
+                ],
+              }}
+              width={Dimensions.get('window').width - 64}
+              height={200}
+              style={{marginHorizontal: 8, paddingRight: 0, marginTop: 25}}
+              withOuterLines={false} // Hide outer lines
+              withHorizontalLabels={false} // Hide horizontal labels
+              withHorizontalLines={false} // Hide horizontal grid lines
+              withVerticalLines={false} // Show vertical grid lines
+              withVerticalLabels={false} // Hide vertical labels
+              withDots={false} // Hide data points dots
+              withShadow={false}
+              bezier={true}
+              chartConfig={{
+                backgroundGradientFrom: 'white',
+                backgroundGradientTo: 'white',
+
+                fillShadowGradient: 'white',
+                backgroundColor: 'white',
+                color: (opacity = 1) => item.backgroundColor, // Change color here
+              }}
+            />
+
+            <View style={{position: 'absolute', width: '90%'}}>
+              <View
+                style={{
+                  width: '100%',
+                  marginTop: 32,
+                  flex: 1,
+                  height: 180,
+                  marginHorizontal: 16,
+                }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    color: '#111928',
+                    marginBottom: 20,
+                  }}>
+                  {'$'}
+                  {categoryDetails.limitation}
+                </Text>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderStyle: 'dashed',
+                    borderColor: '#9CA3AF',
+                    width: '100%',
+                  }}></View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginTop: 24,
+                  marginHorizontal: 16,
+                }}>
+                <Text style={{fontSize: 14, fontWeight: '500', color: '#000'}}>
+                  Day 1
+                </Text>
+                <Text style={{fontSize: 14, fontWeight: '500', color: '#000'}}>
+                  Day 30
+                </Text>
+              </View>
+            </View>
+          </View>
+          {LiabilityItem ? (
+            <LiabilityComp key={2} item={LiabilityItem} />
+          ) : null}
+          {RetirementItem ? (
+            <RetirementComp key={2} item={RetirementItem} />
+          ) : null}
+          {plannedpurchaseItem ? (
+            <PlannedPurchaseComp key={2} item={plannedpurchaseItem} />
+          ) : null}
+        </Swiper>
         {/* <View style={{ justifyContent: 'center', width: '100%', marginTop: 8 }}>
                     <Image source={require('../../../../assets/Images/horizontaldots.png')}
                         style={{ height: 6, width: 25, alignSelf: 'center' }}

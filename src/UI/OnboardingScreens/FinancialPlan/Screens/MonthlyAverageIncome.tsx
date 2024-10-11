@@ -25,6 +25,13 @@ const MonthlyAverageoptions = ({
   question,
   nextQuestion,
   setAnswerQuestion,
+  openDropDown,
+  setOpenDropDown,
+  dropDownValue,
+  setDropDownValue,
+  dropDownItems,
+  setDropDownItems,
+  handleDropDownChange,
 }) => {
   const isFocused = useIsFocused();
   const [options, setOptions] = useState([]);
@@ -109,19 +116,7 @@ const MonthlyAverageoptions = ({
 
   // };
 
-  const [openDropDown, setOpenDropDown] = useState(false);
-  const [dropDownValue, setDropDownValue] = useState('20');
-  const [dropDownItems, setDropDownItems] = useState([
-    {label: '25', value: '25'},
-    {label: '30', value: '30'},
-    {label: '35', value: '35'},
-  ]);
-
   const handleUpdateAnswer = () => {};
-
-  const handleDropDownChange = value => {
-    setDropDownValue(value);
-  };
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -165,33 +160,32 @@ const MonthlyAverageoptions = ({
               </Text>
             </View>
 
-            {/* {question.id === 13 ? (
-              
-            ) : (
-              
-            )} */}
-            <View style={{marginTop: 29}}>
-              {labeledArray.map((item, index) => (
-                <SelectionComponent
-                  key={index}
-                  onpress={selectType}
-                  index={index}
-                  title={item.title}
-                  selected={item.selected}
+            {question.id === 13 ? (
+              <View>
+                <DropDownPicker
+                  open={openDropDown}
+                  value={dropDownValue}
+                  items={dropDownItems}
+                  setOpen={setOpenDropDown}
+                  setValue={setDropDownValue}
+                  setItems={setDropDownItems}
+                  onChangeValue={handleDropDownChange}
+                  placeholder="Select Age Group"
                 />
-              ))}
-            </View>
-            <View>
-              <DropDownPicker
-                open={openDropDown}
-                value={dropDownValue}
-                items={dropDownItems}
-                setOpen={setOpenDropDown}
-                setValue={setDropDownValue}
-                setItems={setDropDownItems}
-                placeholder="Select Age Group"
-              />
-            </View>
+              </View>
+            ) : (
+              <View style={{marginTop: 29}}>
+                {labeledArray.map((item, index) => (
+                  <SelectionComponent
+                    key={index}
+                    onpress={selectType}
+                    index={index}
+                    title={item.title}
+                    selected={item.selected}
+                  />
+                ))}
+              </View>
+            )}
           </View>
 
           <View style={{marginBottom: 16}}>
