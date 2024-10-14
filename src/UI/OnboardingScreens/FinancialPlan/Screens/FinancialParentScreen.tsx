@@ -59,11 +59,7 @@ const FinancialParentScreen = ({navigation}) => {
 
   const [openDropDown, setOpenDropDown] = useState(false);
   const [dropDownValue, setDropDownValue] = useState('25');
-  const [dropDownItems, setDropDownItems] = useState([
-    {label: '25', value: '25'},
-    {label: '30', value: '30'},
-    {label: '35', value: '35'},
-  ]);
+  const [dropDownItems, setDropDownItems] = useState([]);
 
   const nextQuestion = () => {
     questionCount++;
@@ -129,7 +125,7 @@ const FinancialParentScreen = ({navigation}) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            type: question.type,
+            type: question.id === 13 ? 'integer' : question.type,
             question_id: question.id,
             answer: answer,
           }),
@@ -184,9 +180,22 @@ const FinancialParentScreen = ({navigation}) => {
   };
 
   const handleDropDownChange = value => {
+    setErrorText('');
     setDropDownValue(value);
     setanswer(value);
   };
+
+  useEffect(() => {
+    const generateDropDownItems = (start, end) => {
+      const items = [];
+      for (let i = start; i <= end; i += 5) {
+        items.push({label: i.toString(), value: i.toString()});
+      }
+      return items;
+    };
+
+    setDropDownItems(generateDropDownItems(20, 120));
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
