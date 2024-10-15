@@ -130,6 +130,7 @@ const EditBudgetCard = ({item, onClick, handleAddOrUpdate}) => {
               isEnabled={isEnabled}
               onChangeSlider={onChangeSlider}
               item={items}
+              spendingLimit={Math.round(spendingLimit)}
             />
           </View>
         </View>
