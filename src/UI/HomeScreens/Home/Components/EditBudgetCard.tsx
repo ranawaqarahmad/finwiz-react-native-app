@@ -34,13 +34,25 @@ const EditBudgetCard = ({item, onClick, handleAddOrUpdate}) => {
     const words = text.charAt(0);
     return words;
   }
-  const [spendingLimit, setSpendingLimit] = useState(
-    item ? item.limitation : '50',
-  );
+  const [items, setItems] = useState({
+    spendingLimit: Math.round(convertStringToNumber(item.limitation)),
+    maxLimit: Math.round(convertStringToNumber(item.max_limit)),
+  });
+  // const [spendingLimit, setSpendingLimit] = useState(
+  //   item ? item.limitation : '50',
+  // );
   const onChangeSlider = value => {
     const roundedValue = Math.round(value);
 
-    setSpendingLimit(roundedValue);
+    // setSpendingLimit(roundedValue);
+
+    if (roundedValue !== items.spendingLimit) {
+      setItems(prevItem => ({
+        ...prevItem,
+        spendingLimit: roundedValue,
+      }));
+      console.log('Slider Rounded Value:', roundedValue);
+    }
 
     handleAddOrUpdate(
       item.user_category_pivots[0].user_category_id,
@@ -48,10 +60,10 @@ const EditBudgetCard = ({item, onClick, handleAddOrUpdate}) => {
     );
   };
 
-  const items = {
-    limitation: Math.round(convertStringToNumber(item.limitation)),
-    max_limit: Math.round(convertStringToNumber(item.max_limit)),
-  };
+  // const items = {
+  //   limitation: Math.round(convertStringToNumber(item.limitation)),
+  //   max_limit: Math.round(convertStringToNumber(item.max_limit)),
+  // };
   const [isEnabled, setIsEnabled] = useState(
     item ? (item.fixed == 1 ? true : false) : false,
   );
@@ -115,7 +127,7 @@ const EditBudgetCard = ({item, onClick, handleAddOrUpdate}) => {
                   textAlign: 'center',
                 }}>
                 {'$'}
-                {Math.round(spendingLimit)}
+                {Math.round(items.spendingLimit)}
               </Text>
             </View>
           </View>
@@ -130,7 +142,7 @@ const EditBudgetCard = ({item, onClick, handleAddOrUpdate}) => {
               isEnabled={isEnabled}
               onChangeSlider={onChangeSlider}
               item={items}
-              spendingLimit={Math.round(spendingLimit)}
+              // spendingLimit={Math.round(spendingLimit)}
             />
           </View>
         </View>

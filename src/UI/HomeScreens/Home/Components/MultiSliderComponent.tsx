@@ -1,5 +1,3 @@
-// UPDATED
-
 import React, {useEffect, useState} from 'react';
 import {View, Dimensions} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
@@ -10,10 +8,8 @@ const MultiSliderComponent = ({
   onChangeSlider,
   item,
   isEnabled,
-  spendingLimit,
+  // spendingLimit,
 }) => {
-  console.log('');
-
   const {width} = Dimensions.get('window');
   const selector = useSelector(state => state.AppReducer);
 
@@ -22,21 +18,26 @@ const MultiSliderComponent = ({
   };
 
   const [sliderValue, setSliderValue] = useState(
-    convertStringToNumber(item.limitation),
+    convertStringToNumber(item.spendingLimit),
   );
   const [maxValue, setMaxValue] = useState(
-    convertStringToNumber(item.max_limit),
+    convertStringToNumber(item.maxLimit),
   );
 
+  // Only run on component mount or when `item` changes
   useEffect(() => {
-    const initialMaxValue = convertStringToNumber(item.max_limit);
-    const initialValue = convertStringToNumber(item.limitation);
-    setMaxValue(initialMaxValue);
-    setSliderValue(initialValue);
-  }, [item]);
+    const initialMaxValue = convertStringToNumber(item.maxLimit);
+    const initialValue = convertStringToNumber(item.spendingLimit);
+    if (initialMaxValue !== maxValue) {
+      setMaxValue(initialMaxValue);
+    }
+    if (initialValue !== sliderValue) {
+      setSliderValue(initialValue);
+    }
+  }, [item, maxValue, sliderValue]);
 
   const onValueChange = value => {
-    setSliderValue(value[0]);
+    setSliderValue(value[0]); // Keep state updated
     onChangeSlider(value);
   };
 
@@ -60,7 +61,9 @@ const MultiSliderComponent = ({
     const b = Math.round(color1[2] + ratio * (color2[2] - color1[2]));
     return `rgb(${r}, ${g}, ${b})`;
   };
-  console.log('s', sliderValue);
+
+  console.log('sliderValue', sliderValue);
+
   return (
     <View style={{paddingHorizontal: 24, alignItems: 'center'}}>
       <View
@@ -81,7 +84,7 @@ const MultiSliderComponent = ({
         min={0}
         sliderLength={width - 48}
         markerStyle={{
-          backgroundColor: interpolateMarkerColor(spendingLimit),
+          backgroundColor: interpolateMarkerColor(item.spendingLimit),
           height: 20,
           width: 20,
           borderRadius: 10,
@@ -99,8 +102,8 @@ const MultiSliderComponent = ({
         }}
         onValuesChange={onValueChange}
         enabledOne={!isEnabled}
-        values={[sliderValue]}
-        max={maxValue ? maxValue : 1000}
+        values={[sliderValue]} // Ensure sliderValue is used as a controlled value
+        max={maxValue || 1000} // Use maxValue as the limit
       />
     </View>
   );

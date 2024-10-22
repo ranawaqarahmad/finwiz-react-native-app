@@ -27,17 +27,32 @@ const NewCategory = () => {
   const {editCategory, items} = route.params;
   const selector = useSelector(state => state.AppReducer);
   const authToken = selector.authToken;
+
   const navigation = useNavigation();
-  const [spendingLimit, setSpendingLimit] = useState(
-    items ? items.limitation : '50',
-  );
+
+  const convertStringToNumber = str => {
+    // Use parseFloat() to convert to a floating-point number
+    return parseFloat(str);
+  };
+
+  const [item, setItem] = useState({
+    spendingLimit: editCategory
+      ? Math.round(convertStringToNumber(items.limitation))
+      : 50,
+    maxLimit: editCategory
+      ? Math.round(convertStringToNumber(items.max_limit))
+      : 1000,
+  });
+  // const [spendingLimit, setSpendingLimit] = useState(
+  //   items ? items.limitation : '50',
+  // );
   const [loader, setLoader] = useState(false);
   const [categoryName, setCategoryName] = useState(
     items ? items.category_name : '',
   );
   const [errorText, setErrorText] = useState('');
   const [errorVisible, setErrorVisible] = useState(false);
-  console.log('ITEM IS FUCKING THIS', items);
+  // console.log('ITEM IS FUCKING THIS', items);
 
   const handleClick = () => {};
 
@@ -47,14 +62,17 @@ const NewCategory = () => {
     setIsNotificationEnabled(prev => !prev);
   };
 
-  const convertStringToNumber = str => {
-    // Use parseFloat() to convert to a floating-point number
-    return parseFloat(str);
-  };
   const onChangeSlider = value => {
     const roundedValue = Math.round(value);
 
-    setSpendingLimit(roundedValue);
+    // setSpendingLimit(roundedValue);
+    if (roundedValue !== item.spendingLimit) {
+      setItem(prevItem => ({
+        ...prevItem,
+        spendingLimit: roundedValue,
+      }));
+      console.log('Slider Rounded Value:', roundedValue);
+    }
   };
   const [isEnabled, setIsEnabled] = useState(
     items ? (items.fixed == 1 ? true : false) : false,
@@ -65,15 +83,15 @@ const NewCategory = () => {
     setIsEnabled(isEnabled => !isEnabled);
   };
 
-  const item = {
-    limitation: editCategory
-      ? Math.round(convertStringToNumber(items.limitation))
-      : 50,
-    max_limit: editCategory
-      ? Math.round(convertStringToNumber(items.max_limit))
-      : 100,
-  };
-  console.log('THIS IS LIMITATION', item.limitation);
+  // const item = {
+  //   limitation: editCategory
+  //     ? Math.round(convertStringToNumber(items.limitation))
+  //     : 50,
+  //   max_limit: editCategory
+  //     ? Math.round(convertStringToNumber(items.max_limit))
+  //     : 100,
+  // };
+  // console.log('THIS IS LIMITATION', item.limitation);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -86,7 +104,7 @@ const NewCategory = () => {
     setLoader(true);
     console.log('AuthToken is ', authToken);
 
-    if (categoryName == '' || spendingLimit == '') {
+    if (categoryName == '' || item.spendingLimit == '') {
       setErrorText('Fill all the details to proceed');
       setErrorVisible(true);
       setLoader(false);
@@ -99,7 +117,7 @@ const NewCategory = () => {
     const id = editCategory ? items.id : category.user_category_id;
 
     console.log('Category Name', categoryName);
-    console.log('Spending Limit', convertStringToNumber(spendingLimit));
+    console.log('Spending Limit', convertStringToNumber(item.spendingLimit));
     console.log('Id is this', [id]);
 
     try {
@@ -113,7 +131,7 @@ const NewCategory = () => {
           },
           body: JSON.stringify({
             category_name: categoryName,
-            limitation: convertStringToNumber(spendingLimit),
+            limitation: convertStringToNumber(item.spendingLimit),
             fixed: isEnabled ? 1 : 0,
           }),
         },
@@ -241,7 +259,7 @@ const NewCategory = () => {
                     textAlign: 'center',
                   }}>
                   {'$'}
-                  {Math.round(spendingLimit)}
+                  {Math.round(item.spendingLimit)}
                 </Text>
               </View>
             </View>
@@ -257,7 +275,7 @@ const NewCategory = () => {
                 isEnabled={isEnabled}
                 onChangeSlider={onChangeSlider}
                 item={item}
-                spendingLimit={spendingLimit}
+                // spendingLimit={spendingLimit}
               />
             </View>
 
