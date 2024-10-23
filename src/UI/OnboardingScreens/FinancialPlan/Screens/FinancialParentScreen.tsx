@@ -125,7 +125,7 @@ const FinancialParentScreen = ({navigation}) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            type: question.id === 13 ? 'integer' : question.type,
+            type: question.type,
             question_id: question.id,
             answer: answer,
           }),
@@ -133,7 +133,6 @@ const FinancialParentScreen = ({navigation}) => {
       )
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           if (data.status == 'true') {
             setDropDownValue('');
             setOpenDropDown(false);

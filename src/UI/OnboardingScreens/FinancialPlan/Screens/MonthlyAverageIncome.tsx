@@ -160,7 +160,7 @@ const MonthlyAverageoptions = ({
               </Text>
             </View>
 
-            {question.id === 13 ? (
+            {question.type === 'integer' ? (
               <View>
                 <DropDownPicker
                   open={openDropDown}
