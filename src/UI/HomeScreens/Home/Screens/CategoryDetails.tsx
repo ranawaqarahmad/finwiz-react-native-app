@@ -30,7 +30,7 @@ const CategoryDetails = () => {
   };
   const route = useRoute();
   const {item} = route.params;
-  // console.log('THIS IS ITEM', item.user_category_pivots[0].category);
+  // console.log('THIS IS ITEM', JSON.stringify(item));
   const selector = useSelector(state => state.AppReducer);
   const dispatch = useDispatch();
   const authToken = selector.authToken;
@@ -236,7 +236,10 @@ const CategoryDetails = () => {
               ) {
                 navigation.navigate('PlanPurchase', {type: 'null'});
               } else {
-                navigation.navigate('RecordExpense', {type: 'null'});
+                navigation.navigate('RecordExpense', {
+                  type: 'null',
+                  category: item,
+                });
               }
             }}>
             <View

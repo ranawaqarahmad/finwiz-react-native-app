@@ -57,16 +57,16 @@ const InsightScreen = () => {
           var array = [];
           const array2 = [];
 
-          setMonthDetails(data.data[0]);
+          setMonthDetails(data.data[data.data.length - 1]);
 
-          data.data[0].category.map(item => {
+          data.data[data.data.length - 1].category.map(item => {
             array.push({...item, backgroundColor: getRandomColor()});
           });
 
           // data.data.map(item => {
           //   array2.push(item.total);
           // });
-          getNextMonths(data.data[0].month, 2);
+          getNextMonths(data.data[data.data.length - 1].month, 2);
           normalizeValues(array2);
 
           setAllMonths(data.data);
