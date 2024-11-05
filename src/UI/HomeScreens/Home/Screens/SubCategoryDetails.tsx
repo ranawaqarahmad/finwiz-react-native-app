@@ -36,7 +36,7 @@ const SubCategoryDetails = () => {
   const [transactionCount, setTransactionCount] = useState(0);
 
   const route = useRoute();
-  const {basicDetails} = route.params;
+  const {basicDetails, month} = route.params;
   console.log('DATA INCOMING IN SUB CATEGORY', JSON.stringify(basicDetails));
 
   const [details, setDetails] = useState();
@@ -157,11 +157,11 @@ const SubCategoryDetails = () => {
                 }}>
                 <Text
                   style={{fontSize: 16, fontWeight: '400', color: '#4B5563'}}>
-                  {getCurrentMonth()}
+                  {month}
                 </Text>
               </View>
               {/* down arrow */}
-              <TouchableOpacity>
+              {/* <TouchableOpacity>
                 <View
                   style={{
                     borderRadius: 20,
@@ -173,7 +173,7 @@ const SubCategoryDetails = () => {
                     style={{height: 20, width: 20, alignSelf: 'center'}}
                   />
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
           {/* back arrow and month ends */}

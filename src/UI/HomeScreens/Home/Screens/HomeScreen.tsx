@@ -54,7 +54,7 @@ const HomeScreen = () => {
     getCategories(type);
     authUser();
     closeSheet();
-
+    setValue(null);
     // console.log('selector.authToken', selector.authToken);
     // console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
     // console.log('selector.phoneVerified', selector.phoneVerified);
@@ -64,7 +64,7 @@ const HomeScreen = () => {
   }, [isFocused]);
 
   const onClick = item => {
-    navigation.navigate('CategoryDetails', {item: item});
+    navigation.navigate('CategoryDetails', {item: item, month: month});
   };
 
   const createInsights = async () => {
@@ -185,7 +185,7 @@ const HomeScreen = () => {
     )
       .then(response => response.json())
       .then(data => {
-        // console.log('Categories', data.data);
+        // console.log('Categories', JSON.stringify(data.data));
         // const array=data.data
         const array = [];
         const array1 = [];
@@ -244,6 +244,10 @@ const HomeScreen = () => {
         setCategoryLoader(false);
       });
   };
+
+  // console.log('BUDGET 1', JSON.stringify(budgets));
+  // console.log('BUDGET 2', JSON.stringify(budgets2));
+  // console.log('BUDGET 3', JSON.stringify(budgets3));
 
   const convertStringToNumber = str => {
     // Use parseFloat() to convert to a floating-point number
@@ -470,15 +474,20 @@ const HomeScreen = () => {
     }
     if (value == 'nextMonth1') {
       setBudgets(budgets2);
+      setMonth(nextMonth1);
     }
     if (value == 'nextMonth2') {
       setBudgets(budgets3);
+      setMonth(nextMonth2);
     }
 
     setTimeout(() => {
       setCategoryLoader(false);
     }, 2000);
   };
+
+  // console.log('ON RENDER Value', value);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* mainview starts */}

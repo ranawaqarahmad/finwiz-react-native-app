@@ -29,7 +29,7 @@ const CategoryDetails = () => {
     navigation.navigate('CoffeeCat');
   };
   const route = useRoute();
-  const {item} = route.params;
+  const {item, month} = route.params;
   // console.log('THIS IS ITEM', JSON.stringify(item));
   const selector = useSelector(state => state.AppReducer);
   const dispatch = useDispatch();
@@ -47,14 +47,15 @@ const CategoryDetails = () => {
 
   useEffect(() => {
     var total = 0;
-    item?.user_category_pivots?.map(items => {
-      {
-        items?.category?.sub_category?.map(aitem => {
-          total = total + aitem.count;
-          console.log(total);
-        });
-      }
-    });
+    if (item?.user_category_pivots)
+      item?.user_category_pivots?.map(items => {
+        {
+          items?.category?.sub_category?.map(aitem => {
+            total = total + aitem.count;
+            console.log(total);
+          });
+        }
+      });
 
     setTotalCount(total);
   }, []);
@@ -81,8 +82,11 @@ const CategoryDetails = () => {
 
   useEffect(() => {
     setLoader(true);
+    const category_id = item?.user_category_pivots
+      ? item?.user_category_pivots[0]?.category?.id
+      : item.category_id;
     fetch(
-      `https://api-finwiz.softsquare.io/api/user/category-graph-data/${item.user_category_pivots[0]?.category?.id}`,
+      `https://api-finwiz.softsquare.io/api/user/category-graph-data/${category_id}`,
       {
         method: 'GET',
         headers: {
@@ -168,10 +172,10 @@ const CategoryDetails = () => {
                 justifyContent: 'center',
               }}>
               <Text style={{fontSize: 16, fontWeight: '400', color: '#4B5563'}}>
-                {getCurrentMonth()}
+                {month}
               </Text>
             </View>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <View
                 style={{
                   height: 33,
@@ -185,7 +189,7 @@ const CategoryDetails = () => {
                   style={{height: 20, width: 20, alignSelf: 'center'}}
                 />
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         {/* back arrow and month ends */}
@@ -231,8 +235,9 @@ const CategoryDetails = () => {
           <TouchableOpacity
             onPress={() => {
               if (
-                item.user_category_pivots[0]?.category?.name ==
-                'Planned Purchase'
+                item?.user_category_pivots &&
+                item?.user_category_pivots[0]?.category?.name ==
+                  'Planned Purchase'
               ) {
                 navigation.navigate('PlanPurchase', {type: 'null'});
               } else {
@@ -468,7 +473,9 @@ const CategoryDetails = () => {
                 </View>
               </View>
             </View>
-            {LiabilityItem && <LiabilityComp key={2} item={LiabilityItem} />}
+            {LiabilityItem && (
+              <LiabilityComp key={2} item={LiabilityItem} month={month} />
+            )}
             {RetirementItem && (
               <RetirementComp item={RetirementItem} authToken={authToken} />
             )}
@@ -523,6 +530,7 @@ const CategoryDetails = () => {
                 onPress={() =>
                   navigation.navigate('SubCategoryDetails', {
                     basicDetails: items,
+                    month: month,
                   })
                 }
                 key={index}>

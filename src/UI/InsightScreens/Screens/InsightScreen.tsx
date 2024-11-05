@@ -56,29 +56,45 @@ const InsightScreen = () => {
         if (data.status == 'true') {
           var array = [];
           const array2 = [];
+          // console.log('DATA INSIGHTS ####', JSON.stringify(data.data));
 
-          setMonthDetails(data.data[data.data.length - 1]);
+          const validData = data.data.filter(item => item !== null);
 
-          data.data[data.data.length - 1].category.map(item => {
-            array.push({...item, backgroundColor: getRandomColor()});
-          });
+          if (validData.length === 0) {
+            setLoader(false);
+            return;
+          }
+
+          const lastMonthDetails =
+            data.data[data.data.length - 1] !== null
+              ? data.data[data.data.length - 1]
+              : validData[validData.length - 1];
+
+          setMonthDetails(lastMonthDetails);
+
+          const categoryArray = lastMonthDetails.category.map(item => ({
+            ...item,
+            backgroundColor: getRandomColor(),
+          }));
 
           // data.data.map(item => {
           //   array2.push(item.total);
           // });
-          getNextMonths(data.data[data.data.length - 1].month, 2);
-          normalizeValues(array2);
+          getNextMonths(lastMonthDetails.month, 2);
 
-          setAllMonths(data.data);
+          normalizeValues(validData);
 
-          setCategories(array);
+          setAllMonths(validData);
 
-          normalizeAndSetState(data.data);
+          setCategories(categoryArray);
+
+          normalizeAndSetState(validData);
           setLoader(false);
         }
       })
       .catch(error => {
         console.log(error);
+        setLoader(false);
       });
   };
 
