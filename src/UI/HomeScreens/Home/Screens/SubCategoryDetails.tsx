@@ -37,7 +37,6 @@ const SubCategoryDetails = () => {
 
   const route = useRoute();
   const {basicDetails, month} = route.params;
-  console.log('DATA INCOMING IN SUB CATEGORY', JSON.stringify(basicDetails));
 
   const [details, setDetails] = useState();
 

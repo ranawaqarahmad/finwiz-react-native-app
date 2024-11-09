@@ -155,9 +155,6 @@ const RecordExpense = () => {
     });
   };
 
-  console.log('CATEGORY #######', category);
-  console.log('Type #######', type);
-
   return (
     <SafeAreaView style={styles.container}>
       {loader ? (
@@ -327,7 +324,11 @@ const RecordExpense = () => {
                 }}>
                 <Text style={{color: category ? 'black' : 'grey'}}>
                   {/* {category ? category.name : 'Choose Category'} */}
-                  {category?.name ? category?.name : category.category}
+                  {category?.name
+                    ? category.name
+                    : category?.category_name
+                    ? category.category_name
+                    : category.category}
                 </Text>
                 {/* <Image
                   source={require('../../../../assets/Images/downarrow.png')}

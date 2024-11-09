@@ -54,7 +54,7 @@ const HomeScreen = () => {
     getCategories(type);
     authUser();
     closeSheet();
-    setValue(null);
+    // setValue(null);
     // console.log('selector.authToken', selector.authToken);
     // console.log('selector.basicInfoCompleted', selector.basicInfoCompleted);
     // console.log('selector.phoneVerified', selector.phoneVerified);
@@ -91,11 +91,12 @@ const HomeScreen = () => {
 
   const [menuItem, setMenuItem] = useState();
   const [month, setMonth] = useState('');
+  const [month0, setMonth0] = useState('');
   const [totalBalance, setTotalBalance] = useState(selector.totalBalance);
   const [availableBalance, setAvailableBalance] = useState(0);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [budgets, setBudgets] = useState([]);
-
+  const [budgets1, setBudgets1] = useState([]);
   const [budgets2, setBudgets2] = useState([]);
   const [budgets3, setBudgets3] = useState([]);
 
@@ -202,17 +203,19 @@ const HomeScreen = () => {
         // );
 
         const month = data?.data.currentMonth[0]?.month;
+
+        setMonth0(data?.data.currentMonth[0]?.month);
         setNextMonth1(data?.data.futureMonth[0][0]?.month);
         setNextMonth2(data?.data.futureMonth[1][0]?.month);
-
-        if (month) {
-          const capitalizedMonth =
-            month.charAt(0).toUpperCase() + month.slice(1);
-          setMonth(capitalizedMonth);
-        } else {
-          // Handle the case where month is null or undefined
-          setMonth(''); // or setMonth(null) or any default value as needed
-        }
+        // console.log('MONTH VAL', month);
+        // if (month) {
+        //   const capitalizedMonth =
+        //     month.charAt(0).toUpperCase() + month.slice(1);
+        //   setMonth(capitalizedMonth);
+        // } else {
+        //   // Handle the case where month is null or undefined
+        //   setMonth(''); // or setMonth(null) or any default value as needed
+        // }
 
         // setMonth(data.data[0].month.toUpperCase())
         data.data.currentMonth.map(item => {
@@ -231,9 +234,21 @@ const HomeScreen = () => {
         // console.log('ARRaY', data);
         // console.log(array);
 
-        setBudgets(array);
+        // setBudgets(array);
+
+        setBudgets1(array);
         setBudgets2(array1);
         setBudgets3(array2);
+
+        // console.log('VALUE DROPDOWN', value);
+        if (value === 'nextMonth1') {
+          // console.log('FIRS MONTH', JSON.stringify(array1));
+          setBudgets(array1);
+        } else if (value === 'nextMonth2') {
+          setBudgets(array2);
+        } else {
+          setBudgets(array);
+        }
 
         setApiCallDone(true);
 
@@ -459,18 +474,23 @@ const HomeScreen = () => {
   useEffect(() => {
     if (apiCallDOne) {
       setItems([
-        {label: month, value: 'month'},
+        {label: month0, value: 'month'},
         {label: nextMonth1, value: 'nextMonth1'},
         {label: nextMonth2, value: 'nextMonth2'},
       ]);
+      setMonth(month0);
+      console.log('API CALL', month);
     }
   }, [apiCallDOne]); // This useEffect will run whenever apiCallDone changes
+
+  // console.log('ITEMS', items);
 
   const onDropDownChange = value => {
     setCategoryLoader(true);
 
     if (value == 'month') {
-      setBudgets(budgets);
+      setBudgets(budgets1);
+      setMonth(month0);
     }
     if (value == 'nextMonth1') {
       setBudgets(budgets2);
@@ -486,7 +506,8 @@ const HomeScreen = () => {
     }, 2000);
   };
 
-  // console.log('ON RENDER Value', value);
+  // console.log('ON RENDER Value', month);
+  // console.log('ON RENDER', items);
 
   return (
     <SafeAreaView style={styles.container}>
