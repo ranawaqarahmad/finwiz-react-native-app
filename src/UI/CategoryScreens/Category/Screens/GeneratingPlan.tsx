@@ -17,6 +17,7 @@ const GeneratingPlan = ({ navigation }) => {
     if (progress === 100) {
       clearInterval(interval);
       setIsPlanGenerated(true)
+      navigation.navigate("NewBudget")
     }
     return () => {
       clearInterval(interval);

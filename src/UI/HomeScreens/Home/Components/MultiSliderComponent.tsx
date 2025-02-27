@@ -42,17 +42,28 @@ const MultiSliderComponent = ({
   };
 
   const interpolateMarkerColor = value => {
-    const min = 0;
-    const max = maxValue || 1000;
-    const middle = max / 2;
+    const ratio = value / (maxValue || 1000);
 
-    if (value <= middle) {
-      const ratio = value / middle;
-      return interpolateColor(ratio, [0, 0, 255], [255, 0, 0]);
-    } else {
-      const ratio = (value - middle) / middle;
-      return interpolateColor(ratio, [255, 0, 0], [255, 255, 0]);
+    const colors = [
+      [14, 219, 140], // #0edb8c
+      [158, 204, 66], // #9ecc42
+      [221, 201, 16], // #ddc910
+      [247, 179, 10], // #f7b30a
+      [226, 105, 52], // #e26934
+      [197, 33, 81], // #c52151
+    ];
+
+    const locations = [0, 0.28, 0.36, 0.76, 0.83, 1];
+
+    for (let i = 0; i < locations.length - 1; i++) {
+      if (ratio >= locations[i] && ratio <= locations[i + 1]) {
+        const localRatio =
+          (ratio - locations[i]) / (locations[i + 1] - locations[i]);
+        return interpolateColor(localRatio, colors[i], colors[i + 1]);
+      }
     }
+
+    return `rgb(${colors[colors.length - 1].join(',')})`;
   };
 
   const interpolateColor = (ratio, color1, color2) => {
@@ -62,20 +73,32 @@ const MultiSliderComponent = ({
     return `rgb(${r}, ${g}, ${b})`;
   };
 
-  console.log('sliderValue', sliderValue);
-
   return (
     <View style={{paddingHorizontal: 24, alignItems: 'center'}}>
       <View
-        style={{width: width - 48, height: 10, position: 'absolute', top: 18}}>
+        style={{
+          width: width - 48,
+          height: 6,
+          position: 'absolute',
+          top: 12,
+          borderRadius: 3,
+          overflow: 'hidden',
+        }}>
         <LinearGradient
-          colors={['blue', 'red', 'yellow']}
+          colors={[
+            '#0edb8c',
+            '#9ecc42',
+            '#ddc910',
+            '#f7b30a',
+            '#e26934',
+            '#c52151',
+          ]}
+          locations={[0, 0.28, 0.36, 0.76, 0.83, 1]}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
           style={{
             width: '100%',
             height: '100%',
-            borderRadius: 5,
           }}
         />
       </View>
@@ -88,10 +111,10 @@ const MultiSliderComponent = ({
           height: 20,
           width: 20,
           borderRadius: 10,
-          top: 4,
+          top: -6,
         }}
         trackStyle={{
-          height: 10,
+          height: 6,
           backgroundColor: 'transparent',
         }}
         selectedStyle={{
@@ -102,8 +125,8 @@ const MultiSliderComponent = ({
         }}
         onValuesChange={onValueChange}
         enabledOne={!isEnabled}
-        values={[sliderValue]} // Ensure sliderValue is used as a controlled value
-        max={maxValue || 1000} // Use maxValue as the limit
+        values={[sliderValue]}
+        max={maxValue || 1000}
       />
     </View>
   );

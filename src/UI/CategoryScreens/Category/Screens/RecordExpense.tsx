@@ -312,7 +312,7 @@ const RecordExpense = () => {
                 Category Type
               </Text>
               {/* <TouchableOpacity onPress={() => modleVisibiltyController()}> */}
-              <View
+              {/* <View
                 style={{
                   height: 56,
                   padding: 18,
@@ -324,19 +324,65 @@ const RecordExpense = () => {
                 }}>
                 <Text style={{color: category ? 'black' : 'grey'}}>
                   {/* {category ? category.name : 'Choose Category'} */}
-                  {category?.name
+              {/* {category?.name
                     ? category.name
                     : category?.category_name
                     ? category.category_name
-                    : category.category}
-                </Text>
-                {/* <Image
+                    : category?.category
+                    ? category.category
+                    : ''}
+                </Text> */}
+              {/* <Image
                   source={require('../../../../assets/Images/downarrow.png')}
                   style={{height: 20, width: 20, marginLeft: 30}}
                   resizeMode="contain"
                 /> */}
-              </View>
+              {/* </View> */}
               {/* </TouchableOpacity> */}
+
+              {/* CONDITIONAL */}
+              {category == null ? (
+                <TouchableOpacity onPress={() => modleVisibiltyController()}>
+                  <View
+                    style={{
+                      height: 56,
+                      padding: 18,
+                      borderRadius: 4,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      borderWidth: 1,
+                      borderColor: '#9CA3AF',
+                    }}>
+                    <Text style={{color: 'grey'}}>Choose Category</Text>
+                    <Image
+                      source={require('../../../../assets/Images/downarrow.png')}
+                      style={{height: 20, width: 20, marginLeft: 30}}
+                      resizeMode="contain"
+                    />
+                  </View>
+                </TouchableOpacity>
+              ) : (
+                <View
+                  style={{
+                    height: 56,
+                    padding: 18,
+                    borderRadius: 4,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    borderWidth: 1,
+                    borderColor: '#9CA3AF',
+                  }}>
+                  <Text style={{color: 'black'}}>
+                    {category?.name
+                      ? category.name
+                      : category?.category_name
+                      ? category.category_name
+                      : category?.category
+                      ? category.category
+                      : ''}
+                  </Text>
+                </View>
+              )}
 
               {/* ATTACH RECIEPT OPTIONAL START */}
 
@@ -419,14 +465,14 @@ const RecordExpense = () => {
           </ScrollView>
         </TouchableWithoutFeedback>
       )}
-      {/* <Modal visible={modalVisible}>
+      <Modal visible={modalVisible}>
         <ChooseCategory
           category={category}
           setCategory={setCategory}
           modleVisibiltyController={modleVisibiltyController}
           onlyCategory={false}
         />
-      </Modal> */}
+      </Modal>
     </SafeAreaView>
   );
 };

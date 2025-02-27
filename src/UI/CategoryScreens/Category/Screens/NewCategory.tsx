@@ -149,6 +149,12 @@ const NewCategory = () => {
     } catch (error) {
       console.error(error);
       setLoader(false);
+    } finally {
+      if (editCategory) {
+        navigation.navigate('GeneratingPlan');
+      }else{
+        console.log("Finally clause")
+      }
     }
   };
 

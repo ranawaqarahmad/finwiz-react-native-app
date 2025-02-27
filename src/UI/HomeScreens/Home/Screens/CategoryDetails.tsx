@@ -172,8 +172,11 @@ const CategoryDetails = () => {
                 justifyContent: 'center',
               }}>
               <Text style={{fontSize: 16, fontWeight: '400', color: '#4B5563'}}>
-                {month}
+                Paid this month
               </Text>
+              {/* <Text style={{fontSize: 16, fontWeight: '400', color: '#4B5563'}}>
+                {month}
+              </Text> */}
             </View>
             {/* <TouchableOpacity>
               <View
